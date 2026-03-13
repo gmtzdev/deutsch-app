@@ -1,17 +1,84 @@
+---
+import "@/styles/global.css";
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>DeutschApp</title>
+		<!-- Apply saved theme before first paint to avoid flash -->
+		<script is:inline>
+			(function () {
+				const saved = localStorage.getItem("theme");
+				const prefersDark = window.matchMedia(
+					"(prefers-color-scheme: dark)",
+				).matches;
+				if (saved === "dark" || (!saved && prefersDark)) {
+					document.documentElement.classList.add("dark");
+				}
+			})();
+		</script>
 	</head>
 	<body>
-		<slot />
+		<div>
+			<slot />
+		</div>
+
+		<!-- Floating dark-mode toggle -->
+		<button
+			id="theme-toggle"
+			aria-label="Cambiar modo de color"
+			title="Cambiar modo de color"
+		>
+			<svg
+				id="icon-sun"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+			>
+				<circle cx="12" cy="12" r="4"></circle>
+				<path
+					d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+				></path>
+			</svg>
+			<svg
+				id="icon-moon"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+			>
+				<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+			</svg>
+		</button>
 	</body>
 </html>
+
+<script>
+	const toggle = document.getElementById("theme-toggle");
+	const html = document.documentElement;
+
+	const applyTheme = (dark: boolean) => {
+		html.classList.toggle("dark", dark);
+		localStorage.setItem("theme", dark ? "dark" : "light");
+	};
+
+	toggle?.addEventListener("click", () => {
+		applyTheme(!html.classList.contains("dark"));
+	});
+</script>
 
 <style>
 	html,
@@ -19,5 +86,163 @@
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	/* ── Dark-mode token overrides ─────────────────────────── */
+	html.dark {
+		color-scheme: dark;
+	}
+
+	/* Backgrounds */
+	html.dark .page {
+		background: #0f172a;
+	}
+	html.dark .card {
+		background: #1e293b;
+		box-shadow: 0 8px 28px rgb(0 0 0 / 30%);
+	}
+	html.dark .level-card {
+		background: #1e293b;
+		box-shadow: 0 4px 16px rgb(0 0 0 / 30%);
+	}
+	html.dark .word-bank {
+		border-color: #334155;
+		background: #1e293b;
+	}
+	html.dark .word {
+		background: #273344;
+		border-color: #475569;
+		color: #e2e8f0;
+	}
+	html.dark .dropzone {
+		background: #273344;
+		border-color: #475569;
+		color: #94a3b8;
+	}
+	html.dark .row {
+		border-color: #334155;
+		background: transparent;
+	}
+	html.dark .row.correct {
+		border-color: #10b981;
+		background: #0d2e20;
+	}
+	html.dark .row.wrong {
+		border-color: #ef4444;
+		background: #2d1212;
+	}
+
+	/* Text */
+	html.dark h1,
+	html.dark .level-title,
+	html.dark .hero h1 {
+		color: #f1f5f9;
+	}
+	html.dark .subtitle,
+	html.dark .hero p,
+	html.dark .level-desc {
+		color: #94a3b8;
+	}
+	html.dark .sentence {
+		color: #cbd5e1;
+	}
+	html.dark .result {
+		color: #f1f5f9;
+	}
+	html.dark .form-message {
+		color: #cbd5e1;
+	}
+
+	/* Inputs */
+	html.dark input[type="email"],
+	html.dark input[type="password"],
+	html.dark input[type="text"] {
+		background: #273344;
+		border-color: #475569;
+		color: #f1f5f9;
+	}
+	html.dark input:focus {
+		border-color: #818cf8;
+	}
+	html.dark input::placeholder {
+		color: #64748b;
+	}
+
+	/* Login card label */
+	html.dark label {
+		color: #cbd5e1;
+	}
+	html.dark .forgot {
+		color: #a5b4fc;
+	}
+	html.dark .register {
+		color: #94a3b8;
+	}
+	html.dark .register a {
+		color: #a5b4fc;
+	}
+	html.dark .toggle-btn {
+		color: #94a3b8;
+	}
+
+	/* Header already dark — keep its bg */
+	html.dark .header {
+		background: #020617;
+	}
+	html.dark .logout-btn {
+		border-color: #334155;
+	}
+
+	/* ── Floating toggle button ────────────────────────────── */
+	#theme-toggle {
+		position: fixed;
+		bottom: 1.25rem;
+		right: 1.25rem;
+		z-index: 999;
+		width: 2.6rem;
+		height: 2.6rem;
+		border-radius: 50%;
+		border: 1px solid #d1d5db;
+		background: #fff;
+		color: #111827;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.45rem;
+		box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+		transition:
+			background 0.2s,
+			border-color 0.2s,
+			color 0.2s;
+	}
+
+	#theme-toggle:hover {
+		background: #f3f4f6;
+	}
+
+	html.dark #theme-toggle {
+		background: #1e293b;
+		border-color: #334155;
+		color: #f1f5f9;
+	}
+
+	html.dark #theme-toggle:hover {
+		background: #273344;
+	}
+
+	/* Show sun in dark mode, moon in light mode */
+	#icon-moon {
+		display: none;
+	}
+	#icon-sun {
+		display: block;
+	}
+
+	html.dark #icon-moon {
+		display: block;
+	}
+	html.dark #icon-sun {
+		display: none;
 	}
 </style>

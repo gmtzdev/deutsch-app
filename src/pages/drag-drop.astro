@@ -1,0 +1,402 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const exercises = [
+    { id: 1, before: "Ich", after: "jeden Tag Deutsch.", answer: "lerne" },
+    { id: 2, before: "Wir", after: "im Park.", answer: "spielen" },
+    { id: 3, before: "Sie", after: "einen Brief.", answer: "schreibt" },
+    { id: 4, before: "Der Hund", after: "im Garten.", answer: "läuft" },
+    { id: 5, before: "Ihr", after: "sehr gut Deutsch.", answer: "sprecht" },
+    { id: 6, before: "Am Abend", after: "ich ein Buch.", answer: "lese" },
+];
+
+const words = [
+    "lerne",
+    "spielen",
+    "schreibt",
+    "läuft",
+    "sprecht",
+    "lese",
+    "macht",
+    "trinkst",
+];
+---
+
+<Layout>
+    <main class="page">
+        <section class="card">
+            <h1>Ejercicio Drag and Drop</h1>
+            <p class="subtitle">
+                Arrastra una palabra del banco a cada espacio y luego pulsa
+                “Corregir”.
+            </p>
+
+            <div
+                class="word-bank"
+                id="word-bank"
+                aria-label="Banco de palabras"
+            >
+                {
+                    words.map((word, index) => (
+                        <button
+                            type="button"
+                            class="word"
+                            draggable="true"
+                            data-word={word}
+                            id={`word-${index}`}
+                        >
+                            {word}
+                        </button>
+                    ))
+                }
+            </div>
+
+            <div class="quiz" id="quiz">
+                {
+                    exercises.map((exercise) => (
+                        <div class="row" data-correct={exercise.answer}>
+                            <span class="sentence">{exercise.before}</span>
+                            <div
+                                class="dropzone"
+                                data-value=""
+                                aria-label="Espacio para respuesta"
+                            >
+                                Suelta aquí
+                            </div>
+                            <span class="sentence">{exercise.after}</span>
+                            <span class="feedback" aria-live="polite" />
+                        </div>
+                    ))
+                }
+            </div>
+
+            <div class="actions">
+                <button id="check" type="button">Corregir</button>
+                <button id="reset" type="button" class="secondary"
+                    >Reiniciar</button
+                >
+            </div>
+
+            <p id="result" class="result" aria-live="polite"></p>
+        </section>
+    </main>
+</Layout>
+
+<script>
+    const wordBank = document.querySelector("#word-bank");
+    const quiz = document.querySelector("#quiz");
+    const checkButton = document.querySelector("#check");
+    const resetButton = document.querySelector("#reset");
+    const result = document.querySelector("#result");
+
+    if (
+        wordBank instanceof HTMLDivElement &&
+        quiz instanceof HTMLDivElement &&
+        checkButton instanceof HTMLButtonElement &&
+        resetButton instanceof HTMLButtonElement &&
+        result instanceof HTMLParagraphElement
+    ) {
+        const dropzones = [...quiz.querySelectorAll(".dropzone")].filter(
+            (zone) => zone instanceof HTMLDivElement,
+        );
+        const words = [...wordBank.querySelectorAll(".word")].filter(
+            (word) => word instanceof HTMLButtonElement,
+        );
+
+        let dragging: HTMLButtonElement | null = null;
+
+        const enableDragForWord = (word: HTMLButtonElement) => {
+            word.addEventListener("dragstart", () => {
+                dragging = word;
+                word.classList.add("dragging");
+            });
+
+            word.addEventListener("dragend", () => {
+                word.classList.remove("dragging");
+                dragging = null;
+            });
+        };
+
+        words.forEach(enableDragForWord);
+
+        const clearStatus = () => {
+            const rows = [...quiz.querySelectorAll(".row")];
+            rows.forEach((row) => {
+                if (!(row instanceof HTMLDivElement)) {
+                    return;
+                }
+                row.classList.remove("correct", "wrong");
+                const feedback = row.querySelector(".feedback");
+                if (feedback instanceof HTMLSpanElement) {
+                    feedback.textContent = "";
+                }
+            });
+            result.textContent = "";
+        };
+
+        dropzones.forEach((zone) => {
+            zone.addEventListener("dragover", (event) => {
+                event.preventDefault();
+                zone.classList.add("over");
+            });
+
+            zone.addEventListener("dragleave", () => {
+                zone.classList.remove("over");
+            });
+
+            zone.addEventListener("drop", (event) => {
+                event.preventDefault();
+                zone.classList.remove("over");
+                clearStatus();
+
+                if (!dragging) {
+                    return;
+                }
+
+                const previousZone = dragging.parentElement;
+                if (
+                    previousZone instanceof HTMLDivElement &&
+                    previousZone.classList.contains("dropzone")
+                ) {
+                    previousZone.textContent = "Suelta aquí";
+                    previousZone.dataset.value = "";
+                }
+
+                const zoneWord = zone.querySelector(".word");
+                if (zoneWord instanceof HTMLButtonElement) {
+                    wordBank.append(zoneWord);
+                }
+
+                zone.textContent = "";
+                zone.append(dragging);
+                zone.dataset.value = dragging.dataset.word ?? "";
+            });
+        });
+
+        wordBank.addEventListener("dragover", (event) => {
+            event.preventDefault();
+        });
+
+        wordBank.addEventListener("drop", (event) => {
+            event.preventDefault();
+            clearStatus();
+            if (!dragging) {
+                return;
+            }
+
+            const previousZone = dragging.parentElement;
+            if (
+                previousZone instanceof HTMLDivElement &&
+                previousZone.classList.contains("dropzone")
+            ) {
+                previousZone.textContent = "Suelta aquí";
+                previousZone.dataset.value = "";
+            }
+
+            wordBank.append(dragging);
+        });
+
+        checkButton.addEventListener("click", () => {
+            const rows = [...quiz.querySelectorAll(".row")];
+            let score = 0;
+
+            rows.forEach((row) => {
+                if (!(row instanceof HTMLDivElement)) {
+                    return;
+                }
+
+                const correct = row.dataset.correct ?? "";
+                const zone = row.querySelector(".dropzone");
+                const feedback = row.querySelector(".feedback");
+
+                if (
+                    !(zone instanceof HTMLDivElement) ||
+                    !(feedback instanceof HTMLSpanElement)
+                ) {
+                    return;
+                }
+
+                const selected = zone.dataset.value ?? "";
+
+                if (selected === correct) {
+                    score += 1;
+                    row.classList.remove("wrong");
+                    row.classList.add("correct");
+                    feedback.textContent = "✅ Correcto";
+                } else {
+                    row.classList.remove("correct");
+                    row.classList.add("wrong");
+                    feedback.textContent = `❌ Correcta: ${correct}`;
+                }
+            });
+
+            result.textContent = `Tu puntuación final es ${score} de ${rows.length} aciertos.`;
+        });
+
+        resetButton.addEventListener("click", () => {
+            const rows = [...quiz.querySelectorAll(".row")];
+            rows.forEach((row) => {
+                if (!(row instanceof HTMLDivElement)) {
+                    return;
+                }
+
+                const zone = row.querySelector(".dropzone");
+                if (!(zone instanceof HTMLDivElement)) {
+                    return;
+                }
+
+                const word = zone.querySelector(".word");
+                if (word instanceof HTMLButtonElement) {
+                    wordBank.append(word);
+                }
+
+                zone.textContent = "Suelta aquí";
+                zone.dataset.value = "";
+            });
+
+            clearStatus();
+        });
+    }
+</script>
+
+<style>
+    .page {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1rem;
+        font-family:
+            system-ui,
+            -apple-system,
+            Segoe UI,
+            Roboto,
+            sans-serif;
+        background: #f3f4f6;
+    }
+
+    .card {
+        width: min(940px, 100%);
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 1.7rem;
+    }
+
+    .subtitle {
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        color: #4b5563;
+    }
+
+    .word-bank {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        padding: 0.8rem;
+        border: 1px dashed #9ca3af;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        min-height: 58px;
+    }
+
+    .word {
+        padding: 0.45rem 0.7rem;
+        border: 1px solid #d1d5db;
+        background: #fff;
+        border-radius: 8px;
+        cursor: grab;
+        font-weight: 600;
+    }
+
+    .word.dragging {
+        opacity: 0.5;
+    }
+
+    .quiz {
+        display: grid;
+        gap: 0.8rem;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: auto minmax(140px, 180px) 1fr auto;
+        gap: 0.65rem;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+    }
+
+    .sentence {
+        font-weight: 500;
+    }
+
+    .dropzone {
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #9ca3af;
+        border-radius: 8px;
+        padding: 0.3rem;
+        background: #f9fafb;
+        color: #6b7280;
+    }
+
+    .dropzone.over {
+        border-color: #111827;
+    }
+
+    .feedback {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .actions {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.7rem;
+    }
+
+    button {
+        padding: 0.7rem 1.1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #111827;
+        color: #fff;
+    }
+
+    button.secondary {
+        background: #374151;
+    }
+
+    .result {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .row.correct {
+        border-color: #10b981;
+        background: #ecfdf5;
+    }
+
+    .row.wrong {
+        border-color: #ef4444;
+        background: #fef2f2;
+    }
+
+    @media (max-width: 840px) {
+        .row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

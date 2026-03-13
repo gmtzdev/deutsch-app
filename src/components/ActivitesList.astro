@@ -1,0 +1,74 @@
+---
+import BookIcon from "@/icons/BookIcon.astro";
+
+const activities = [
+    {
+        title: "Lernziel",
+        icon: BookIcon,
+        href: "/a11/lernziel",
+    },
+    {
+        title: "Grammatik",
+        icon: BookIcon,
+        href: "/a11/personal",
+    },
+    {
+        title: "Grammatik",
+        icon: BookIcon,
+        href: "/a11/verben",
+    },
+    {
+        title: "Grammatikübung",
+        icon: BookIcon,
+        href: "/a11/ejercicio",
+    },
+    {
+        title: "Alphabet",
+        icon: BookIcon,
+        href: "/a11/alphabet",
+    },
+    {
+        title: "Ausprache",
+        icon: BookIcon,
+        href: "/a11/ausprache",
+    },
+    {
+        title: "Leseverstehen",
+        icon: BookIcon,
+        href: "/a11/leseverstehen",
+    },
+    {
+        title: "Rollebspiel",
+        icon: BookIcon,
+        href: "/a11/rollenspiel",
+    },
+    {
+        title: "Wiederholung",
+        icon: BookIcon,
+        href: "/a11/wiederholung",
+    },
+    {
+        title: "Ziel",
+        icon: BookIcon,
+        href: "/a11/ziel",
+    },
+];
+---
+
+<section
+    class="py-4 relative z-10 bg-white shadow-[6px_0_20px_rgba(0,0,0,0.18)]"
+>
+    <div class="text-xl font-semibold py-2 pl-8 w-full">A1.1 Thema 1</div>
+
+    {
+        activities.map((activity) => (
+            <a
+                class="py-3 pl-8 text-base bg-gray-100 hover:bg-blue-100 transition flex gap-2"
+                href={activity.href}
+            >
+                <activity.icon class="hover:scale-105 transition" />
+                {activity.title}
+            </a>
+        ))
+    }
+</section>

@@ -1,0 +1,232 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+
+const exercises = [
+    { id: 1, before: "Ich", answer: "lerne", after: "Hans." },
+    { id: 2, before: "Du kommst", answer: "spielen", after: "Ecuador." },
+    {
+        id: 3,
+        before: "",
+        answer: "liest",
+        after: "wohnt in Dortmund.",
+    },
+];
+const exercises2 = [
+    { id: 4, before: "Ich studier", answer: "", after: "" },
+    { id: 5, before: "Ihr arbeit", answer: "erklärt", after: "die Grammatik." },
+    { id: 6, before: "Er komm", answer: "schreibt", after: "aus Portugal." },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-[400px_1fr]">
+        <ActivitesList />
+
+        <main class="page">
+            <Card>
+                <h1>Completa las oraciones en alemán</h1>
+
+                <form id="quiz-form" class="quiz" autocomplete="off">
+                    <p class="subtitle">
+                        Escribe la palabra que falta en cada oración y luego
+                        pulsa "Corregir".
+                    </p>
+                    {
+                        exercises.map((exercise) => (
+                            <label class="row" data-answer={exercise.answer}>
+                                <span class="sentence">
+                                    {exercise.before} ___ {exercise.after}
+                                </span>
+                                <input
+                                    type="text"
+                                    name={`exercise-${exercise.id}`}
+                                    placeholder="Tu respuesta"
+                                    required
+                                />
+                                <span class="feedback" aria-live="polite" />
+                            </label>
+                        ))
+                    }
+
+                    <p class="subtitle">
+                        Escribe la palabra que falta en cada oración y luego
+                        pulsa "Corregir".
+                    </p>
+
+                    {
+                        exercises2.map((exercise) => (
+                            <label class="row" data-answer={exercise.answer}>
+                                <span class="sentence">
+                                    {exercise.before} ___ {exercise.after}
+                                </span>
+                                <input
+                                    type="text"
+                                    name={`exercise-${exercise.id}`}
+                                    placeholder="Tu respuesta"
+                                    required
+                                />
+                                <span class="feedback" aria-live="polite" />
+                            </label>
+                        ))
+                    }
+                    <div class="actions">
+                        <button type="submit">Corregir</button>
+                    </div>
+                </form>
+
+                <p id="result" class="result" aria-live="polite"></p>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const form = document.querySelector("#quiz-form");
+        const result = document.querySelector("#result");
+
+        if (
+            form instanceof HTMLFormElement &&
+            result instanceof HTMLParagraphElement
+        ) {
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                const rows = [...form.querySelectorAll(".row")];
+                let score = 0;
+
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLLabelElement)) return;
+
+                    const input = row.querySelector("input");
+                    const feedback = row.querySelector(".feedback");
+                    const expected = row.dataset.answer ?? "";
+
+                    if (
+                        !(input instanceof HTMLInputElement) ||
+                        !(feedback instanceof HTMLSpanElement)
+                    )
+                        return;
+
+                    const userAnswer = input.value.trim().toLocaleLowerCase();
+                    const correctAnswer = expected.trim().toLocaleLowerCase();
+
+                    if (userAnswer === correctAnswer) {
+                        score += 1;
+                        row.classList.remove("wrong");
+                        row.classList.add("correct");
+                        feedback.textContent = "✅ Correcto";
+                    } else {
+                        row.classList.remove("correct");
+                        row.classList.add("wrong");
+                        feedback.textContent = `❌ Correcta: ${expected}`;
+                    }
+                });
+
+                result.textContent = `Tu puntuación final es ${score} de ${rows.length} aciertos.`;
+            });
+        }
+    </script>
+
+    <style>
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+            background: #f3f4f6;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+
+        .quiz {
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr minmax(150px, 220px) auto;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+        }
+
+        .sentence {
+            font-weight: 500;
+        }
+
+        input {
+            padding: 0.55rem 0.65rem;
+            border: 1px solid #9ca3af;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .feedback {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .actions {
+            margin-top: 0.4rem;
+        }
+
+        button {
+            padding: 0.7rem 1.1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .result {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .row.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        .row.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        @media (max-width: 720px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

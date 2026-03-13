@@ -1,0 +1,239 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-[400px_1fr]">
+        <ActivitesList />
+
+        <main class="page">
+            <Card>
+                <h1>Lernziel — Thema 1</h1>
+                <p class="subtitle">
+                    Al final de esta unidad podrás saludar, presentarte y
+                    preguntar por el origen de las personas.
+                </p>
+
+                <div class="sections">
+                    <!-- Grammatik -->
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <ul class="obj-list">
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Personalpronomen Singular
+                                <em>(ich, du, er, sie, es)</em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Verb Konjugation im Singular
+                                <em>(sein, haben, wohnen)</em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                W-Fragen: <strong>Wer?</strong>
+                                <strong>Wie?</strong>
+                                <strong>Woher?</strong>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Wortschatz -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <div class="vocab-grid">
+                            <div class="vocab-group">
+                                <h4>Begrüßung / Verabschiedung</h4>
+                                <table class="vocab-table">
+                                    <thead>
+                                        <tr><th>Deutsch</th><th>Español</th></tr
+                                        >
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>Hallo</td><td>Hola</td></tr>
+                                        <tr
+                                            ><td>Guten Morgen</td><td
+                                                >Buenos días</td
+                                            ></tr
+                                        >
+                                        <tr
+                                            ><td>Guten Tag</td><td
+                                                >Buenas tardes</td
+                                            ></tr
+                                        >
+                                        <tr
+                                            ><td>Guten Abend</td><td
+                                                >Buenas noches</td
+                                            ></tr
+                                        >
+                                        <tr
+                                            ><td>Gute Nacht</td><td
+                                                >Buenas noches (al dormir)</td
+                                            ></tr
+                                        >
+                                        <tr
+                                            ><td>Tschüss</td><td
+                                                >Adiós (informal)</td
+                                            ></tr
+                                        >
+                                        <tr
+                                            ><td>Auf Wiedersehen</td><td
+                                                >Hasta luego (formal)</td
+                                            ></tr
+                                        >
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="vocab-group">
+                                <h4>Verben</h4>
+                                <table class="vocab-table">
+                                    <thead>
+                                        <tr><th>Deutsch</th><th>Español</th></tr
+                                        >
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            ><td>sein</td><td>ser / estar</td
+                                            ></tr
+                                        >
+                                        <tr><td>haben</td><td>tener</td></tr>
+                                        <tr><td>wohnen</td><td>vivir</td></tr>
+                                        <tr><td>heißen</td><td>llamarse</td></tr
+                                        >
+                                        <tr
+                                            ><td>kommen</td><td
+                                                >venir / ser de</td
+                                            ></tr
+                                        >
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+            background: #f3f4f6;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+            color: #1f2937;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            padding: 0.3rem 0.6rem;
+            background: #f9fafb;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .vocab-table td {
+            padding: 0.4rem 0.6rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #1f2937;
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vocab-table tr:hover td {
+            background: #f0f9ff;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

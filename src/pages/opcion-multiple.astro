@@ -1,0 +1,253 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const questions = [
+    {
+        id: 1,
+        question: "¿Cuál es la traducción correcta de “Good morning”?",
+        options: ["Gute Nacht", "Guten Morgen", "Guten Abend"],
+        correct: "Guten Morgen",
+    },
+    {
+        id: 2,
+        question: "Completa: “Ich ___ Deutsch.”",
+        options: ["lerne", "lernt", "lernen"],
+        correct: "lerne",
+    },
+    {
+        id: 3,
+        question: "¿Qué artículo corresponde a “Buch”?",
+        options: ["der", "die", "das"],
+        correct: "das",
+    },
+    {
+        id: 4,
+        question: "¿Cómo se dice “gracias” en alemán?",
+        options: ["Bitte", "Danke", "Entschuldigung"],
+        correct: "Danke",
+    },
+    {
+        id: 5,
+        question: "Selecciona el plural correcto de “Kind”.",
+        options: ["Kinder", "Kinds", "Kinden"],
+        correct: "Kinder",
+    },
+    {
+        id: 6,
+        question: "Completa: “Wir ___ im Park.”",
+        options: ["spielt", "spielen", "spielst"],
+        correct: "spielen",
+    },
+    {
+        id: 7,
+        question: "¿Qué significa “Haus”?",
+        options: ["Casa", "Escuela", "Coche"],
+        correct: "Casa",
+    },
+    {
+        id: 8,
+        question: "¿Cuál es el pronombre para “ella”?",
+        options: ["er", "es", "sie"],
+        correct: "sie",
+    },
+];
+---
+
+<Layout>
+    <main class="page">
+        <section class="card">
+            <h1>Preguntas de opción múltiple</h1>
+            <p class="subtitle">
+                Marca una respuesta por pregunta y pulsa “Corregir”.
+            </p>
+
+            <form id="mcq-form" class="quiz">
+                {
+                    questions.map((question) => (
+                        <fieldset
+                            class="question"
+                            data-correct={question.correct}
+                        >
+                            <legend>
+                                {question.id}. {question.question}
+                            </legend>
+                            <div class="options">
+                                {question.options.map((option) => (
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name={`q-${question.id}`}
+                                            value={option}
+                                        />
+                                        <span>{option}</span>
+                                    </label>
+                                ))}
+                            </div>
+                            <p class="feedback" aria-live="polite" />
+                        </fieldset>
+                    ))
+                }
+
+                <div class="actions">
+                    <button type="submit">Corregir</button>
+                </div>
+            </form>
+
+            <p id="result" class="result" aria-live="polite"></p>
+        </section>
+    </main>
+</Layout>
+
+<script>
+    const form = document.querySelector("#mcq-form");
+    const result = document.querySelector("#result");
+
+    if (
+        form instanceof HTMLFormElement &&
+        result instanceof HTMLParagraphElement
+    ) {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const blocks = [...form.querySelectorAll(".question")];
+            let score = 0;
+
+            blocks.forEach((block) => {
+                if (!(block instanceof HTMLFieldSetElement)) {
+                    return;
+                }
+
+                const correct = block.dataset.correct ?? "";
+                const checked = block.querySelector(
+                    'input[type="radio"]:checked',
+                );
+                const feedback = block.querySelector(".feedback");
+
+                if (!(feedback instanceof HTMLParagraphElement)) {
+                    return;
+                }
+
+                if (!(checked instanceof HTMLInputElement)) {
+                    block.classList.remove("correct");
+                    block.classList.add("wrong");
+                    feedback.textContent = `❌ Sin respuesta. Correcta: ${correct}`;
+                    return;
+                }
+
+                if (checked.value === correct) {
+                    score += 1;
+                    block.classList.remove("wrong");
+                    block.classList.add("correct");
+                    feedback.textContent = "✅ Correcto";
+                } else {
+                    block.classList.remove("correct");
+                    block.classList.add("wrong");
+                    feedback.textContent = `❌ Correcta: ${correct}`;
+                }
+            });
+
+            result.textContent = `Tu puntuación final es ${score} de ${blocks.length} aciertos.`;
+        });
+    }
+</script>
+
+<style>
+    .page {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1rem;
+        font-family:
+            system-ui,
+            -apple-system,
+            Segoe UI,
+            Roboto,
+            sans-serif;
+        background: #f3f4f6;
+    }
+
+    .card {
+        width: min(900px, 100%);
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 28px rgb(0 0 0 / 8%);
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 1.7rem;
+    }
+
+    .subtitle {
+        margin-top: 0.5rem;
+        margin-bottom: 1.5rem;
+        color: #4b5563;
+    }
+
+    .quiz {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .question {
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 0.9rem;
+    }
+
+    legend {
+        font-weight: 700;
+        padding: 0 0.2rem;
+    }
+
+    .options {
+        display: grid;
+        gap: 0.5rem;
+        margin-top: 0.6rem;
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .feedback {
+        margin-top: 0.7rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        min-height: 1.2rem;
+    }
+
+    .actions {
+        margin-top: 0.5rem;
+    }
+
+    button {
+        padding: 0.7rem 1.1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #111827;
+        color: #fff;
+    }
+
+    .result {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .question.correct {
+        border-color: #10b981;
+        background: #ecfdf5;
+    }
+
+    .question.wrong {
+        border-color: #ef4444;
+        background: #fef2f2;
+    }
+</style>
