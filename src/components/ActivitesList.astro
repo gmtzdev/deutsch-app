@@ -56,19 +56,72 @@ const activities = [
 ---
 
 <section
-    class="py-4 relative z-10 bg-white shadow-[6px_0_20px_rgba(0,0,0,0.18)]"
+    id="activities-section"
+    class="py-4 relative z-10 bg-white shadow-[6px_0_20px_rgba(0,0,0,0.18)] md:block"
 >
-    <div class="text-xl font-semibold py-2 pl-8 w-full">A1.1 Thema 1</div>
-
-    {
-        activities.map((activity) => (
-            <a
-                class="py-3 pl-8 text-base bg-gray-100 hover:bg-blue-100 transition flex gap-2"
-                href={activity.href}
+    <div class="flex items-center justify-between pr-4">
+        <div class="text-xl font-semibold py-2 pl-8">A1.1 Thema 1</div>
+        <button
+            id="activities-toggle"
+            class="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition"
+            aria-label="Mostrar/ocultar actividades"
+            aria-expanded="true"
+        >
+            <svg
+                id="icon-chevron"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
             >
-                <activity.icon class="hover:scale-105 transition" />
-                {activity.title}
-            </a>
-        ))
-    }
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <div id="activities-list">
+        {
+            activities.map((activity) => (
+                <a
+                    class="py-3 pl-8 text-base bg-gray-100 hover:bg-blue-100 transition flex gap-2"
+                    href={activity.href}
+                >
+                    <activity.icon class="hover:scale-105 transition" />
+                    {activity.title}
+                </a>
+            ))
+        }
+    </div>
 </section>
+
+<script>
+    const toggle = document.getElementById("activities-toggle");
+    const list = document.getElementById("activities-list");
+    const chevron = document.getElementById("icon-chevron");
+
+    if (toggle && list && chevron) {
+        toggle.addEventListener("click", () => {
+            const isOpen = toggle.getAttribute("aria-expanded") === "true";
+            toggle.setAttribute("aria-expanded", String(!isOpen));
+            list.style.display = isOpen ? "none" : "block";
+            chevron.style.transform = isOpen
+                ? "rotate(180deg)"
+                : "rotate(0deg)";
+        });
+    }
+</script>
+
+<style>
+    #activities-list {
+        transition: all 0.2s ease;
+    }
+
+    #icon-chevron {
+        transition: transform 0.2s ease;
+    }
+</style>
