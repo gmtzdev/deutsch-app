@@ -87,11 +87,11 @@ const levels = [
 ---
 
 <Layout>
-	<div class="page">
+	<div class="page bg-background">
 		<Header />
 
 		<section class="hero">
-			<h1>Elige tu nivel</h1>
+			<h1 class="text-title">Elige tu nivel</h1>
 			<p>
 				Selecciona el nivel que corresponde a tu conocimiento actual de
 				alemán y comienza a aprender.
@@ -103,7 +103,7 @@ const levels = [
 				{
 					levels.map((level) => (
 						<article
-							class="level-card"
+							class="level-card bg-card"
 							style={`--accent: ${level.color}`}
 						>
 							<div class="card-header">
@@ -120,7 +120,9 @@ const levels = [
 								/>
 								<span class="level-badge">{level.code}</span>
 							</div>
-							<h2 class="level-title">{level.title}</h2>
+							<h2 class="level-title text-subtitle">
+								{level.title}
+							</h2>
 							<p class="level-desc">{level.description}</p>
 							<div class="card-footer">
 								<span class="lessons-count">
@@ -165,7 +167,7 @@ const levels = [
 
 	.page {
 		min-height: 100vh;
-		background: #f3f4f6;
+
 		font-family:
 			system-ui,
 			-apple-system,
@@ -182,7 +184,7 @@ const levels = [
 	.hero h1 {
 		margin: 0 0 0.6rem;
 		font-size: 2rem;
-		color: #111827;
+		/* color: #111827; */
 	}
 
 	.hero p {
@@ -206,7 +208,6 @@ const levels = [
 	}
 
 	.level-card {
-		background: #fff;
 		border-radius: 14px;
 		padding: 1.35rem;
 		box-shadow: 0 4px 16px rgb(0 0 0 / 6%);
@@ -250,7 +251,6 @@ const levels = [
 	.level-title {
 		margin: 0;
 		font-size: 1.05rem;
-		color: #111827;
 	}
 
 	.level-desc {
