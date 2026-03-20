@@ -12,6 +12,7 @@
 
     /* Navigation */
     --box-shadow-nav: 6px 0 20px rgba(0, 0, 0, 0.18);
+    --color-nav-hover: #0c1a2e;
 
     /* Table */
     --color-table-header: #f9fafb;
@@ -32,6 +33,7 @@
 
     /* Navigation */
     --box-shadow-nav: 1px 0 20px rgba(255, 255, 255, 0.18);
+    --color-nav-hover: #0c1a2e;
 
     /* Table */
     --color-table-header: #111827;
