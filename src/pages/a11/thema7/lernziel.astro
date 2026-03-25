@@ -1,0 +1,240 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={7} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Lernziel — Thema 7</h1>
+                <p class="subtitle text-indications">
+                    Al final de esta unidad podrás saludar, presentarte y
+                    preguntar por el origen de las personas.
+                </p>
+
+                <div class="sections">
+                    <!-- Grammatik -->
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <ul class="obj-list text-text">
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Konjugation
+                                <em>möchten, mögen</em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Wortbildung
+                                <em>Nomen+Nomen</em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Ja/Nein-Fragen und Antwort:
+                                <em>Ja, Nein, Doch</em>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Wortschatz -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <div class="vocab-grid">
+                            <div class="vocab-group">
+                                <h4>Wortschatz</h4>
+                                <table class="vocab-table">
+                                    <thead>
+                                        <tr><th>Deutsch</th><th>Español</th></tr
+                                        >
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Orangensaft </td><td
+                                                >el jugo de naranja</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Kaffee </td><td>el café</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tee </td><td>el té</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kartoffel </td><td>la patata</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Gemüse</td><td>las verduras</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Obst</td><td>la fruta</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fleisch</td><td>la carne</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="vocab-group">
+                                <h4>Wortschatz</h4>
+                                <table class="vocab-table">
+                                    <thead>
+                                        <tr><th>Deutsch</th><th>Español</th></tr
+                                        >
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Salz/Pfeffer</td><td
+                                                >sal y pimienta</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Zucker</td><td>el azúcar</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vorspeise</td><td>entrada</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hauptspeise</td><td
+                                                >plato principal</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Nachtisch</td><td>postre</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Speisekarte</td><td>carta</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Besteck</td><td>cubiertos</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            padding: 0.3rem 0.6rem;
+            background: var(--color-table-header);
+            color: var(--color-table-header-text);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--color-table-header-border);
+        }
+
+        .vocab-table td {
+            padding: 0.4rem 0.6rem;
+            border-bottom: 1px solid var(--color-table-row-border);
+            color: var(--color-text);
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vocab-table tr:hover td {
+            background: var(--color-table-row-hover);
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

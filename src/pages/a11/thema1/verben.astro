@@ -4,13 +4,15 @@ import Header from "@/components/Header.astro";
 import ActivitesList from "@/components/ActivitesList.astro";
 import Card from "@/components/Card.astro";
 import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
 ---
 
 <Layout>
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList />
+        <ActivitesList open={1} />
 
         <main class="page bg-background">
             <Card>
@@ -179,53 +181,6 @@ import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
             display: flex;
             flex-direction: column;
             gap: 2rem;
-        }
-
-        .vocab-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        .vocab-table th {
-            text-align: left;
-            padding: 0.3rem 0.6rem;
-            background: #f9fafb;
-            color: #6b7280;
-            font-weight: 600;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .vocab-table td {
-            padding: 0.4rem 0.6rem;
-            border-bottom: 1px solid #f3f4f6;
-            color: #1f2937;
-        }
-
-        .vocab-table td.label {
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #6b7280;
-            font-weight: 600;
-            width: 90px;
-        }
-
-        .vocab-table td.ending {
-            font-size: 0.82rem;
-            color: #9ca3af;
-            font-family: monospace;
-        }
-
-        .vocab-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .vocab-table tr:hover td {
-            background: #f0f9ff;
         }
 
         .verb-buttons {

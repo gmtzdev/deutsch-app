@@ -1,0 +1,408 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import "@/styles/page.css";
+
+const words = ["der Tisch", "die Lampe", "das Buch"];
+
+const images = [
+    { id: "lampe",  answer: "die Lampe",  genus: "feminin"   },
+    { id: "tisch",  answer: "der Tisch",  genus: "maskulin"  },
+    { id: "buch",   answer: "das Buch",   genus: "neutral"   },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Arrastra cada palabra al dibujo correcto.
+                </p>
+
+                <div class="sections">
+                    <!-- Word bank -->
+                    <div class="word-bank" id="word-bank" aria-label="Banco de palabras">
+                        {
+                            words.map((word, i) => (
+                                <button
+                                    type="button"
+                                    class="word"
+                                    draggable="true"
+                                    data-word={word}
+                                    id={`word-${i}`}
+                                >
+                                    {word}
+                                </button>
+                            ))
+                        }
+                    </div>
+
+                    <!-- Image cards -->
+                    <div class="image-grid">
+                        {
+                            images.map((img) => (
+                                <div class="image-card">
+                                    <div class="image-area">
+                                        {img.id === "tisch" && (
+                                            <svg viewBox="0 0 100 80" class="icon" aria-hidden="true">
+                                                <rect x="5" y="22" width="90" height="10" rx="3" fill="currentColor"/>
+                                                <rect x="12" y="32" width="8" height="38" rx="3" fill="currentColor"/>
+                                                <rect x="80" y="32" width="8" height="38" rx="3" fill="currentColor"/>
+                                            </svg>
+                                        )}
+                                        {img.id === "lampe" && (
+                                            <svg viewBox="0 0 100 110" class="icon" aria-hidden="true">
+                                                <ellipse cx="50" cy="32" rx="26" ry="28" fill="currentColor" opacity="0.85"/>
+                                                <rect x="38" y="56" width="24" height="8" rx="3" fill="currentColor"/>
+                                                <rect x="44" y="64" width="12" height="30" fill="currentColor"/>
+                                                <rect x="28" y="94" width="44" height="8" rx="4" fill="currentColor"/>
+                                            </svg>
+                                        )}
+                                        {img.id === "buch" && (
+                                            <svg viewBox="0 0 110 80" class="icon" aria-hidden="true">
+                                                <rect x="8" y="8" width="38" height="64" rx="4" fill="currentColor"/>
+                                                <rect x="50" y="4" width="10" height="72" rx="3" fill="currentColor" opacity="0.55"/>
+                                                <rect x="64" y="8" width="38" height="64" rx="4" fill="currentColor"/>
+                                                <line x1="72" y1="22" x2="94" y2="22" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+                                                <line x1="72" y1="32" x2="94" y2="32" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+                                                <line x1="72" y1="42" x2="88" y2="42" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+                                            </svg>
+                                        )}
+                                    </div>
+                                    <div
+                                        class="dropzone"
+                                        data-correct={img.answer}
+                                        data-value=""
+                                        aria-label={`Espacio para ${img.id}`}
+                                    >
+                                        <span class="drop-hint">Suelta aqui</span>
+                                    </div>
+                                    <span class="feedback" aria-live="polite" />
+                                </div>
+                            ))
+                        }
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="actions">
+                        <button id="check" type="button" class="button-submit">Corregir</button>
+                        <button id="reset" type="button" class="button-reset">Reiniciar</button>
+                    </div>
+
+                    <p id="result" class="result" aria-live="polite"></p>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            padding: 1rem;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            min-height: 56px;
+            align-items: center;
+        }
+
+        .word {
+            padding: 0.45rem 1rem;
+            background: #1d4ed8;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: grab;
+            transition: opacity 0.15s, transform 0.15s;
+            user-select: none;
+        }
+
+        .word.dragging {
+            opacity: 0.45;
+            cursor: grabbing;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .image-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .image-area {
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 160px;
+            background: #f3f4f6;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            color: #374151;
+        }
+
+        .icon {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropzone {
+            width: 100%;
+            max-width: 160px;
+            min-height: 44px;
+            border: 2px dashed #9ca3af;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.15s, background 0.15s;
+            padding: 0.3rem;
+        }
+
+        .dropzone .drop-hint {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            pointer-events: none;
+        }
+
+        .dropzone.over {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .dropzone .word {
+            width: 100%;
+            text-align: center;
+        }
+
+        .feedback {
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 1.2em;
+        }
+
+        .image-card.correct .dropzone {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .image-card.wrong .dropzone {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .button-submit {
+            padding: 0.65rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .button-reset {
+            padding: 0.65rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .result {
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+
+        @media (max-width: 600px) {
+            .image-grid {
+                gap: 0.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const wordBank = document.querySelector("#word-bank");
+        const checkBtn = document.querySelector("#check");
+        const resetBtn = document.querySelector("#reset");
+        const result = document.querySelector("#result");
+        const dropzones = [...document.querySelectorAll(".dropzone")];
+
+        if (
+            !(wordBank instanceof HTMLDivElement) ||
+            !(checkBtn instanceof HTMLButtonElement) ||
+            !(resetBtn instanceof HTMLButtonElement) ||
+            !(result instanceof HTMLParagraphElement)
+        ) {
+            throw new Error("Missing elements");
+        }
+
+        let dragging: HTMLButtonElement | null = null;
+
+        const attachDrag = (word: HTMLButtonElement) => {
+            word.addEventListener("dragstart", () => {
+                dragging = word;
+                word.classList.add("dragging");
+            });
+            word.addEventListener("dragend", () => {
+                word.classList.remove("dragging");
+                dragging = null;
+            });
+        };
+
+        const clearDropzone = (zone: HTMLDivElement) => {
+            zone.innerHTML = "";
+            zone.dataset.value = "";
+            const hint = document.createElement("span");
+            hint.className = "drop-hint";
+            hint.textContent = "Suelta aqui";
+            zone.append(hint);
+        };
+
+        [...wordBank.querySelectorAll(".word")].forEach((w) => {
+            if (w instanceof HTMLButtonElement) attachDrag(w);
+        });
+
+        const clearFeedback = () => {
+            document.querySelectorAll(".image-card").forEach((card) => {
+                card.classList.remove("correct", "wrong");
+                const fb = card.querySelector(".feedback");
+                if (fb instanceof HTMLSpanElement) fb.textContent = "";
+            });
+            result.textContent = "";
+        };
+
+        dropzones.forEach((zone) => {
+            if (!(zone instanceof HTMLDivElement)) return;
+
+            zone.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                zone.classList.add("over");
+            });
+            zone.addEventListener("dragleave", () => zone.classList.remove("over"));
+            zone.addEventListener("drop", (e) => {
+                e.preventDefault();
+                zone.classList.remove("over");
+                clearFeedback();
+                if (!dragging) return;
+
+                // Send back existing word in this zone to bank
+                const existing = zone.querySelector(".word");
+                if (existing instanceof HTMLButtonElement) {
+                    clearDropzone(zone);
+                    wordBank!.append(existing);
+                    attachDrag(existing);
+                }
+
+                // Clear previous zone if word came from another zone
+                const prevZone = dragging.closest(".dropzone");
+                if (prevZone instanceof HTMLDivElement && prevZone !== zone) {
+                    clearDropzone(prevZone);
+                }
+
+                zone.innerHTML = "";
+                zone.dataset.value = dragging.dataset.word ?? "";
+                zone.append(dragging);
+            });
+        });
+
+        wordBank.addEventListener("dragover", (e) => e.preventDefault());
+        wordBank.addEventListener("drop", (e) => {
+            e.preventDefault();
+            clearFeedback();
+            if (!dragging) return;
+            const prevZone = dragging.closest(".dropzone");
+            if (prevZone instanceof HTMLDivElement) {
+                clearDropzone(prevZone);
+            }
+            wordBank!.append(dragging);
+        });
+
+        checkBtn.addEventListener("click", () => {
+            let score = 0;
+            dropzones.forEach((zone) => {
+                if (!(zone instanceof HTMLDivElement)) return;
+                const card = zone.closest(".image-card");
+                if (!(card instanceof HTMLElement)) return;
+                const feedback = card.querySelector(".feedback");
+                if (!(feedback instanceof HTMLSpanElement)) return;
+
+                const given = zone.dataset.value ?? "";
+                const correct = zone.dataset.correct ?? "";
+
+                if (!given) {
+                    card.classList.remove("correct", "wrong");
+                    feedback.textContent = "";
+                    return;
+                }
+                if (given === correct) {
+                    score++;
+                    card.classList.remove("wrong");
+                    card.classList.add("correct");
+                    feedback.textContent = "Correcto";
+                } else {
+                    card.classList.remove("correct");
+                    card.classList.add("wrong");
+                    feedback.textContent = `Correcta: ${correct}`;
+                }
+            });
+            const answered = dropzones.filter(
+                (z) => z instanceof HTMLDivElement && (z.dataset.value ?? "") !== ""
+            ).length;
+            if (answered > 0) {
+                result.textContent = `${score} de ${dropzones.length} correctas.`;
+            }
+        });
+
+        resetBtn.addEventListener("click", () => {
+            clearFeedback();
+            dropzones.forEach((zone) => {
+                if (!(zone instanceof HTMLDivElement)) return;
+                const word = zone.querySelector(".word");
+                if (word instanceof HTMLButtonElement) {
+                    clearDropzone(zone);
+                    wordBank!.append(word);
+                    attachDrag(word);
+                }
+            });
+        });
+    </script>
+</Layout>

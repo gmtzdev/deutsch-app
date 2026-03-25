@@ -4,13 +4,15 @@ import Header from "@/components/Header.astro";
 import ActivitesList from "@/components/ActivitesList.astro";
 import Card from "@/components/Card.astro";
 import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/tables.css";
+import "@/styles/page.css";
 ---
 
 <Layout>
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList />
+        <ActivitesList open={1} />
 
         <main class="page bg-background">
             <Card>
@@ -69,75 +71,10 @@ import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
     </script>
 
     <style>
-        .page {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 2rem 1rem;
-            font-family:
-                system-ui,
-                -apple-system,
-                Segoe UI,
-                Roboto,
-                sans-serif;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.7rem;
-        }
-
-        .subtitle {
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            color: #4b5563;
-        }
-
         .sections {
             display: flex;
             flex-direction: column;
             gap: 2rem;
-        }
-
-        .vocab-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        .vocab-table th {
-            text-align: left;
-            padding: 0.3rem 0.6rem;
-            background: #f9fafb;
-            color: #6b7280;
-            font-weight: 600;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .vocab-table td {
-            padding: 0.4rem 0.6rem;
-            border-bottom: 1px solid #f3f4f6;
-            color: #1f2937;
-        }
-
-        .vocab-table td.label {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #6b7280;
-            font-weight: 600;
-        }
-
-        .vocab-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .vocab-table tr:hover td {
-            background: #f0f9ff;
         }
     </style>
 </Layout>

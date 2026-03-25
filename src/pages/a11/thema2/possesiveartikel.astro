@@ -1,0 +1,395 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Possessivartikel</h1>
+                <p class="subtitle text-indications">
+                    Los artículos posesivos indican a quién pertenece algo. Se
+                    usan antes del sustantivo y se declinan según género, número
+                    y caso.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <h4 class="table-title">Nominativ</h4>
+                        <div class="table-wrapper">
+                            <table class="poss-table">
+                                <thead>
+                                    <tr>
+                                        <th>Person</th>
+                                        <th
+                                            >Maskulinum<br /><span
+                                                class="example">der Mann</span
+                                            ></th
+                                        >
+                                        <th
+                                            >Femininum<br /><span
+                                                class="example">die Frau</span
+                                            ></th
+                                        >
+                                        <th
+                                            >Neutrum<br /><span class="example"
+                                                >das Kind</span
+                                            ></th
+                                        >
+                                        <th
+                                            >Plural<br /><span class="example"
+                                                >die Kinder</span
+                                            ></th
+                                        >
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="person">ich</td>
+                                        <td><strong>mein</strong> Mann</td>
+                                        <td><strong>meine</strong> Frau</td>
+                                        <td><strong>mein</strong> Kind</td>
+                                        <td><strong>meine</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person">du</td>
+                                        <td><strong>dein</strong> Mann</td>
+                                        <td><strong>deine</strong> Frau</td>
+                                        <td><strong>dein</strong> Kind</td>
+                                        <td><strong>deine</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person">er / es</td>
+                                        <td><strong>sein</strong> Mann</td>
+                                        <td><strong>seine</strong> Frau</td>
+                                        <td><strong>sein</strong> Kind</td>
+                                        <td><strong>seine</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person"
+                                            >sie <span class="note">(ella)</span
+                                            ></td
+                                        >
+                                        <td><strong>ihr</strong> Mann</td>
+                                        <td><strong>ihre</strong> Frau</td>
+                                        <td><strong>ihr</strong> Kind</td>
+                                        <td><strong>ihre</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person">wir</td>
+                                        <td><strong>unser</strong> Mann</td>
+                                        <td><strong>unsere</strong> Frau</td>
+                                        <td><strong>unser</strong> Kind</td>
+                                        <td><strong>unsere</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person"
+                                            >ihr <span class="note"
+                                                >(vosotros)</span
+                                            ></td
+                                        >
+                                        <td><strong>euer</strong> Mann</td>
+                                        <td><strong>eure</strong> Frau</td>
+                                        <td><strong>euer</strong> Kind</td>
+                                        <td><strong>eure</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person"
+                                            >sie / Sie <span class="note"
+                                                >(ellos/Ud.)</span
+                                            ></td
+                                        >
+                                        <td><strong>ihr / Ihr</strong> Mann</td>
+                                        <td
+                                            ><strong>ihre / Ihre</strong> Frau</td
+                                        >
+                                        <td><strong>ihr / Ihr</strong> Kind</td>
+                                        <td
+                                            ><strong>ihre / Ihre</strong> Kinder</td
+                                        >
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="table-title">Akkusativ</h4>
+                        <div class="table-wrapper">
+                            <table class="poss-table">
+                                <thead>
+                                    <tr>
+                                        <th>Person</th>
+                                        <th
+                                            >Maskulinum<br /><span
+                                                class="example">den Mann</span
+                                            ></th
+                                        >
+                                        <th
+                                            >Femininum<br /><span
+                                                class="example">die Frau</span
+                                            ></th
+                                        >
+                                        <th
+                                            >Neutrum<br /><span class="example"
+                                                >das Kind</span
+                                            ></th
+                                        >
+                                        <th
+                                            >Plural<br /><span class="example"
+                                                >die Kinder</span
+                                            ></th
+                                        >
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="person">ich</td>
+                                        <td><strong>meinen</strong> Mann</td>
+                                        <td><strong>meine</strong> Frau</td>
+                                        <td><strong>mein</strong> Kind</td>
+                                        <td><strong>meine</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person">du</td>
+                                        <td><strong>deinen</strong> Mann</td>
+                                        <td><strong>deine</strong> Frau</td>
+                                        <td><strong>dein</strong> Kind</td>
+                                        <td><strong>deine</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person">er / es</td>
+                                        <td><strong>seinen</strong> Mann</td>
+                                        <td><strong>seine</strong> Frau</td>
+                                        <td><strong>sein</strong> Kind</td>
+                                        <td><strong>seine</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person"
+                                            >sie <span class="note">(ella)</span
+                                            ></td
+                                        >
+                                        <td><strong>ihren</strong> Mann</td>
+                                        <td><strong>ihre</strong> Frau</td>
+                                        <td><strong>ihr</strong> Kind</td>
+                                        <td><strong>ihre</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person">wir</td>
+                                        <td><strong>unseren</strong> Mann</td>
+                                        <td><strong>unsere</strong> Frau</td>
+                                        <td><strong>unser</strong> Kind</td>
+                                        <td><strong>unsere</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person"
+                                            >ihr <span class="note"
+                                                >(vosotros)</span
+                                            ></td
+                                        >
+                                        <td><strong>euren</strong> Mann</td>
+                                        <td><strong>eure</strong> Frau</td>
+                                        <td><strong>euer</strong> Kind</td>
+                                        <td><strong>eure</strong> Kinder</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="person"
+                                            >sie / Sie <span class="note"
+                                                >(ellos/Ud.)</span
+                                            ></td
+                                        >
+                                        <td
+                                            ><strong>ihren / Ihren</strong> Mann</td
+                                        >
+                                        <td
+                                            ><strong>ihre / Ihre</strong> Frau</td
+                                        >
+                                        <td><strong>ihr / Ihr</strong> Kind</td>
+                                        <td
+                                            ><strong>ihre / Ihre</strong> Kinder</td
+                                        >
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .page {
+            height: calc(100vh - 60px);
+            overflow-y: scroll;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .table-title {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0.5rem 0 0.25rem 0;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .poss-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .poss-table th {
+            text-align: left;
+            padding: 0.5rem 0.75rem;
+            background: var(--color-table-header);
+            color: var(--color-table-header-text);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--color-table-header-border);
+            white-space: nowrap;
+        }
+
+        .poss-table td {
+            padding: 0.45rem 0.75rem;
+            border-bottom: 1px solid var(--color-table-row-border);
+            color: var(--color-text);
+        }
+
+        .poss-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .poss-table tr:hover td {
+            background: var(--color-table-row-hover);
+        }
+
+        .poss-table td.person {
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--color-text);
+        }
+
+        .poss-table .note {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #9ca3af;
+        }
+
+        .poss-table .example {
+            font-size: 0.7rem;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+            color: #9ca3af;
+        }
+    </style>
+</Layout>
+
+<tbody>
+    <tr><td>sein</td><td>ser / estar</td></tr>
+    <tr><td>haben</td><td>tener</td></tr>
+    <tr><td>wohnen</td><td>vivir</td></tr>
+    <tr><td>heißen</td><td>llamarse</td></tr>
+    <tr><td>kommen</td><td>venir / ser de</td></tr>
+</tbody>
+
+<style>
+    .sections {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .obj-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .obj-list li {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-size: 0.95rem;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .dot-blue {
+        background: #3b82f6;
+    }
+
+    .vocab-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .vocab-group h4 {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #6b7280;
+        margin: 0 0 0.5rem 0;
+    }
+
+    @media (max-width: 600px) {
+        .vocab-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

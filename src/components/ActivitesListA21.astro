@@ -1,0 +1,380 @@
+---
+interface Props {
+    // Define any props if needed
+    open: number
+}
+const { open } = Astro.props;
+import BookIcon from "@/icons/BookIcon.astro";
+
+const activities = [
+    {
+        thema: "A1.1 Thema 1",
+        open: false,
+        lessons: [
+        {
+            title: "Lernziel",
+            icon: BookIcon,
+            href: "/a21/thema1/lernziel",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema1/personal",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema1/verben",
+        },
+        {
+            title: "Grammatikübung",
+            icon: BookIcon,
+            href: "/a21/thema1/ejercicio",
+        },
+        {
+            title: "Alphabet",
+            icon: BookIcon,
+            href: "/a21/thema1/alphabet",
+        },
+        {
+            title: "Aussprache",
+            icon: BookIcon,
+            href: "/a21/thema1/aussprache",
+        },
+        {
+            title: "Leseverstehen",
+            icon: BookIcon,
+            href: "/a21/thema1/leseverstehen",
+        },
+        {
+            title: "Rollebspiel",
+            icon: BookIcon,
+            href: "/a21/thema1/rollenspiel",
+        },
+        {
+            title: "Wiederholung",
+            icon: BookIcon,
+            href: "/a21/thema1/wiederholung",
+        },
+        {
+            title: "Ziel",
+            icon: BookIcon,
+            href: "/a21/thema1/ziel",
+        },
+        ]
+    },
+    {
+        thema: "A1.1 Thema 2",
+        open: false,
+        lessons: [
+        {
+            title: "Lernziel",
+            icon: BookIcon,
+            href: "/a21/thema2/lernziel",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema2/possesiveartikel",
+        },
+        {
+            title: "Kein / Nicht & Berufe",
+            icon: BookIcon,
+            href: "/a21/thema2/keine",
+        },
+        {
+            title: "Grammatikübung",
+            icon: BookIcon,
+            href: "/a21/thema2/ubung",
+        },
+        {
+            title: "Familienstand",
+            icon: BookIcon,
+            href: "/a21/thema2/familienstand",
+        },
+        {
+            title: "Nummer 0-20",
+            icon: BookIcon,
+            href: "/a21/thema2/nummer",
+        },
+        {
+            title: "Hörverstehen",
+            icon: BookIcon,
+            href: "/a21/thema2/horverstehen",
+        },
+        {
+            title: "Rollebspiel",
+            icon: BookIcon,
+            href: "/a21/thema2/rollenspiel",
+        },
+        {
+            title: "Formular ausfüllen",
+            icon: BookIcon,
+            href: "/a21/thema2/formular",
+        },
+        {
+            title: "Ziel",
+            icon: BookIcon,
+            href: "/a21/thema2/ziel",
+        },
+        ]
+    },
+    {
+        thema: "A1.1 Thema 3",
+        open: false,
+        lessons: [
+        {
+            title: "Lernziel",
+            icon: BookIcon,
+            href: "/a21/thema3/lernziel",
+        },
+        {
+            title: "Wortschatz",
+            icon: BookIcon,
+            href: "/a21/thema3/wortschatz",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema3/grammatik",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema3/ejercicio",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema3/alphabet",
+        },
+        {
+            title: "Grammatikübung",
+            icon: BookIcon,
+            href: "/a21/thema3/grammatikubung",
+        },
+        {
+            title: "Leseverstehen",
+            icon: BookIcon,
+            href: "/a21/thema3/leseverstehen",
+        },
+        {
+            title: "Rollebspiel",
+            icon: BookIcon,
+            href: "/a21/thema3/rollenspiel",
+        },
+        {
+            title: "Schreiben",
+            icon: BookIcon,
+            href: "/a21/thema3/schreiben",
+        },
+        {
+            title: "Ziel",
+            icon: BookIcon,
+            href: "/a21/thema3/ziel",
+        },
+        ]
+    },
+    {
+        thema: "A1.1 Thema 4",
+        open: false,
+        lessons: [
+        {
+            title: "Lernziel",
+            icon: BookIcon,
+            href: "/a21/thema4/lernziel",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema4/possesiveartikel",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema4/keine",
+        },
+        {
+            title: "Grammatikübung",
+            icon: BookIcon,
+            href: "/a21/thema4/ejercicio",
+        },
+        {
+            title: "Alphabet",
+            icon: BookIcon,
+            href: "/a21/thema4/alphabet",
+        },
+        {
+            title: "Aussprache",
+            icon: BookIcon,
+            href: "/a21/thema4/aussprache",
+        },
+        {
+            title: "Leseverstehen",
+            icon: BookIcon,
+            href: "/a21/thema4/leseverstehen",
+        },
+        {
+            title: "Rollebspiel",
+            icon: BookIcon,
+            href: "/a21/thema4/rollenspiel",
+        },
+        {
+            title: "Wiederholung",
+            icon: BookIcon,
+            href: "/a21/thema4/wiederholung",
+        },
+        {
+            title: "Ziel",
+            icon: BookIcon,
+            href: "/a21/thema4/ziel",
+        },
+        ]
+    },
+    {
+        thema: "A1.1 Thema 5",
+        open: false,
+        lessons: [
+        {
+            title: "Lernziel",
+            icon: BookIcon,
+            href: "/a21/thema5/lernziel",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema5/possesiveartikel",
+        },
+        {
+            title: "Grammatik",
+            icon: BookIcon,
+            href: "/a21/thema5/keine",
+        },
+        {
+            title: "Grammatikübung",
+            icon: BookIcon,
+            href: "/a21/thema5/ejercicio",
+        },
+        {
+            title: "Alphabet",
+            icon: BookIcon,
+            href: "/a21/thema5/alphabet",
+        },
+        {
+            title: "Aussprache",
+            icon: BookIcon,
+            href: "/a21/thema5/aussprache",
+        },
+        {
+            title: "Leseverstehen",
+            icon: BookIcon,
+            href: "/a21/thema5/leseverstehen",
+        },
+        {
+            title: "Rollebspiel",
+            icon: BookIcon,
+            href: "/a21/thema5/rollenspiel",
+        },
+        {
+            title: "Wiederholung",
+            icon: BookIcon,
+            href: "/a21/thema5/wiederholung",
+        },
+        {
+            title: "Ziel",
+            icon: BookIcon,
+            href: "/a21/thema5/ziel",
+        },
+        ]
+    },
+];
+
+activities[open - 1].open = true;
+
+---
+
+<section
+    id="activities-section"
+    class="py-4 relative z-10 bg-background text-title md:block"
+>
+
+    {
+        activities.map((activity, index) => (
+    
+    <div class="flex items-center justify-between pr-4">
+        <div class="text-xl font-semibold py-2 pl-8">{activity.thema}</div>
+        <button
+            id={`activities-toggle-${index}`}
+            class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition"
+            aria-label="Mostrar/ocultar actividades"
+            aria-expanded={activity.open ? "true" : "false"}
+        >
+            <svg
+                id={`icon-chevron-${index}`}
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style={`transform: rotate(${activity.open ? 0 : 180}deg);`}
+            >
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <div id={`activities-list-${index}`} style={`display: ${activity.open ? "block" : "none"};`}>
+        {
+            activity.lessons.map((lesson) => (
+                <a
+                    class="py-3 pl-8 text-base bg-background-50 hover:bg-nav-hover transition flex gap-2"
+                    href={lesson.href}
+                >
+                    <lesson.icon class="hover:scale-105 transition" />
+                    {lesson.title}
+                </a>
+            ))
+        }
+    </div>
+    ))}
+
+</section>
+
+<script>
+    document.querySelectorAll<HTMLButtonElement>("[id^='activities-toggle-']").forEach((toggle) => {
+        const index = toggle.id.replace("activities-toggle-", "");
+        const list = document.getElementById(`activities-list-${index}`);
+        const chevron = document.getElementById(`icon-chevron-${index}`);
+
+        if (!list || !chevron) return;
+
+        toggle.addEventListener("click", () => {
+            const isOpen = toggle.getAttribute("aria-expanded") === "true";
+            toggle.setAttribute("aria-expanded", String(!isOpen));
+            list.style.display = isOpen ? "none" : "block";
+            chevron.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+        });
+    });
+</script>
+
+<style>
+    #activities-list {
+        transition: all 0.2s ease;
+    }
+
+    #activities-section {
+        height: calc(100vh - 60px);
+        box-shadow: var(--box-shadow-nav);
+        overflow-y: scroll;
+
+        /* shadow-[6px_0_20px_rgba(0,0,0,0.18)] dark:shadow-[1px_0_20px_rgba(255,255,255,0.18)] */
+    }
+
+    #icon-chevron {
+        transition: transform 0.2s ease;
+    }
+</style>

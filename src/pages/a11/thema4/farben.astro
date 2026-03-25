@@ -1,0 +1,328 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const colors = [
+    { de: "rot",     es: "rojo",      hex: "#ef4444" },
+    { de: "blau",    es: "azul",      hex: "#3b82f6" },
+    { de: "gruen",   es: "verde",     hex: "#22c55e" },
+    { de: "gelb",    es: "amarillo",  hex: "#eab308" },
+    { de: "orange",  es: "naranja",   hex: "#f97316" },
+    { de: "lila",    es: "morado",    hex: "#a855f7" },
+    { de: "rosa",    es: "rosa",      hex: "#ec4899" },
+    { de: "braun",   es: "marron",    hex: "#92400e" },
+    { de: "grau",    es: "gris",      hex: "#6b7280" },
+    { de: "schwarz", es: "negro",     hex: "#111827" },
+    { de: "weiss",   es: "blanco",    hex: "#f9fafb" },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Farben</h1>
+                <p class="subtitle text-indications">
+                    Lerne die Farben auf Deutsch.
+                </p>
+
+                <div class="sections">
+                    <!-- Vocabulary -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <div class="color-grid">
+                            {
+                                colors.map((c) => (
+                                    <div class="color-card">
+                                        <div
+                                            class="swatch"
+                                            style={`background:${c.hex};${c.de === "weiss" ? "border:1.5px solid #d1d5db;" : ""}`}
+                                        />
+                                        <span class="de-name">{c.de}</span>
+                                        <span class="es-name">{c.es}</span>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Quiz -->
+                    <div class="section">
+                        <h3 class="quiz-title">Ubung: Klicke die richtige Farbe</h3>
+                        <p class="subtitle text-indications">
+                            Haz clic en el color que corresponde a la palabra alemana.
+                        </p>
+
+                        <div class="quiz-word-display">
+                            <span id="current-word" class="big-word"></span>
+                        </div>
+
+                        <div class="quiz-swatches" id="quiz-swatches">
+                            {
+                                colors.map((c) => (
+                                    <button
+                                        type="button"
+                                        class="quiz-swatch"
+                                        data-color={c.de}
+                                        style={`background:${c.hex};${c.de === "weiss" ? "border:1.5px solid #d1d5db;" : ""}`}
+                                        aria-label={c.de}
+                                    />
+                                ))
+                            }
+                        </div>
+
+                        <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+
+                        <div class="actions">
+                            <button id="next-btn" type="button" class="button-submit" style="display:none">
+                                Weiter &rarr;
+                            </button>
+                        </div>
+
+                        <p id="quiz-score" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Vocabulary grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .color-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .swatch {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            flex-shrink: 0;
+        }
+
+        .de-name {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--color-text);
+        }
+
+        .es-name {
+            font-size: 0.78rem;
+            color: #6b7280;
+        }
+
+        /* Quiz */
+        .quiz-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem;
+        }
+
+        .quiz-word-display {
+            text-align: center;
+            padding: 0.75rem;
+        }
+
+        .big-word {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: var(--color-text);
+        }
+
+        .quiz-swatches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            padding: 0.5rem 0;
+        }
+
+        .quiz-swatch {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            transition: transform 0.12s, border-color 0.15s;
+        }
+
+        .quiz-swatch:hover {
+            transform: scale(1.15);
+        }
+
+        .quiz-swatch.selected-correct {
+            border-color: #10b981;
+            transform: scale(1.2);
+            box-shadow: 0 0 0 4px #bbf7d0;
+        }
+
+        .quiz-swatch.selected-wrong {
+            border-color: #ef4444;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 4px #fecaca;
+        }
+
+        .quiz-swatch:disabled {
+            cursor: default;
+        }
+
+        .quiz-feedback {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            min-height: 1.6rem;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .button-submit {
+            padding: 0.65rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const colors = [
+            { de: "rot",     hex: "#ef4444" },
+            { de: "blau",    hex: "#3b82f6" },
+            { de: "gruen",   hex: "#22c55e" },
+            { de: "gelb",    hex: "#eab308" },
+            { de: "orange",  hex: "#f97316" },
+            { de: "lila",    hex: "#a855f7" },
+            { de: "rosa",    hex: "#ec4899" },
+            { de: "braun",   hex: "#92400e" },
+            { de: "grau",    hex: "#6b7280" },
+            { de: "schwarz", hex: "#111827" },
+            { de: "weiss",   hex: "#f9fafb"  },
+        ];
+
+        const shuffle = <T,>(arr: T[]): T[] =>
+            [...arr].sort(() => Math.random() - 0.5);
+
+        const wordEl     = document.querySelector("#current-word");
+        const swatchesEl = document.querySelector("#quiz-swatches");
+        const feedback   = document.querySelector("#quiz-feedback");
+        const nextBtn    = document.querySelector("#next-btn");
+        const scoreEl    = document.querySelector("#quiz-score");
+
+        if (
+            !(wordEl instanceof HTMLSpanElement) ||
+            !(swatchesEl instanceof HTMLDivElement) ||
+            !(feedback instanceof HTMLParagraphElement) ||
+            !(nextBtn instanceof HTMLButtonElement) ||
+            !(scoreEl instanceof HTMLParagraphElement)
+        ) {
+            throw new Error("Missing quiz elements");
+        }
+
+        let queue = shuffle(colors);
+        let current = 0;
+        let score = 0;
+
+        const showQuestion = () => {
+            if (current >= queue.length) {
+                wordEl.textContent = "";
+                feedback.textContent = "";
+                nextBtn.style.display = "none";
+                scoreEl.textContent =
+                    `Fertig! Du hast ${score} von ${queue.length} richtig (${Math.round((score / queue.length) * 100)}%).`;
+                swatchesEl.querySelectorAll(".quiz-swatch").forEach((s) => {
+                    if (s instanceof HTMLButtonElement) s.disabled = true;
+                });
+                return;
+            }
+
+            const item = queue[current];
+            wordEl.textContent = item.de;
+            feedback.textContent = "";
+            nextBtn.style.display = "none";
+            scoreEl.textContent = `${current} / ${queue.length}`;
+
+            swatchesEl.querySelectorAll(".quiz-swatch").forEach((s) => {
+                if (!(s instanceof HTMLButtonElement)) return;
+                s.classList.remove("selected-correct", "selected-wrong");
+                s.disabled = false;
+            });
+        };
+
+        swatchesEl.addEventListener("click", (e) => {
+            const btn = (e.target as HTMLElement).closest(".quiz-swatch");
+            if (!(btn instanceof HTMLButtonElement) || btn.disabled) return;
+
+            const item = queue[current];
+            const chosen = btn.dataset.color ?? "";
+
+            swatchesEl.querySelectorAll(".quiz-swatch").forEach((s) => {
+                if (s instanceof HTMLButtonElement) s.disabled = true;
+            });
+
+            if (chosen === item.de) {
+                score++;
+                btn.classList.add("selected-correct");
+                feedback.textContent = "Richtig! ✅";
+            } else {
+                btn.classList.add("selected-wrong");
+                feedback.textContent = `Falsch ❌ — die richtige Antwort ist: ${item.de}`;
+                swatchesEl.querySelectorAll(".quiz-swatch").forEach((s) => {
+                    if (s instanceof HTMLButtonElement && s.dataset.color === item.de) {
+                        s.classList.add("selected-correct");
+                    }
+                });
+            }
+
+            current++;
+            nextBtn.style.display = "inline-block";
+        });
+
+        nextBtn.addEventListener("click", showQuestion);
+
+        showQuestion();
+    </script>
+</Layout>

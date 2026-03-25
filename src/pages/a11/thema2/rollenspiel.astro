@@ -1,0 +1,143 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Rollenspiel</h1>
+                <p class="subtitle text-indications">
+                    Negación con <em>kein/keine</em> y <em>nicht</em>, formación
+                    del femenino en profesiones y frases para hablar del
+                    trabajo.
+                </p>
+
+                <div class="sections">
+                    <!-- Negation -->
+                    <div class="section">
+                        <TagGrammatik />
+                        <h4 class="section-title">
+                            Sich und jemand vorstellen
+                        </h4>
+                        <div class="table-wrapper">
+                            <table class="gram-table">
+                                <thead>
+                                    <tr>
+                                        <th>Negation</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Familienstand​</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            ><strong>Kinder ein /kein​</strong
+                                            ></td
+                                        >
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            ><strong>Ich bin … Jahre alt</strong
+                                            ></td
+                                        >
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Beruf</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag-in {
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .gram-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .gram-table th {
+            text-align: left;
+            padding: 0.4rem 0.75rem;
+            background: var(--color-table-header);
+            color: var(--color-table-header-text);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--color-table-header-border);
+        }
+
+        .gram-table td {
+            padding: 0.45rem 0.75rem;
+            border-bottom: 1px solid var(--color-table-row-border);
+            color: var(--color-text);
+        }
+
+        .gram-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .gram-table tr:hover td {
+            background: var(--color-table-row-hover);
+        }
+
+        .note {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+    </style>
+</Layout>

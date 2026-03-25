@@ -4,13 +4,14 @@ import Header from "@/components/Header.astro";
 import ActivitesList from "@/components/ActivitesList.astro";
 import Card from "@/components/Card.astro";
 import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
 ---
 
 <Layout>
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList />
+        <ActivitesList open={1} />
 
         <main class="page bg-background">
             <Card>
@@ -287,31 +288,6 @@ import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
     </script>
 
     <style>
-        .page {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 2rem 1rem;
-            font-family:
-                system-ui,
-                -apple-system,
-                Segoe UI,
-                Roboto,
-                sans-serif;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.7rem;
-        }
-
-        .subtitle {
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-            color: #4b5563;
-        }
-
         .sections {
             display: flex;
             flex-direction: column;
