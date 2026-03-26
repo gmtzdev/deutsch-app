@@ -1,0 +1,331 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const days = [
+    { de: "Montag",     es: "lunes",      abbr: "Mo", num: 1 },
+    { de: "Dienstag",   es: "martes",     abbr: "Di", num: 2 },
+    { de: "Mittwoch",   es: "miercoles",  abbr: "Mi", num: 3 },
+    { de: "Donnerstag", es: "jueves",     abbr: "Do", num: 4 },
+    { de: "Freitag",    es: "viernes",    abbr: "Fr", num: 5 },
+    { de: "Samstag",    es: "sabado",     abbr: "Sa", num: 6 },
+    { de: "Sonntag",    es: "domingo",    abbr: "So", num: 7 },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Wochentage</h1>
+                <p class="subtitle text-indications">
+                    Die Tage der Woche auf Deutsch.
+                </p>
+
+                <div class="sections">
+
+                    <!-- Vocabulary strip -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <div class="week-strip">
+                            {days.map((d) => (
+                                <div class={`day-tile ${d.num === 6 || d.num === 7 ? "weekend" : ""}`}>
+                                    <span class="abbr">{d.abbr}</span>
+                                    <span class="full">{d.de}</span>
+                                    <span class="transl">{d.es}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <!-- Table with extra info -->
+                    <div class="section">
+                        <table class="vocab-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Deutsch</th>
+                                    <th>Espanol</th>
+                                    <th>Beispiel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {days.map((d) => (
+                                    <tr>
+                                        <td class="num-cell">{d.num}</td>
+                                        <td><strong>{d.de}</strong></td>
+                                        <td>{d.es}</td>
+                                        <td class="example">am {d.de}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <p class="hint text-indications">
+                            * En aleman los dias de la semana usan la preposicion <strong>am</strong>: <em>am Montag</em> (el lunes).
+                        </p>
+                    </div>
+
+                    <!-- Quiz -->
+                    <div class="section">
+                        <h3 class="quiz-title">Ubung: Ordne die Tage</h3>
+                        <p class="subtitle text-indications">
+                            Haz clic en los dias en el orden correcto (lunes a domingo).
+                        </p>
+                        <div class="quiz-grid" id="quiz-grid">
+                            {days.map((d) => (
+                                <button type="button" class="day-btn" data-day={d.num} data-name={d.de}>
+                                    {d.de}
+                                </button>
+                            ))}
+                        </div>
+                        <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+                        <div class="actions">
+                            <button id="reset-btn" type="button" class="button-reset">Reiniciar</button>
+                        </div>
+                        <p id="quiz-result" class="result" aria-live="polite"></p>
+                    </div>
+
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Week strip */
+        .week-strip {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.75rem 0.25rem;
+            border-radius: 12px;
+            background: var(--color-table-row-hover, #f3f4f6);
+            border: 1.5px solid #e5e7eb;
+        }
+
+        .day-tile.weekend {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .abbr {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .full {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--color-text, #111827);
+            text-align: center;
+        }
+
+        .transl {
+            font-size: 0.72rem;
+            color: #9ca3af;
+        }
+
+        /* Table */
+        .hint {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .num-cell {
+            color: #9ca3af;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .example {
+            font-style: italic;
+            color: #6b7280;
+            font-size: 0.88rem;
+        }
+
+        /* Quiz */
+        .quiz-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem;
+        }
+
+        .quiz-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .day-btn {
+            padding: 0.55rem 1rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 20px;
+            background: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.12s, border-color 0.12s;
+            color: #111827;
+        }
+
+        .day-btn:hover:not(:disabled) {
+            background: #f3f4f6;
+        }
+
+        .day-btn.correct {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #065f46;
+        }
+
+        .day-btn.wrong {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .day-btn:disabled {
+            cursor: default;
+        }
+
+        .quiz-feedback {
+            font-size: 1rem;
+            font-weight: 600;
+            min-height: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .button-reset {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .result {
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 640px) {
+            .week-strip {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const totalDays = 7;
+
+        const grid     = document.querySelector("#quiz-grid");
+        const feedback = document.querySelector("#quiz-feedback");
+        const result   = document.querySelector("#quiz-result");
+        const resetBtn = document.querySelector("#reset-btn");
+
+        if (
+            !(grid instanceof HTMLDivElement) ||
+            !(feedback instanceof HTMLParagraphElement) ||
+            !(result instanceof HTMLParagraphElement) ||
+            !(resetBtn instanceof HTMLButtonElement)
+        ) throw new Error("Missing elements");
+
+        let nextExpected = 1;
+        let errors = 0;
+
+        const getButtons = () =>
+            [...grid.querySelectorAll(".day-btn")].filter(
+                (b) => b instanceof HTMLButtonElement
+            ) as HTMLButtonElement[];
+
+        const shuffle = () => {
+            const btns = getButtons();
+            for (let i = btns.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                grid.append(btns[j]);
+                grid.append(btns[i]);
+            }
+        };
+
+        const reset = () => {
+            nextExpected = 1;
+            errors = 0;
+            feedback.textContent = "";
+            result.textContent = "";
+            getButtons().forEach((b) => {
+                b.classList.remove("correct", "wrong");
+                b.disabled = false;
+            });
+            shuffle();
+        };
+
+        grid.addEventListener("click", (e) => {
+            const btn = (e.target as HTMLElement).closest(".day-btn");
+            if (!(btn instanceof HTMLButtonElement) || btn.disabled) return;
+
+            const num = Number(btn.dataset.day);
+
+            if (num === nextExpected) {
+                btn.classList.add("correct");
+                btn.disabled = true;
+                feedback.textContent = `Richtig! ✅ ${btn.dataset.name}`;
+                nextExpected++;
+
+                if (nextExpected > totalDays) {
+                    feedback.textContent = "";
+                    result.textContent = errors === 0
+                        ? `Perfekt! Alle Tage richtig ohne Fehler! 🎉`
+                        : `Fertig! ${totalDays - errors} von ${totalDays} richtig.`;
+                }
+            } else {
+                errors++;
+                btn.classList.add("wrong");
+                setTimeout(() => btn.classList.remove("wrong"), 700);
+                feedback.textContent = `Falsch ❌ — jetzt kommt: Tag ${nextExpected}`;
+            }
+        });
+
+        resetBtn.addEventListener("click", reset);
+
+        shuffle();
+    </script>
+</Layout>
