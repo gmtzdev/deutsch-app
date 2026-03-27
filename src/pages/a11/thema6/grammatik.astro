@@ -1,0 +1,202 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={6} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Verb Konjugation</h1>
+                <p class="subtitle">
+                    Selecciona un verbo para ver su conjugación con todos los
+                    pronombres personales.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <table class="vocab-table" id="conj-table">
+                            <thead>
+                                <tr>
+                                    <th>Pronomen</th>
+                                    <th>Verb</th>
+                                    <th>Endung</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conj-body">
+                                <!-- filled by script -->
+                            </tbody>
+                        </table>
+
+                        <div class="verb-buttons">
+                            <button class="verb-btn active" data-verb="können"
+                                >können</button
+                            >
+                            <button class="verb-btn" data-verb="fahren"
+                                >fahren</button
+                            >
+                            <button class="verb-btn" data-verb="treffen"
+                                >treffen</button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        type ConjugationRow = { pronoun: string; form: string; ending: string };
+        type VerbData = { rows: ConjugationRow[] };
+
+        const verbs: Record<string, VerbData> = {
+            können: {
+                rows: [
+                    { pronoun: "ich", form: "kann", ending: "—" },
+                    { pronoun: "du", form: "kannst", ending: "—" },
+                    { pronoun: "er", form: "kann", ending: "—" },
+                    { pronoun: "sie", form: "kann", ending: "—" },
+                    { pronoun: "es", form: "kann", ending: "—" },
+                    { pronoun: "wir", form: "können", ending: "—" },
+                    { pronoun: "ihr", form: "könnt", ending: "—" },
+                    { pronoun: "Sie/sie", form: "können", ending: "—" },
+                ],
+            },
+            fahren: {
+                rows: [
+                    { pronoun: "ich", form: "fahre", ending: "-e" },
+                    { pronoun: "du", form: "fährst", ending: "-st" },
+                    { pronoun: "er", form: "fährt", ending: "-t" },
+                    { pronoun: "sie", form: "fährt", ending: "-t" },
+                    { pronoun: "es", form: "fährt", ending: "-t" },
+                    { pronoun: "wir", form: "fahren", ending: "-en" },
+                    { pronoun: "ihr", form: "fahrt", ending: "-t" },
+                    { pronoun: "Sie/sie", form: "fahren", ending: "-en" },
+                ],
+            },
+            treffen: {
+                rows: [
+                    { pronoun: "ich", form: "treffe", ending: "-e" },
+                    { pronoun: "du", form: "triffst", ending: "-st" },
+                    { pronoun: "er", form: "trifft", ending: "-t" },
+                    { pronoun: "sie", form: "trifft", ending: "-t" },
+                    { pronoun: "es", form: "trifft", ending: "-t" },
+                    { pronoun: "wir", form: "treffen", ending: "-en" },
+                    { pronoun: "ihr", form: "trefft", ending: "-t" },
+                    { pronoun: "Sie/sie", form: "treffen", ending: "-en" },
+                ],
+            },
+        };
+
+        function renderVerb(verb: string) {
+            const body = document.getElementById("conj-body");
+            if (!body) return;
+            const data = verbs[verb];
+            if (!data) return;
+
+            body.innerHTML = data.rows
+                .map(
+                    (r) => `
+                <tr>
+                    <td class="label">${r.pronoun}</td>
+                    <td><strong>${r.form}</strong></td>
+                    <td class="ending">${r.ending}</td>
+                </tr>`,
+                )
+                .join("");
+        }
+
+        renderVerb("können");
+
+        document
+            .querySelectorAll<HTMLButtonElement>(".verb-btn")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    document
+                        .querySelectorAll(".verb-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    renderVerb(btn.dataset.verb ?? "können");
+                });
+            });
+    </script>
+
+    <style>
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .verb-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+        }
+
+        .verb-btn {
+            padding: 0.45rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 999px;
+            cursor: pointer;
+            background: #fff;
+            color: #374151;
+            transition: all 0.15s;
+        }
+
+        .verb-btn:hover {
+            border-color: #6366f1;
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .verb-btn.active {
+            background: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+    </style>
+</Layout>
