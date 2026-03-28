@@ -4,7 +4,6 @@ import Header from "@/components/Header.astro";
 import ActivitesList from "@/components/ActivitesList.astro";
 import Card from "@/components/Card.astro";
 import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
-import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
 import "@/styles/page.css";
 import "@/styles/tables.css";
 ---
@@ -13,14 +12,22 @@ import "@/styles/tables.css";
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={3} />
+        <ActivitesList open={10} />
 
         <main class="page bg-background">
             <Card>
                 <h1>Rollenspiel</h1>
-                <p class="subtitle text-indications">Sich vorstellen</p>
+                <p class="subtitle text-indications">Wohin willst du gehen?</p>
 
                 <div class="sections">
+                    <div class="section">
+                        <img
+                            style="width: 350px; margin: 0 auto;"
+                            src="/a11/thema10/jahreszeiten.png"
+                            alt=""
+                        />
+                    </div>
+
                     <!-- Grammatik -->
                     <div class="section">
                         <TagGrammatik />
@@ -28,29 +35,21 @@ import "@/styles/tables.css";
                         <ul class="obj-list text-text">
                             <li>
                                 <span class="dot dot-blue"></span>
-                                Name
+                                Von - bis
+                                <em>(Ort/Datum)</em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Womit reist du?
                                 <em></em>
                             </li>
                             <li>
                                 <span class="dot dot-blue"></span>
-                                Wohnort
-                                <em></em>
+                                Wie lange fährt man dorthin?
                             </li>
                             <li>
                                 <span class="dot dot-blue"></span>
-                                Herkunft
-                            </li>
-                            <li>
-                                <span class="dot dot-blue"></span>
-                                Beruf
-                            </li>
-                            <li>
-                                <span class="dot dot-blue"></span>
-                                Alter
-                            </li>
-                            <li>
-                                <span class="dot dot-blue"></span>
-                                Sprachen
+                                Was willst du unternehmen?
                             </li>
                         </ul>
                     </div>

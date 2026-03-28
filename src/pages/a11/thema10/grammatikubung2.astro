@@ -1,0 +1,327 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+// Each segment: type "text" or "blank" (with answer)
+const parts = [
+    { type: "text",  value: "Der Supermarkt ist " },
+    { type: "blank", answer: "von",  id: 1 },
+    { type: "text",  value: " Montag " },
+    { type: "blank", answer: "bis",  id: 2 },
+    { type: "text",  value: " Freitag " },
+    { type: "blank", answer: "von",  id: 3 },
+    { type: "text",  value: " 8 Uhr bis 21 Uhr geöffnet, " },
+    { type: "blank", answer: "am",   id: 4 },
+    { type: "text",  value: " Samstag und Sonntag " },
+    { type: "blank", answer: "bis",  id: 5 },
+    { type: "text",  value: " 19 Uhr." },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={10} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatikübung 2</h1>
+                <p class="subtitle text-indications">
+                    Temporale Präpositionen: <strong>von … bis, am, ab, seit, um</strong>
+                </p>
+
+                <div class="sections">
+
+                    <!-- Grammar reference -->
+                    <div class="section">
+                        <TagGrammatik />
+                        <table class="vocab-table">
+                            <thead>
+                                <tr>
+                                    <th>Präposition</th>
+                                    <th>Verwendung</th>
+                                    <th>Beispiel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong class="prep">von … bis</strong></td>
+                                    <td>rango de tiempo / días</td>
+                                    <td><em>von Montag bis Freitag</em></td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="prep">am</strong></td>
+                                    <td>día concreto de la semana</td>
+                                    <td><em>am Samstag, am Montag</em></td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="prep">um</strong></td>
+                                    <td>hora exacta</td>
+                                    <td><em>um 8 Uhr, um 21 Uhr</em></td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="prep">ab</strong></td>
+                                    <td>a partir de</td>
+                                    <td><em>ab Montag, ab 9 Uhr</em></td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="prep">seit</strong></td>
+                                    <td>desde (acción que continúa)</td>
+                                    <td><em>seit 2 Jahren</em></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Fill-in-the-blank -->
+                    <div class="section">
+                        <h3 class="ex-title">Füllen Sie die Lücken aus</h3>
+                        <p class="subtitle text-indications">
+                            Escribe la preposición correcta en cada hueco.
+                        </p>
+
+                        <div class="text-block" id="fill-block">
+                            {parts.map((p) =>
+                                p.type === "text" ? (
+                                    <span>{p.value}</span>
+                                ) : (
+                                    <span class="blank-wrap">
+                                        <input
+                                            type="text"
+                                            class="blank-input"
+                                            data-answer={p.answer}
+                                            data-id={p.id}
+                                            autocomplete="off"
+                                            autocorrect="off"
+                                            spellcheck="false"
+                                            aria-label={`Lücke ${p.id}`}
+                                        />
+                                        <span class="blank-feedback" aria-live="polite" />
+                                    </span>
+                                )
+                            )}
+                        </div>
+
+                        <div class="hint-row text-indications">
+                            Ayuda — preposiciones disponibles:
+                            {["von", "bis", "am", "um", "ab", "seit"].map((w) => (
+                                <span class="prep-chip">{w}</span>
+                            ))}
+                        </div>
+
+                        <div class="actions">
+                            <button id="check-btn" type="button" class="button-submit">
+                                Prüfen
+                            </button>
+                            <button id="reset-btn" type="button" class="button-reset">
+                                Zurücksetzen
+                            </button>
+                        </div>
+                        <p id="result" class="result" aria-live="polite"></p>
+                    </div>
+
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+
+        /* Table */
+        .prep { color: #1d4ed8; }
+
+        /* Fill block */
+        .ex-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem;
+        }
+
+        .text-block {
+            font-size: 1.1rem;
+            line-height: 2.4;
+            padding: 1rem 1.1rem;
+            background: var(--color-table-row-hover, #f9fafb);
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.15rem;
+            vertical-align: middle;
+        }
+
+        .blank-input {
+            width: 64px;
+            padding: 0.2rem 0.4rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            transition: border-color 0.15s, background 0.15s;
+            outline: none;
+        }
+
+        .blank-input:focus { border-color: #3b82f6; }
+
+        .blank-input.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+            color: #065f46;
+            font-weight: 700;
+        }
+
+        .blank-input.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .blank-feedback {
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 1em;
+        }
+
+        /* Hint row */
+        .hint-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+        }
+
+        .prep-chip {
+            display: inline-block;
+            padding: 0.15rem 0.55rem;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.82rem;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .button-submit {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .button-reset {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .result {
+            margin-top: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const inputs  = [...document.querySelectorAll(".blank-input")] as HTMLInputElement[];
+        const checkBtn = document.querySelector("#check-btn");
+        const resetBtn = document.querySelector("#reset-btn");
+        const result   = document.querySelector("#result");
+
+        if (
+            !(checkBtn instanceof HTMLButtonElement) ||
+            !(resetBtn instanceof HTMLButtonElement)  ||
+            !(result   instanceof HTMLParagraphElement)
+        ) throw new Error("Missing elements");
+
+        // Auto-resize input as user types
+        inputs.forEach((inp) => {
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(64, inp.value.length * 14 + 20) + "px";
+                // Clear status while editing
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling;
+                if (fb instanceof HTMLSpanElement) fb.textContent = "";
+                result.textContent = "";
+            });
+
+            // Submit on Enter
+            inp.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") checkBtn.click();
+            });
+        });
+
+        checkBtn.addEventListener("click", () => {
+            let score = 0;
+            inputs.forEach((inp) => {
+                const given   = inp.value.trim().toLowerCase();
+                const correct = (inp.dataset.answer ?? "").toLowerCase();
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+
+                inp.classList.remove("correct", "wrong");
+                if (!given) { if (fb) fb.textContent = ""; return; }
+
+                if (given === correct) {
+                    score++;
+                    inp.classList.add("correct");
+                    if (fb) fb.textContent = "✅";
+                } else {
+                    inp.classList.add("wrong");
+                    if (fb) fb.textContent = "❌";
+                }
+            });
+
+            const answered = inputs.filter((i) => i.value.trim() !== "").length;
+            if (answered > 0) {
+                result.textContent =
+                    `${score} von ${inputs.length} richtig` +
+                    (score === inputs.length ? " — Perfekt! 🎉" : ` (richtig: ${inputs.map((i) => i.dataset.answer).join(", ")})`);
+            }
+        });
+
+        resetBtn.addEventListener("click", () => {
+            inputs.forEach((inp) => {
+                inp.value = "";
+                inp.style.width = "64px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            result.textContent = "";
+        });
+    </script>
+</Layout>
