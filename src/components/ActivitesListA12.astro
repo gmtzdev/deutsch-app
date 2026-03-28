@@ -5,6 +5,7 @@ interface Props {
 }
 const { open } = Astro.props;
 import BookIcon from "@/icons/BookIcon.astro";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
 
 const activities = [
     {
@@ -68,6 +69,7 @@ const activities = [
             },
         ]
     },
+
     {
         thema: "A1.2 Thema 2",
         open: false,
@@ -121,7 +123,7 @@ const activities = [
                 title: "Ziel",
                 icon: BookIcon,
                 href: "/a12/thema2/ziel",
-            },
+            }
         ]
     },
     {
@@ -235,56 +237,61 @@ const activities = [
         thema: "A1.2 Thema 5",
         open: false,
         lessons: [
-        {
-            title: "Lernziel",
-            icon: BookIcon,
-            href: "/a12/thema5/lernziel",
-        },
-        {
-            title: "Grammatik",
-            icon: BookIcon,
-            href: "/a12/thema5/possesiveartikel",
-        },
-        {
-            title: "Grammatik",
-            icon: BookIcon,
-            href: "/a12/thema5/keine",
-        },
-        {
-            title: "Grammatikübung",
-            icon: BookIcon,
-            href: "/a12/thema5/ejercicio",
-        },
-        {
-            title: "Alphabet",
-            icon: BookIcon,
-            href: "/a12/thema5/alphabet",
-        },
-        {
-            title: "Aussprache",
-            icon: BookIcon,
-            href: "/a12/thema5/aussprache",
-        },
-        {
-            title: "Leseverstehen",
-            icon: BookIcon,
-            href: "/a12/thema5/leseverstehen",
-        },
-        {
-            title: "Rollenspiel",
-            icon: BookIcon,
-            href: "/a12/thema5/rollenspiel",
-        },
-        {
-            title: "Wiederholung",
-            icon: BookIcon,
-            href: "/a12/thema5/wiederholung",
-        },
-        {
-            title: "Ziel",
-            icon: BookIcon,
-            href: "/a12/thema5/ziel",
-        },
+            {
+                title: "Lernziel",
+                icon: BookIcon,
+                href: "/a12/thema5/lernziel",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema5/grammatik",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema5/grammatik2",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema5/grammatik3",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema5/grammatikubung",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema5/grammatikubung2",
+            },
+            {
+                title: "Wortschatz",
+                icon: BookIcon,
+                href: "/a12/thema5/wortschatz",
+            },
+            {
+                title: "Hörverstehen",
+                icon: BookIcon,
+                href: "/a12/thema5/horverstehen",
+            },
+            {
+                title: "Wiederholung",
+                icon: BookIcon,
+                href: "/a12/thema5/wiederholung",
+            },
+            {
+                title: "Rollenspiel",
+                icon: BookIcon,
+                href: "/a12/thema5/rollenspiel",
+            },
+            {
+                title: "Ziel",
+                icon: BookIcon,
+                href: "/a12/thema5/ziel",
+            },
         ]
     },
     {
@@ -295,6 +302,46 @@ const activities = [
                 title: "Lernziel",
                 icon: BookIcon,
                 href: "/a12/thema6/lernziel",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema6/grammatik",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema6/grammatik2",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema6/grammatikubung",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema6/grammatikubung2",
+            },
+            {
+                title: "Wortschatz",
+                icon: BookIcon,
+                href: "/a12/thema6/wortschatz",
+            },
+            {
+                title: "Rollenspiel",
+                icon: BookIcon,
+                href: "/a12/thema6/rollenspiel",
+            },
+            {
+                title: "Leseverstehen",
+                icon: BookIcon,
+                href: "/a12/thema6/leseverstehen",
+            },
+            {
+                title: "Info",
+                icon: BookIcon,
+                href: "/a12/thema6/info",
             },
             {
                 title: "Ziel",
@@ -313,6 +360,46 @@ const activities = [
                 href: "/a12/thema7/lernziel",
             },
             {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema7/grammatik",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema7/grammatik2",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema7/grammatikubung",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema7/grammatikubung2",
+            },
+            {
+                title: "Wortschatz",
+                icon: BookIcon,
+                href: "/a12/thema7/wortschatz",
+            },
+            {
+                title: "Hörverstehen",
+                icon: BookIcon,
+                href: "/a12/thema7/horverstehen",
+            },
+            {
+                title: "Rollenspiel",
+                icon: BookIcon,
+                href: "/a12/thema7/rollenspiel",
+            },
+            {
+                title: "Wortschatz",
+                icon: BookIcon,
+                href: "/a12/thema7/wortschatz2",
+            },
+            {
                 title: "Ziel",
                 icon: BookIcon,
                 href: "/a12/thema7/ziel",
@@ -327,6 +414,46 @@ const activities = [
                 title: "Lernziel",
                 icon: BookIcon,
                 href: "/a12/thema8/lernziel",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema8/grammatik",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema8/grammatik2",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema8/grammatik3",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema8/grammatikubung",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema8/grammatikubung2",
+            },
+            {
+                title: "Widerholung",
+                icon: BookIcon,
+                href: "/a12/thema8/wiederholung",
+            },
+            {
+                title: "Leseverstehen",
+                icon: BookIcon,
+                href: "/a12/thema8/leseverstehen",
+            },
+            {
+                title: "Rollenspiel",
+                icon: BookIcon,
+                href: "/a12/thema8/rollenspiel",
             },
             {
                 title: "Ziel",
@@ -345,6 +472,46 @@ const activities = [
                 href: "/a12/thema9/lernziel",
             },
             {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema9/grammatik",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema9/grammatik2",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema9/grammatikubung",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema9/grammatikubung2",
+            },
+            {
+                title: "Wortschatz",
+                icon: BookIcon,
+                href: "/a12/thema9/wortschatz",
+            },
+            {
+                title: "Hörverstehen",
+                icon: BookIcon,
+                href: "/a12/thema9/horverstehen",
+            },
+            {
+                title: "Rollenspiel",
+                icon: BookIcon,
+                href: "/a12/thema9/rollenspiel",
+            },
+            {
+                title: "Wiederholung",
+                icon: BookIcon,
+                href: "/a12/thema9/wiederholung",
+            },
+            {
                 title: "Ziel",
                 icon: BookIcon,
                 href: "/a12/thema9/ziel",
@@ -359,6 +526,41 @@ const activities = [
                 title: "Lernziel",
                 icon: BookIcon,
                 href: "/a12/thema10/lernziel",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema10/grammatik",
+            },
+            {
+                title: "Grammatik",
+                icon: BookIcon,
+                href: "/a12/thema10/grammatik2",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema10/grammatikubung",
+            },
+            {
+                title: "Grammatikübung",
+                icon: BookIcon,
+                href: "/a12/thema10/grammatikubung2",
+            },
+            {
+                title: "Wortschatz",
+                icon: BookIcon,
+                href: "/a12/thema10/wortschatz",
+            },
+            {
+                title: "Lesenverstehen",
+                icon: BookIcon,
+                href: "/a12/thema10/lesenverstehen",
+            },
+            {
+                title: "Rollenspiel",
+                icon: BookIcon,
+                href: "/a12/thema10/rollenspiel",
             },
             {
                 title: "Ziel",
