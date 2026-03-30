@@ -1,0 +1,383 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "a",
+        label: "a)",
+        hint: "Federico _____ Deutsch sehr gut _____.",
+        words: ["Federico", "muss", "Deutsch", "sehr", "gut", "sprechen", "."],
+        answer: ["Federico", "muss", "Deutsch", "sehr", "gut", "sprechen", "."],
+    },
+    {
+        id: "b",
+        label: "b)",
+        hint: "_____ du am Abend Fu\u00dfball _____?",
+        words: ["Darfst", "du", "am", "Abend", "Fu\u00dfball", "spielen", "?"],
+        answer: ["Darfst", "du", "am", "Abend", "Fu\u00dfball", "spielen", "?"],
+    },
+    {
+        id: "c",
+        label: "c)",
+        hint: "_____ Sie schon nach Hause _____?",
+        words: ["M\u00fcssen", "Sie", "schon", "nach", "Hause", "gehen", "?"],
+        answer: ["M\u00fcssen", "Sie", "schon", "nach", "Hause", "gehen", "?"],
+    },
+    {
+        id: "d",
+        label: "d)",
+        hint: "_____ ich hier _____?",
+        words: ["Soll", "ich", "hier", "warten", "?"],
+        answer: ["Soll", "ich", "hier", "warten", "?"],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Ordnen Sie die W&ouml;rter und bilden Sie S&auml;tze mit Modalverben.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="ex-list">
+                            {exercises.map((ex) => (
+                                <div class="ex-block" id={`ex-${ex.id}`}>
+                                    <div class="ex-header">
+                                        <span class="ex-label">{ex.label}</span>
+                                        <span class="ex-hint text-indications">{ex.hint}</span>
+                                    </div>
+
+                                    <!-- Drop zone -->
+                                    <div
+                                        class="drop-zone"
+                                        data-exid={ex.id}
+                                        data-answer={ex.answer.join("|")}
+                                        aria-label="Satz aufbauen"
+                                    ></div>
+
+                                    <!-- Word bank -->
+                                    <div class="word-bank" data-exid={ex.id}>
+                                        {ex.words.map((w) => (
+                                            <button
+                                                type="button"
+                                                class="word-chip"
+                                                data-word={w}
+                                                data-exid={ex.id}
+                                            >
+                                                {w}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <div class="ex-actions">
+                                        <button type="button" class="btn-check" data-exid={ex.id}>
+                                            Pr&uuml;fen
+                                        </button>
+                                        <button type="button" class="btn-reset" data-exid={ex.id}>
+                                            &#x21BA;
+                                        </button>
+                                        <span class="ex-feedback" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle pr&uuml;fen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zur&uuml;cksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        .ex-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .ex-block {
+            padding: 0.85rem 1rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .ex-block.correct { border-color: #10b981; background: #f0fdf4; }
+        .ex-block.wrong   { border-color: #ef4444; background: #fef2f2; }
+
+        .ex-header { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+        .ex-label  { font-weight: 800; font-size: 0.9rem; color: #374151; }
+        .ex-hint   { font-size: 0.82rem; font-style: italic; }
+
+        /* Drop zone */
+        .drop-zone {
+            min-height: 44px;
+            padding: 0.4rem 0.6rem;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+            background: #f9fafb;
+            transition: border-color 0.15s;
+        }
+        .drop-zone:empty::before {
+            content: "Klicke auf die W\00f6rter\2026";
+            color: #9ca3af;
+            font-size: 0.82rem;
+            font-style: italic;
+        }
+
+        /* Placed word chip inside drop zone */
+        .placed-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.55rem;
+            background: #e0e7ff;
+            color: #3730a3;
+            border: 1.5px solid #a5b4fc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .placed-chip:hover { background: #c7d2fe; }
+        .placed-chip.correct-chip { background: #dcfce7; color: #166534; border-color: #86efac; }
+        .placed-chip.wrong-chip   { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+
+        /* Word bank */
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            min-height: 38px;
+        }
+
+        .word-chip {
+            padding: 0.25rem 0.65rem;
+            background: #f3f4f6;
+            color: #111827;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.1s, opacity 0.1s;
+        }
+        .word-chip:hover   { background: #e5e7eb; }
+        .word-chip.used    { opacity: 0.25; pointer-events: none; }
+
+        /* Actions */
+        .ex-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .btn-check {
+            padding: 0.3rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+        .btn-reset {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.9rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+        .ex-feedback { font-size: 0.85rem; font-weight: 600; min-height: 1.1em; }
+
+        .global-actions { display: flex; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
+        .button-submit {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 700;
+            border: none; border-radius: 8px; cursor: pointer;
+            background: #111827; color: #fff;
+        }
+        .button-reset {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 600;
+            border: 1.5px solid #d1d5db; border-radius: 8px; cursor: pointer;
+            background: transparent; color: #374151;
+        }
+        .result { margin-top: 0.25rem; font-size: 1.05rem; font-weight: 700; min-height: 1.4em; }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        // ── helpers ──────────────────────────────────────────────
+        const getZone = (id: string) =>
+            document.querySelector(`.drop-zone[data-exid="${id}"]`) as HTMLDivElement | null;
+        const getBank = (id: string) =>
+            document.querySelector(`.word-bank[data-exid="${id}"]`) as HTMLDivElement | null;
+        const getBlock = (id: string) =>
+            document.querySelector(`#ex-${id}`) as HTMLDivElement | null;
+
+        // ── word click: bank → zone ───────────────────────────────
+        document.querySelectorAll(".word-chip").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const chip = btn as HTMLButtonElement;
+                if (chip.classList.contains("used")) return;
+                chip.classList.add("used");
+
+                const id   = chip.dataset.exid ?? "";
+                const word = chip.dataset.word ?? "";
+                const zone = getZone(id);
+                if (!zone) return;
+
+                const placed = document.createElement("button");
+                placed.type      = "button";
+                placed.className = "placed-chip";
+                placed.textContent = word;
+                placed.dataset.word   = word;
+                placed.dataset.exid   = id;
+                placed.dataset.source = chip.id || "";
+
+                // click placed chip → return to bank
+                placed.addEventListener("click", () => {
+                    placed.remove();
+                    chip.classList.remove("used");
+
+                    const block = getBlock(id);
+                    if (block instanceof HTMLDivElement)
+                        block.classList.remove("correct", "wrong");
+                    const fb = block?.querySelector(".ex-feedback");
+                    if (fb instanceof HTMLSpanElement) fb.textContent = "";
+                    const gr = document.querySelector("#global-result");
+                    if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+
+                    [...zone.querySelectorAll(".placed-chip")].forEach((c) => {
+                        (c as HTMLButtonElement).classList.remove("correct-chip", "wrong-chip");
+                    });
+                });
+
+                zone.appendChild(placed);
+
+                const block = getBlock(id);
+                if (block instanceof HTMLDivElement)
+                    block.classList.remove("correct", "wrong");
+                const fb = block?.querySelector(".ex-feedback");
+                if (fb instanceof HTMLSpanElement) fb.textContent = "";
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+        });
+
+        // ── check one block ───────────────────────────────────────
+        const checkBlock = (id: string): boolean => {
+            const zone  = getZone(id);
+            const block = getBlock(id);
+            if (!zone || !block) return false;
+
+            const placed  = [...zone.querySelectorAll(".placed-chip")] as HTMLButtonElement[];
+            const answer  = (zone.dataset.answer ?? "").split("|");
+            const exFb    = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+
+            block.classList.remove("correct", "wrong");
+            placed.forEach((c) => c.classList.remove("correct-chip", "wrong-chip"));
+
+            if (placed.length === 0) { if (exFb) exFb.textContent = ""; return false; }
+
+            const given = placed.map((c) => c.dataset.word ?? "");
+            let allOk = given.length === answer.length;
+            given.forEach((w, i) => {
+                const ok = w === answer[i];
+                if (!ok) allOk = false;
+                placed[i]?.classList.add(ok ? "correct-chip" : "wrong-chip");
+            });
+
+            if (allOk) {
+                block.classList.add("correct");
+                if (exFb) exFb.textContent = "\u2705 Richtig!";
+            } else {
+                block.classList.add("wrong");
+                if (exFb) exFb.textContent = `\u274c L\u00f6sung: ${answer.join(" ")}`;
+            }
+            return allOk;
+        };
+
+        // ── reset one block ───────────────────────────────────────
+        const resetBlock = (id: string) => {
+            const zone  = getZone(id);
+            const bank  = getBank(id);
+            const block = getBlock(id);
+            if (!zone || !bank || !block) return;
+
+            zone.querySelectorAll(".placed-chip").forEach((c) => c.remove());
+            bank.querySelectorAll(".word-chip").forEach((c) =>
+                (c as HTMLButtonElement).classList.remove("used")
+            );
+            block.classList.remove("correct", "wrong");
+            const fb = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            if (fb) fb.textContent = "";
+        };
+
+        // Per-block buttons
+        document.querySelectorAll(".btn-check").forEach((btn) =>
+            btn.addEventListener("click", () => checkBlock((btn as HTMLButtonElement).dataset.exid ?? ""))
+        );
+        document.querySelectorAll(".btn-reset").forEach((btn) =>
+            btn.addEventListener("click", () => {
+                resetBlock((btn as HTMLButtonElement).dataset.exid ?? "");
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            })
+        );
+
+        // ── global ────────────────────────────────────────────────
+        document.querySelector("#check-all")?.addEventListener("click", () => {
+            const ids = [...document.querySelectorAll(".ex-block")].map(
+                (b) => (b as HTMLDivElement).id.replace("ex-", "")
+            );
+            const correct = ids.filter((id) => checkBlock(id)).length;
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) {
+                gr.textContent =
+                    `${correct} von ${ids.length} S\u00e4tzen richtig` +
+                    (correct === ids.length ? " \u2014 Ausgezeichnet! \uD83C\uDF89" : "");
+            }
+        });
+
+        document.querySelector("#reset-all")?.addEventListener("click", () => {
+            [...document.querySelectorAll(".ex-block")].forEach((b) =>
+                resetBlock((b as HTMLDivElement).id.replace("ex-", ""))
+            );
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+        });
+    </script>
+</Layout>

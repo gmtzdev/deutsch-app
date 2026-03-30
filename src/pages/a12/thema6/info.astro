@@ -1,0 +1,192 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const dativ = [
+    { prep:"an",  art:"dem", result:"am",  example:"am Montag · am Abend"        },
+    { prep:"bei", art:"dem", result:"beim", example:"beim Essen · beim Arzt"      },
+    { prep:"in",  art:"dem", result:"im",   example:"im Park · im Winter"         },
+    { prep:"von", art:"dem", result:"vom",  example:"vom Bahnhof · vom Chef"      },
+    { prep:"zu",  art:"dem", result:"zum",  example:"zum Supermarkt · zum Arzt"   },
+    { prep:"zu",  art:"der", result:"zur",  example:"zur Arbeit · zur Schule"     },
+];
+
+const akkusativ = [
+    { prep:"in",  art:"das", result:"ins",  example:"ins Kino · ins B\u00fcro"    },
+    { prep:"an",  art:"das", result:"ans",  example:"ans Meer · ans Telefon"      },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={6} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Info</h1>
+                <p class="subtitle text-indications">
+                    Pr&auml;position + Artikel &mdash; Kontraktionen
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Dativ contractions -->
+                        <div class="group-label label-dat">Dativ</div>
+                        <div class="table-wrapper">
+                            <table class="vocab-table kontr-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-prep">Pr&auml;position</th>
+                                        <th class="th-plus"></th>
+                                        <th class="th-art">Artikel</th>
+                                        <th class="th-eq"></th>
+                                        <th class="th-result">Kontraktion</th>
+                                        <th class="th-ex">Beispiel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {dativ.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-prep"><span class="chip-prep">{r.prep}</span></td>
+                                            <td class="td-op">+</td>
+                                            <td class="td-art"><span class="chip-art">{r.art}</span></td>
+                                            <td class="td-op">=</td>
+                                            <td class="td-result"><span class="chip-result chip-dat">{r.result}</span></td>
+                                            <td class="td-ex">{r.example}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Akkusativ contractions -->
+                        <div class="group-label label-akk">Akkusativ</div>
+                        <div class="table-wrapper">
+                            <table class="vocab-table kontr-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-prep">Pr&auml;position</th>
+                                        <th class="th-plus"></th>
+                                        <th class="th-art">Artikel</th>
+                                        <th class="th-eq"></th>
+                                        <th class="th-result">Kontraktion</th>
+                                        <th class="th-ex">Beispiel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {akkusativ.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-prep"><span class="chip-prep">{r.prep}</span></td>
+                                            <td class="td-op">+</td>
+                                            <td class="td-art"><span class="chip-art">{r.art}</span></td>
+                                            <td class="td-op">=</td>
+                                            <td class="td-result"><span class="chip-result chip-akk">{r.result}</span></td>
+                                            <td class="td-ex">{r.example}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Note box -->
+                        <div class="note-box">
+                            <span class="note-icon">&#9432;</span>
+                            <p>
+                                Kontraktionen sind <strong>obligatorisch</strong> in festen Ausdr&uuml;cken
+                                (z.&nbsp;B. <em>zum Geburtstag</em>, <em>ins Bett</em>).
+                                In anderen F&auml;llen sind sie im Deutschen &uuml;blich aber nicht immer zwingend.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        /* Group labels */
+        .group-label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 0.2rem 0.7rem;
+            border-radius: 8px;
+            align-self: flex-start;
+        }
+        .label-dat { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+        .label-akk { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+
+        /* Column widths */
+        .th-prep   { width: 110px; }
+        .th-plus   { width: 24px; text-align: center; color: #9ca3af; }
+        .th-art    { width: 80px; }
+        .th-eq     { width: 24px; text-align: center; color: #9ca3af; }
+        .th-result { width: 110px; }
+        .th-ex     { }
+
+        .td-prep, .td-art, .td-result { vertical-align: middle; padding: 0.75rem 0.6rem; }
+        .td-op  { text-align: center; font-size: 1.1rem; font-weight: 700; color: #9ca3af; vertical-align: middle; padding: 0.4rem; }
+        .td-ex  { font-size: 0.88rem; color: #4b5563; vertical-align: middle; padding: 0.75rem 0.75rem; }
+
+        .chip-prep {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #f3f4f6;
+            color: #111827;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .chip-art {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            background: #fef9c3;
+            color: #854d0e;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+        }
+        .chip-result {
+            display: inline-block;
+            padding: 0.25rem 0.7rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+        .chip-dat { background: #1d4ed8; color: #fff; }
+        .chip-akk { background: #15803d; color: #fff; }
+
+        /* Note box */
+        .note-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            background: #fefce8;
+            border: 1.5px solid #fde68a;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            color: #78350f;
+        }
+        .note-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+        .note-box p { margin: 0; line-height: 1.55; }
+    </style>
+</Layout>

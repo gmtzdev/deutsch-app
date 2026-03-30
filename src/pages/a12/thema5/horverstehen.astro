@@ -1,0 +1,314 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const lines = [
+    {
+        speaker: "Arzthelfer",
+        role:    "arzt",
+        parts: [
+            { type:"text", value:"Praxis Dr. Schneider, guten Tag." },
+        ],
+    },
+    {
+        speaker: "Herr Baum",
+        role:    "patient",
+        parts: [
+            { type:"text",  value:"Guten Tag, mein Name ist Baum. Ich m\u00f6chte bitte einen Termin " },
+            { type:"blank", answer:"vereinbaren", id:"b1", width:120 },
+            { type:"text",  value:"." },
+        ],
+    },
+    {
+        speaker: "Arzthelfer",
+        role:    "arzt",
+        parts: [
+            { type:"text", value:"Gerne. Worum geht es denn?" },
+        ],
+    },
+    {
+        speaker: "Herr Baum",
+        role:    "patient",
+        parts: [
+            { type:"text",  value:"Ich habe seit zwei Tagen starke Bauchschmerzen und " },
+            { type:"blank", answer:"Fieber", id:"b2", width:80 },
+            { type:"text",  value:"." },
+        ],
+    },
+    {
+        speaker: "Arzthelfer",
+        role:    "arzt",
+        parts: [
+            { type:"text",  value:"Oje. Haben Sie morgen Mittag Zeit? Wir " },
+            { type:"blank", answer:"haben", id:"b3", width:70 },
+            { type:"text",  value:" da um 12:30 Uhr noch etwas frei." },
+        ],
+    },
+    {
+        speaker: "Herr Baum",
+        role:    "patient",
+        parts: [
+            { type:"text", value:"Morgen um 12:30 Uhr? Ja, das passt sehr gut." },
+        ],
+    },
+    {
+        speaker: "Arzthelfer",
+        role:    "arzt",
+        parts: [
+            { type:"text",  value:"In " },
+            { type:"blank", answer:"Ordnung", id:"b4", width:85 },
+            { type:"text",  value:", Herr Baum. Dann sind Sie f\u00fcr morgen, Mittwoch, um 12:30 Uhr " },
+            { type:"blank", answer:"eingetragen", id:"b5", width:110 },
+            { type:"text",  value:". Bitte bringen Sie Ihre Versichertenkarte mit." },
+        ],
+    },
+    {
+        speaker: "Herr Baum",
+        role:    "patient",
+        parts: [
+            { type:"text",  value:"Vielen Dank. Auf " },
+            { type:"blank", answer:"Wiedersehen", id:"b6", width:110 },
+            { type:"text",  value:"." },
+        ],
+    },
+    {
+        speaker: "Arzthelfer",
+        role:    "arzt",
+        parts: [
+            { type:"text", value:"Bis Mittwoch." },
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>H&ouml;rverstehen</h1>
+                <p class="subtitle text-indications">
+                    H&ouml;ren Sie und f&uuml;llen Sie die L&uuml;cken aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+
+                        <!-- Audio indicator -->
+                        <div class="audio-hint">
+                            <span class="audio-icon">&#127909;</span>
+                            <span>H&ouml;ren Sie den Dialog und erg&auml;nzen Sie die fehlenden W&ouml;rter.</span>
+                        </div>
+
+                        <!-- Dialogue -->
+                        <div class="dialogue" id="dialogue">
+                            {lines.map((line) => (
+                                <div class={`dialogue-line line-${line.role}`}>
+                                    <span class={`speaker-tag tag-${line.role}`}>{line.speaker}</span>
+                                    <span class="line-text">
+                                        {line.parts.map((p) =>
+                                            p.type === "text" ? (
+                                                <span>{p.value}</span>
+                                            ) : (
+                                                <span class="blank-wrap">
+                                                    <input
+                                                        type="text"
+                                                        class="blank-input"
+                                                        data-answer={p.answer}
+                                                        data-blankid={p.id}
+                                                        style={`width:${p.width}px`}
+                                                        autocomplete="off"
+                                                        autocorrect="off"
+                                                        spellcheck="false"
+                                                        aria-label={`L\u00fccke ${p.id}`}
+                                                    />
+                                                    <span class="blank-feedback" aria-live="polite" />
+                                                </span>
+                                            )
+                                        )}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle pr&uuml;fen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zur&uuml;cksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* Audio hint */
+        .audio-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1rem;
+            background: #fefce8;
+            border: 1.5px solid #fde68a;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: #92400e;
+        }
+        .audio-icon { font-size: 1.1rem; }
+
+        /* Dialogue */
+        .dialogue {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .dialogue-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.65rem 0.9rem;
+            border-radius: 10px;
+            line-height: 2.2;
+        }
+        .line-arzt    { background: #eff6ff; border-left: 4px solid #3b82f6; }
+        .line-patient { background: #f0fdf4; border-left: 4px solid #10b981; }
+
+        .speaker-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            padding: 0.2rem 0.55rem;
+            border-radius: 8px;
+            margin-top: 0.35rem;
+            min-width: 88px;
+            text-align: center;
+        }
+        .tag-arzt    { background: #3b82f6; color: #fff; }
+        .tag-patient { background: #10b981; color: #fff; }
+
+        .line-text { font-size: 0.97rem; flex: 1; }
+
+        /* Blanks */
+        .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.1rem;
+            vertical-align: middle;
+        }
+        .blank-input {
+            padding: 0.18rem 0.4rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            transition: border-color 0.15s, background 0.15s;
+            outline: none;
+            min-width: 60px;
+        }
+        .blank-input:focus   { border-color: #3b82f6; }
+        .blank-input.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 700; }
+        .blank-input.wrong   { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+        .blank-feedback { font-size: 0.75rem; font-weight: 700; min-width: 1em; }
+
+        /* Actions */
+        .global-actions { display: flex; gap: 0.75rem; margin-top: 0.25rem; flex-wrap: wrap; }
+        .button-submit {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 700;
+            border: none; border-radius: 8px; cursor: pointer;
+            background: #111827; color: #fff;
+        }
+        .button-reset {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 600;
+            border: 1.5px solid #d1d5db; border-radius: 8px; cursor: pointer;
+            background: transparent; color: #374151;
+        }
+        .result { margin-top: 0.25rem; font-size: 1.05rem; font-weight: 700; min-height: 1.4em; }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const getInputs = () =>
+            [...document.querySelectorAll(".blank-input")] as HTMLInputElement[];
+
+        getInputs().forEach((inp) => {
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(Number(inp.dataset.baseWidth ?? 80), inp.value.length * 13 + 20) + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+        });
+
+        // Store base widths
+        getInputs().forEach((inp) => {
+            inp.dataset.baseWidth = inp.style.width.replace("px", "");
+        });
+
+        const checkAll = () => {
+            let total = 0, correct = 0;
+            getInputs().forEach((inp) => {
+                const given   = inp.value.trim().toLowerCase();
+                const answer  = (inp.dataset.answer ?? "").toLowerCase();
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                inp.classList.remove("correct", "wrong");
+                if (!given) { if (fb) fb.textContent = ""; return; }
+                total++;
+                if (given === answer) {
+                    correct++;
+                    inp.classList.add("correct");
+                    if (fb) fb.textContent = "\u2705";
+                } else {
+                    inp.classList.add("wrong");
+                    if (fb) fb.textContent = "\u274c";
+                }
+            });
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement && total > 0) {
+                const allBlanks = getInputs().length;
+                gr.textContent =
+                    `${correct} / ${allBlanks} richtig` +
+                    (correct === allBlanks ? " \u2014 Ausgezeichnet! \uD83C\uDF89" : "");
+            }
+        };
+
+        const resetAll = () => {
+            getInputs().forEach((inp) => {
+                inp.value = "";
+                inp.style.width = (inp.dataset.baseWidth ?? "80") + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+        };
+
+        document.querySelector("#check-all")?.addEventListener("click", checkAll);
+        document.querySelector("#reset-all")?.addEventListener("click", resetAll);
+    </script>
+</Layout>

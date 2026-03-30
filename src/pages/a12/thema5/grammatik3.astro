@@ -1,0 +1,172 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Verb Konjugation</h1>
+                <p class="subtitle">
+                    Selecciona un verbo para ver su conjugación con todos los
+                    pronombres personales.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <table class="vocab-table" id="conj-table">
+                            <thead>
+                                <tr>
+                                    <th>Pronomen</th>
+                                    <th>Verb</th>
+                                    <th>Endung</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conj-body">
+                                <!-- filled by script -->
+                            </tbody>
+                        </table>
+
+                        <div class="verb-buttons">
+                            <button class="verb-btn active" data-verb="wollen"
+                                >wollen</button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        type ConjugationRow = { pronoun: string; form: string; ending: string };
+        type VerbData = { rows: ConjugationRow[] };
+
+        const verbs: Record<string, VerbData> = {
+            wollen: {
+                rows: [
+                    { pronoun: "ich", form: "will", ending: "—" },
+                    { pronoun: "du", form: "willst", ending: "—" },
+                    { pronoun: "er", form: "will", ending: "—" },
+                    { pronoun: "sie", form: "will", ending: "—" },
+                    { pronoun: "es", form: "will", ending: "—" },
+                    { pronoun: "wir", form: "wollen", ending: "—" },
+                    { pronoun: "ihr", form: "wollt", ending: "—" },
+                    { pronoun: "Sie/sie", form: "wollen", ending: "—" },
+                ],
+            },
+        };
+
+        function renderVerb(verb: string) {
+            const body = document.getElementById("conj-body");
+            if (!body) return;
+            const data = verbs[verb];
+            if (!data) return;
+
+            body.innerHTML = data.rows
+                .map(
+                    (r) => `
+                <tr>
+                    <td class="label">${r.pronoun}</td>
+                    <td><strong>${r.form}</strong></td>
+                    <td class="ending">${r.ending}</td>
+                </tr>`,
+                )
+                .join("");
+        }
+
+        renderVerb("wollen");
+
+        document
+            .querySelectorAll<HTMLButtonElement>(".verb-btn")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    document
+                        .querySelectorAll(".verb-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    renderVerb(btn.dataset.verb ?? "wollen");
+                });
+            });
+    </script>
+
+    <style>
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .verb-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+        }
+
+        .verb-btn {
+            padding: 0.45rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 999px;
+            cursor: pointer;
+            background: #fff;
+            color: #374151;
+            transition: all 0.15s;
+        }
+
+        .verb-btn:hover {
+            border-color: #6366f1;
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .verb-btn.active {
+            background: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+    </style>
+</Layout>

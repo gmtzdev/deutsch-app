@@ -1,0 +1,171 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+type DeclRow = { kasus: string; m: string; f: string; n: string; pl: string };
+
+const rows: DeclRow[] = [
+    { kasus:"Nominativ",  m:"dieser / jener",  f:"diese / jene",   n:"dieses / jenes",  pl:"diese / jene"   },
+    { kasus:"Genitiv",    m:"dieses / jenes",  f:"dieser / jener", n:"dieses / jenes",  pl:"dieser / jener" },
+    { kasus:"Dativ",      m:"diesem / jenem",  f:"dieser / jener", n:"diesem / jenem",  pl:"diesen / jenen" },
+    { kasus:"Akkusativ",  m:"diesen / jenen",  f:"diese / jene",   n:"dieses / jenes",  pl:"diese / jene"   },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik 3</h1>
+                <p class="subtitle text-indications">
+                    Demonstrativpronomen &mdash;
+                    <span class="chip-dieser">dieser</span> /
+                    <span class="chip-jener">jener</span>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Meaning row -->
+                        <div class="meaning-row">
+                            <div class="m-card card-dieser">
+                                <p class="m-title chip-dieser-txt">dieser / diese / dieses</p>
+                                <p class="m-text">&ldquo;this&rdquo; &mdash; etwas <strong>Nahes</strong></p>
+                                <p class="m-ex"><em>Ich nehme <strong>diesen</strong> Pullover.</em></p>
+                            </div>
+                            <div class="m-card card-jener">
+                                <p class="m-title chip-jener-txt">jener / jene / jenes</p>
+                                <p class="m-text">&ldquo;that&rdquo; &mdash; etwas <strong>Entferntes</strong></p>
+                                <p class="m-ex"><em>Ich nehme <strong>jenen</strong> Pullover dort.</em></p>
+                            </div>
+                        </div>
+
+                        <!-- Declension table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table dem-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-fall">Fall</th>
+                                        <th>
+                                            <span class="gen-chip chip-m">Mask.</span>
+                                        </th>
+                                        <th>
+                                            <span class="gen-chip chip-f">Fem.</span>
+                                        </th>
+                                        <th>
+                                            <span class="gen-chip chip-n">Neutr.</span>
+                                        </th>
+                                        <th>
+                                            <span class="gen-chip chip-pl">Plural</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-fall">{r.kasus}</td>
+                                            <td class="td-cell cell-m">{r.m}</td>
+                                            <td class="td-cell cell-f">{r.f}</td>
+                                            <td class="td-cell cell-n">{r.n}</td>
+                                            <td class="td-cell cell-pl">{r.pl}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="note-box">
+                            <p class="note-title">Hinweis</p>
+                            <p>
+                                <strong>dieser</strong> und <strong>jener</strong> folgen dem gleichen
+                                Deklinationsmuster wie der bestimmte Artikel
+                                (<em>der / die / das</em>), aber mit
+                                <strong>-es</strong> statt <strong>-en</strong> im Genitiv Maskulin/Neutrum
+                                und mit den Endungen <strong>-er / -em / -en</strong>.
+                                Im Alltag wird <em>jener</em> selten verwendet &mdash; man ersetzt es oft
+                                durch <em>der da</em> oder <em>das dort</em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+        .table-wrapper { overflow-x: auto; }
+
+        /* Header chips */
+        .chip-dieser { display:inline-block; padding:0.15rem 0.5rem; background:#1d4ed8; color:#fff; border-radius:6px; font-weight:800; font-size:0.85rem; }
+        .chip-jener  { display:inline-block; padding:0.15rem 0.5rem; background:#0369a1; color:#fff; border-radius:6px; font-weight:800; font-size:0.85rem; }
+
+        /* Meaning cards */
+        .meaning-row { display:flex; gap:1rem; flex-wrap:wrap; }
+        .m-card {
+            flex:1; min-width:200px;
+            border-radius:12px; padding:0.9rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+            border:1.5px solid transparent;
+        }
+        .card-dieser { background:#eff6ff; border-color:#93c5fd; }
+        .card-jener  { background:#f0f9ff; border-color:#7dd3fc; }
+
+        .m-title { font-size:0.8rem; font-weight:800; margin:0 0 0.2rem; }
+        .chip-dieser-txt { color:#1d4ed8; }
+        .chip-jener-txt  { color:#0369a1; }
+        .m-text { font-size:0.86rem; margin:0; color:#374151; }
+        .m-ex   { font-size:0.86rem; margin:0.15rem 0 0; color:#6b7280; }
+
+        /* Gender chips */
+        .gen-chip {
+            display:inline-block; padding:0.2rem 0.55rem;
+            border-radius:8px; font-weight:800; font-size:0.78rem;
+        }
+        .chip-m  { background:#1d4ed8; color:#fff; }
+        .chip-f  { background:#be185d; color:#fff; }
+        .chip-n  { background:#0369a1; color:#fff; }
+        .chip-pl { background:#6d28d9; color:#fff; }
+
+        /* Table */
+        .dem-table th { text-align:center; }
+        .th-fall { text-align:left !important; width:100px; }
+
+        .td-fall {
+            font-weight:700; font-size:0.88rem; color:#374151;
+            padding:0.8rem 0.9rem; white-space:nowrap;
+        }
+        .td-cell {
+            text-align:center; padding:0.75rem 0.8rem;
+            font-size:0.88rem; font-weight:600; white-space:nowrap;
+        }
+        .cell-m  { color:#1d4ed8; }
+        .cell-f  { color:#be185d; }
+        .cell-n  { color:#0369a1; }
+        .cell-pl { color:#6d28d9; }
+
+        /* Note */
+        .note-box {
+            background:#fffbeb; border:1.5px solid #fcd34d;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+        }
+        .note-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#b45309; margin:0;
+        }
+        .note-box p:last-child { font-size:0.88rem; margin:0; color:#374151; }
+    </style>
+</Layout>

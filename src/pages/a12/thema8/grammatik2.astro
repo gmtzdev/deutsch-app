@@ -1,0 +1,208 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const pairs = [
+    { pos: "sympathisch",   neg: "unsympathisch"   },
+    { pos: "m\u00f6glich",  neg: "unm\u00f6glich"  },
+    { pos: "interessant",   neg: "uninteressant"   },
+    { pos: "denkbar",       neg: "undenkbar"        },
+    { pos: "dankbar",       neg: "undankbar"        },
+    { pos: "genau",         neg: "ungenau"          },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik 2</h1>
+                <p class="subtitle text-indications">
+                    Negation mit dem Pr&auml;fix <strong>un-</strong>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Rule card -->
+                        <div class="rule-card">
+                            <p class="rule-title">Regel</p>
+                            <p>
+                                Viele Adjektive k&ouml;nnen durch das Pr&auml;fix
+                                <span class="prefix-badge">un-</span>
+                                ins Gegenteil verkehrt werden.
+                                Das Pr&auml;fix wird einfach <strong>vor das Adjektiv</strong> gestellt.
+                            </p>
+                            <p class="rule-formula">
+                                <span class="f-pos">sympathisch</span>
+                                <span class="f-arrow">&rarr;</span>
+                                <span class="prefix-badge">un</span><span class="f-neg-rest">sympathisch</span>
+                            </p>
+                        </div>
+
+                        <!-- Pairs table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table pairs-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-pos">
+                                            <span class="col-chip chip-pos">Positiv</span>
+                                        </th>
+                                        <th class="th-arr"></th>
+                                        <th class="th-neg">
+                                            <span class="col-chip chip-neg">Negativ (un-)</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {pairs.map((p, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-pos">
+                                                <span class="form-pos">{p.pos}</span>
+                                            </td>
+                                            <td class="td-arr">&ne;</td>
+                                            <td class="td-neg">
+                                                <span class="prefix-hi">un</span><span class="form-neg-rest">{p.neg.slice(2)}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="note-box">
+                            <p class="note-title">Hinweis</p>
+                            <p>
+                                Nicht jedes Adjektiv nimmt <span class="prefix-badge">un-</span> &mdash;
+                                z. B. <em>*unkalt</em> oder <em>*ungro&szlig;</em> existieren nicht.
+                                Das Pr&auml;fix funktioniert vor allem bei Adjektiven aus dem Lateinischen
+                                oder bei Partizipien.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+        .table-wrapper { overflow-x: auto; }
+
+        /* Rule card */
+        .rule-card {
+            background: #eff6ff;
+            border: 1.5px solid #93c5fd;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .rule-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #1d4ed8;
+            margin: 0;
+        }
+        .rule-card p { font-size: 0.9rem; margin: 0; color: #1e3a5f; }
+
+        .rule-formula {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem !important;
+            font-weight: 700;
+            margin-top: 0.25rem !important;
+        }
+        .f-pos       { color: #374151; }
+        .f-arrow     { color: #6b7280; }
+        .f-neg-rest  { color: #b91c1c; font-weight: 700; }
+
+        /* Prefix badge */
+        .prefix-badge {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            background: #b91c1c;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: 900;
+            font-size: 0.88rem;
+        }
+
+        /* Column chips */
+        .col-chip {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.82rem;
+        }
+        .chip-pos { background: #374151; color: #fff; }
+        .chip-neg { background: #b91c1c; color: #fff; }
+
+        /* Table */
+        .pairs-table th { text-align: center; }
+        .th-pos { width: 45%; text-align: left !important; }
+        .th-arr { width: 10%; text-align: center; }
+        .th-neg { width: 45%; }
+
+        .td-pos {
+            padding: 0.75rem 1rem;
+            font-size: 0.93rem;
+            color: #374151;
+            font-weight: 600;
+        }
+        .form-pos { color: #374151; }
+
+        .td-arr {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #9ca3af;
+            font-weight: 700;
+            padding: 0.75rem 0;
+        }
+
+        .td-neg {
+            padding: 0.75rem 1rem;
+            font-size: 0.93rem;
+            font-weight: 700;
+        }
+        .prefix-hi   { color: #b91c1c; font-weight: 900; }
+        .form-neg-rest { color: #374151; }
+
+        /* Note */
+        .note-box {
+            background: #fffbeb;
+            border: 1.5px solid #fcd34d;
+            border-radius: 10px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .note-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #b45309;
+            margin: 0;
+        }
+        .note-box p:last-child { font-size: 0.88rem; margin: 0; color: #374151; }
+    </style>
+</Layout>

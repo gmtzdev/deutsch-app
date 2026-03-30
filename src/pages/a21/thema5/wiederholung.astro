@@ -1,0 +1,262 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "e1",
+        post: "Sie links!",
+        hint: "gehen \u2014 Sie-Form",
+        answer: "Gehen",
+    },
+    {
+        id: "e2",
+        post: "die U-Bahn Linie 3!",
+        hint: "nehmen \u2014 ihr-Form",
+        answer: "Nehmt",
+    },
+    {
+        id: "e3",
+        post: "bitte Brot!",
+        hint: "kaufen \u2014 du-Form",
+        answer: "Kauf",
+    },
+    {
+        id: "e4",
+        post: "die Hausaufgabe!",
+        hint: "machen \u2014 du-Form",
+        answer: "Mach",
+    },
+    {
+        id: "e5",
+        post: "mit dem Hund spazieren!",
+        hint: "gehen \u2014 ihr-Form",
+        answer: "Geht",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Wiederholung</h1>
+                <p class="subtitle text-indications">
+                    Imperativ &mdash; F&uuml;llen Sie die L&uuml;cken aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Quick reference -->
+                        <div class="ref-grid">
+                            <div class="ref-box">
+                                <p class="ref-title">du-Form</p>
+                                <p class="ref-ex">machen &rarr; <strong>Mach</strong>!<br/>kaufen &rarr; <strong>Kauf</strong>!</p>
+                            </div>
+                            <div class="ref-box ref-ihr">
+                                <p class="ref-title">ihr-Form</p>
+                                <p class="ref-ex">nehmen &rarr; <strong>Nehmt</strong>!<br/>gehen &rarr; <strong>Geht</strong>!</p>
+                            </div>
+                            <div class="ref-box ref-sie">
+                                <p class="ref-title">Sie-Form</p>
+                                <p class="ref-ex">gehen &rarr; <strong>Gehen Sie</strong>!<br/>nehmen &rarr; <strong>Nehmen Sie</strong>!</p>
+                            </div>
+                        </div>
+
+                        <div class="exercises">
+                            {exercises.map((ex, i) => (
+                                <div class="ex-card" id={`card-${ex.id}`}>
+                                    <span class="ex-num">{i + 1}</span>
+                                    <div class="ex-body">
+                                        <p class="ex-sentence">
+                                            <span class="blank-wrap">
+                                                <input
+                                                    type="text"
+                                                    class="fill-input"
+                                                    id={`inp-${ex.id}`}
+                                                    data-answer={ex.answer}
+                                                    placeholder="???"
+                                                    autocomplete="off"
+                                                    spellcheck={false}
+                                                />
+                                                <span class="blank-hint">{ex.hint}</span>
+                                            </span>
+                                            <span class="post-word">{ex.post}</span>
+                                        </p>
+                                        <p class="ex-feedback" id={`fb-${ex.id}`}></p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-check" class="btn-primary">Pr\u00fcfen</button>
+                            <button id="btn-reset" class="btn-secondary">Zur\u00fccksetzen</button>
+                        </div>
+
+                        <div id="score-box" class="score-box hidden"></div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Reference */
+        .ref-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(150px,1fr)); gap:0.75rem;
+        }
+        .ref-box {
+            background:#eff6ff; border:1.5px solid #bfdbfe;
+            border-radius:10px; padding:0.7rem 0.9rem;
+        }
+        .ref-ihr { background:#f0fdf4; border-color:#bbf7d0; }
+        .ref-sie { background:#fdf4ff; border-color:#e9d5ff; }
+        .ref-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#1d4ed8; margin:0 0 0.3rem 0;
+        }
+        .ref-ihr .ref-title { color:#15803d; }
+        .ref-sie .ref-title { color:#7e22ce; }
+        .ref-ex { margin:0; font-size:0.84rem; color:#374151; line-height:1.7; }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .ex-card {
+            display:flex; align-items:flex-start; gap:0.85rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:1rem 1.1rem;
+            transition:border-color 0.2s, background 0.2s;
+        }
+        .ex-card.correct   { border-color:#16a34a; background:#f0fdf4; }
+        .ex-card.incorrect { border-color:#dc2626; background:#fef2f2; }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#1d4ed8; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; margin-top:2px; flex-shrink:0;
+        }
+
+        .ex-body { display:flex; flex-direction:column; gap:0.3rem; flex:1; }
+
+        .ex-sentence {
+            margin:0; font-size:1rem; color:#1e293b;
+            line-height:2; display:flex; align-items:center; flex-wrap:wrap; gap:0.3rem;
+        }
+
+        .post-word { flex:1; }
+
+        .blank-wrap {
+            display:inline-flex; flex-direction:column; align-items:center; margin-right:2px;
+        }
+        .blank-hint { font-size:0.65rem; color:#9ca3af; white-space:nowrap; line-height:1; }
+
+        .fill-input {
+            width:110px; padding:0.2rem 0.5rem;
+            border:2px solid #93c5fd; border-radius:8px;
+            font-size:1rem; font-weight:700; text-align:center;
+            outline:none; transition:border-color 0.2s, background 0.2s;
+            background:#fff;
+        }
+        .fill-input:focus { border-color:#1d4ed8; }
+        .ex-card.correct   .fill-input { border-color:#16a34a; background:#dcfce7; color:#15803d; }
+        .ex-card.incorrect .fill-input { border-color:#dc2626; background:#fee2e2; color:#b91c1c; }
+
+        .ex-feedback {
+            margin:0; font-size:0.85rem; font-weight:700; min-height:1.1em;
+        }
+        .ex-card.correct   .ex-feedback { color:#16a34a; }
+        .ex-card.incorrect .ex-feedback { color:#dc2626; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .btn-primary {
+            padding:0.55rem 1.4rem; border-radius:10px;
+            background:#1d4ed8; color:#fff; font-weight:700;
+            border:none; cursor:pointer; font-size:0.92rem; transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#1e40af; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        /* Score */
+        .score-box {
+            padding:0.7rem 1.1rem; border-radius:10px;
+            font-weight:700; font-size:0.95rem; text-align:center;
+        }
+        .score-box.good { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; }
+        .score-box.bad  { background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; }
+        .hidden { display:none !important; }
+    </style>
+
+    <script>
+        const answers: Record<string, string> = {
+            "e1": "Gehen",
+            "e2": "Nehmt",
+            "e3": "Kauf",
+            "e4": "Mach",
+            "e5": "Geht",
+        };
+
+        document.getElementById("btn-check")?.addEventListener("click", () => {
+            let correct = 0;
+            const total = Object.keys(answers).length;
+            Object.entries(answers).forEach(([id, ans]) => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                card.classList.remove("correct","incorrect");
+                const val = inp.value.trim().toLowerCase();
+                if (val === ans.toLowerCase()) {
+                    card.classList.add("correct");
+                    fb.textContent = "\u2713 Richtig!";
+                    correct++;
+                } else if (val !== "") {
+                    card.classList.add("incorrect");
+                    fb.textContent = `\u2717 Richtig: ${ans}`;
+                } else {
+                    fb.textContent = "";
+                }
+            });
+            const box = document.getElementById("score-box");
+            if (box) {
+                box.classList.remove("hidden","good","bad");
+                box.classList.add(correct === total ? "good" : "bad");
+                box.textContent = `${correct} / ${total} richtig`;
+            }
+        });
+
+        document.getElementById("btn-reset")?.addEventListener("click", () => {
+            Object.keys(answers).forEach(id => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                inp.value = ""; card.classList.remove("correct","incorrect"); fb.textContent = "";
+            });
+            const box = document.getElementById("score-box");
+            if (box) { box.classList.add("hidden"); box.textContent = ""; }
+        });
+    </script>
+</Layout>

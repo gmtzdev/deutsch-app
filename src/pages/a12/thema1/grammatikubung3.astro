@@ -1,0 +1,335 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+// blank = user must fill in; value = shown (read-only)
+// best = bestimmte Artikel (definite)
+const best = [
+    { kasus: "Nominativ", m: {v:"der",b:false}, f: {v:"die",b:false}, n: {v:"das",b:false}, p: {v:"die",b:false} },
+    { kasus: "Genitiv",   m: {v:"des",b:true},  f: {v:"der",b:false}, n: {v:"des",b:true},  p: {v:"der",b:false} },
+    { kasus: "Dativ",     m: {v:"dem",b:false},  f: {v:"der",b:true},  n: {v:"dem",b:false}, p: {v:"den",b:true}  },
+    { kasus: "Akkusativ", m: {v:"den",b:true},   f: {v:"die",b:false}, n: {v:"das",b:false}, p: {v:"die",b:true}  },
+];
+
+// unbest = unbestimmte Artikel (indefinite) — plural has no indefinite article
+const unbest = [
+    { kasus: "Nominativ", m: {v:"ein",b:false},   f: {v:"eine",b:false}, n: {v:"ein",b:false},   p: {v:"—",b:false} },
+    { kasus: "Genitiv",   m: {v:"eines",b:true},  f: {v:"einer",b:true}, n: {v:"eines",b:false},  p: {v:"—",b:false} },
+    { kasus: "Dativ",     m: {v:"einem",b:false}, f: {v:"einer",b:true}, n: {v:"einem",b:true},  p: {v:"—",b:false} },
+    { kasus: "Akkusativ", m: {v:"einen",b:true},  f: {v:"eine",b:false}, n: {v:"ein",b:true},    p: {v:"—",b:false} },
+];
+
+let blankId = 0;
+const mkId = () => `b${++blankId}`;
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 3</h1>
+                <p class="subtitle text-indications">
+                    Erg&auml;nze die fehlenden Deklinationen (bestimmte &amp; unbestimmte Artikel)
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- BESTIMMTE ARTIKEL -->
+                        <h3 class="table-title">Bestimmte Artikel — <em>der / die / das</em></h3>
+                        <div class="table-wrapper">
+                            <table class="vocab-table art-table" id="tbl-best">
+                                <thead>
+                                    <tr>
+                                        <th>Kasus</th>
+                                        <th>Maskulinum<br/><span class="ex">der Mann</span></th>
+                                        <th>Femininum<br/><span class="ex">die Frau</span></th>
+                                        <th>Neutrum<br/><span class="ex">das Kind</span></th>
+                                        <th>Plural<br/><span class="ex">die Kinder</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {best.map((row) => (
+                                        <tr>
+                                            <td class="td-kasus">{row.kasus}</td>
+                                            {[row.m, row.f, row.n, row.p].map((cell) =>
+                                                cell.b ? (
+                                                    <td class="td-blank">
+                                                        <input
+                                                            type="text"
+                                                            class="art-input"
+                                                            data-answer={cell.v}
+                                                            id={mkId()}
+                                                            autocomplete="off"
+                                                            autocorrect="off"
+                                                            spellcheck="false"
+                                                            aria-label={`Antwort: ${cell.v}`}
+                                                        />
+                                                        <span class="cell-fb" aria-live="polite"></span>
+                                                    </td>
+                                                ) : (
+                                                    <td class="td-given"><strong>{cell.v}</strong></td>
+                                                )
+                                            )}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- UNBESTIMMTE ARTIKEL -->
+                        <h3 class="table-title" style="margin-top:1.5rem;">Unbestimmte Artikel — <em>ein / eine</em></h3>
+                        <div class="table-wrapper">
+                            <table class="vocab-table art-table" id="tbl-unbest">
+                                <thead>
+                                    <tr>
+                                        <th>Kasus</th>
+                                        <th>Maskulinum<br/><span class="ex">ein Mann</span></th>
+                                        <th>Femininum<br/><span class="ex">eine Frau</span></th>
+                                        <th>Neutrum<br/><span class="ex">ein Kind</span></th>
+                                        <th>Plural<br/><span class="ex">— Kinder</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {unbest.map((row) => (
+                                        <tr>
+                                            <td class="td-kasus">{row.kasus}</td>
+                                            {[row.m, row.f, row.n, row.p].map((cell) =>
+                                                cell.b ? (
+                                                    <td class="td-blank">
+                                                        <input
+                                                            type="text"
+                                                            class="art-input"
+                                                            data-answer={cell.v}
+                                                            id={mkId()}
+                                                            autocomplete="off"
+                                                            autocorrect="off"
+                                                            spellcheck="false"
+                                                            aria-label={`Antwort: ${cell.v}`}
+                                                        />
+                                                        <span class="cell-fb" aria-live="polite"></span>
+                                                    </td>
+                                                ) : (
+                                                    <td class="td-given"><strong>{cell.v}</strong></td>
+                                                )
+                                            )}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="btn-submit">Alle pr&uuml;fen</button>
+                            <button id="reset-all" type="button" class="btn-reset">Alle zur&uuml;cksetzen</button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        .table-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin: 0;
+            color: #374151;
+        }
+
+        .table-wrapper { overflow-x: auto; }
+
+        /* Kasus column */
+        .td-kasus {
+            font-weight: 700;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #6b7280;
+            white-space: nowrap;
+            border-right: 2px solid var(--color-table-row-border, #e5e7eb);
+        }
+
+        /* Given (read-only) cell */
+        .td-given {
+            text-align: center;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        /* Blank cell */
+        .td-blank {
+            text-align: center;
+            padding: 0.35rem 0.5rem;
+        }
+
+        /* Input */
+        .art-input {
+            width: 64px;
+            padding: 0.25rem 0.35rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            outline: none;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .art-input:focus { border-color: #3b82f6; }
+
+        .art-input.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+            color: #065f46;
+            font-weight: 700;
+        }
+
+        .art-input.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .cell-fb {
+            display: block;
+            font-size: 0.72rem;
+            min-height: 1em;
+            font-weight: 700;
+        }
+
+        /* Example label under column header */
+        .ex {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.75;
+            font-style: italic;
+        }
+
+        /* Actions */
+        .global-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-submit {
+            padding: 0.55rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .btn-reset {
+            padding: 0.55rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .result {
+            font-size: 1rem;
+            font-weight: 700;
+            min-height: 1.4em;
+            margin-top: 0.25rem;
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const inputs = [...document.querySelectorAll(".art-input")] as HTMLInputElement[];
+
+        // Auto-resize on type + clear feedback
+        inputs.forEach((inp) => {
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(64, inp.value.length * 13 + 20) + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+                const gr = document.querySelector("#global-result") as HTMLParagraphElement | null;
+                if (gr) gr.textContent = "";
+            });
+
+            inp.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") checkAll();
+            });
+        });
+
+        const checkOne = (inp: HTMLInputElement) => {
+            const given   = inp.value.trim().toLowerCase();
+            const correct = (inp.dataset.answer ?? "").toLowerCase();
+            const fb = inp.nextElementSibling as HTMLSpanElement | null;
+            inp.classList.remove("correct", "wrong");
+            if (!given) { if (fb) fb.textContent = ""; return false; }
+            if (given === correct) {
+                inp.classList.add("correct");
+                if (fb) fb.textContent = "✅";
+                return true;
+            } else {
+                inp.classList.add("wrong");
+                if (fb) fb.textContent = "❌";
+                return false;
+            }
+        };
+
+        const checkAll = () => {
+            let correct = 0;
+            let answered = 0;
+            inputs.forEach((inp) => {
+                if (inp.value.trim()) { answered++; if (checkOne(inp)) correct++; }
+            });
+            const total = inputs.length;
+            const gr = document.querySelector("#global-result") as HTMLParagraphElement | null;
+            if (!gr) return;
+            if (answered === 0) {
+                gr.textContent = "Bitte f\u00fclle die Felder aus.";
+                return;
+            }
+            gr.textContent = `${correct} / ${total} richtig` + (correct === total ? " — Ausgezeichnet! 🎉" : "");
+        };
+
+        const resetAll = () => {
+            inputs.forEach((inp) => {
+                inp.value = "";
+                inp.style.width = "64px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            const gr = document.querySelector("#global-result") as HTMLParagraphElement | null;
+            if (gr) gr.textContent = "";
+        };
+
+        document.querySelector("#check-all")?.addEventListener("click", checkAll);
+        document.querySelector("#reset-all")?.addEventListener("click", resetAll);
+    </script>
+</Layout>

@@ -1,0 +1,265 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+// Each blank: id, answer (ending only), gender hint shown to student
+const blanks = [
+    { id:"b1", answer:"e",   hint:"die Hose (f)" },
+    { id:"b2", answer:"en",  hint:"den Pullover (m, Akk.)" },
+    { id:"b3", answer:"es",  hint:"ein Angebot (n)" },
+    { id:"b4", answer:"en",  hint:"den neuen Angeboten (Pl., Dat.)" },
+    { id:"b5", answer:"es",  hint:"ein Angebot (n)" },
+    { id:"b6", answer:"en",  hint:"der neuen Kollektion (f, Dat.)" },
+    { id:"b7", answer:"e",   hint:"die Preisschilder (Pl., Nom.)" },
+    { id:"b8", answer:"e",   hint:"der Pullover (m)" },
+    { id:"b9", answer:"en",  hint:"die braunen Schuhe (Pl.)" },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Adjektivdeklination &mdash; F&uuml;llen Sie die Endungen aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Context label -->
+                        <div class="context-label">
+                            <span class="ctx-icon">&#128722;</span>
+                            Im Kleidungsgesch&auml;ft
+                        </div>
+
+                        <!-- Dialogue -->
+                        <div class="dialogue">
+
+                            <div class="turn turn-a">
+                                <span class="speaker">Verk&auml;ufer/in</span>
+                                <p>Hallo, was kann ich f&uuml;r Sie tun?</p>
+                            </div>
+
+                            <div class="turn turn-b">
+                                <span class="speaker">Kundin</span>
+                                <p>
+                                    Ich m&ouml;chte gern die schwarz
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b1" data-answer="e" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b1">die Hose (f)</span>
+                                    </span>
+                                    Hose in Gr&ouml;&szlig;e 34 anprobieren?
+                                </p>
+                            </div>
+
+                            <div class="turn turn-a">
+                                <span class="speaker">Verk&auml;ufer/in</span>
+                                <p>
+                                    Ja, gern. M&ouml;chten Sie dazu auch den schwarz
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b2" data-answer="en" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b2">den Pullover (m, Akk.)</span>
+                                    </span>
+                                    Pullover anprobieren?
+                                    Wir haben gerade ein attraktiv
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b3" data-answer="es" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b3">ein Angebot (n)</span>
+                                    </span>
+                                    Angebot f&uuml;r Sie.
+                                    Wenn Sie drei Kleidungsst&uuml;cke aus den neu
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b4" data-answer="en" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b4">den Angeboten (Pl., Dat.)</span>
+                                    </span>
+                                    Angeboten kaufen, erhalten Sie 30&nbsp;% Rabatt auf alles.
+                                </p>
+                            </div>
+
+                            <div class="turn turn-b">
+                                <span class="speaker">Kundin</span>
+                                <p>
+                                    Das ist wirklich ein gut
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b5" data-answer="es" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b5">ein Angebot (n)</span>
+                                    </span>
+                                    Angebot. Geh&ouml;ren die blauen Schuhe auch zu der neu
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b6" data-answer="en" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b6">der Kollektion (f, Dat.)</span>
+                                    </span>
+                                    Kollektion?
+                                </p>
+                            </div>
+
+                            <div class="turn turn-a">
+                                <span class="speaker">Verk&auml;ufer/in</span>
+                                <p>
+                                    Ja, sie geh&ouml;ren dazu. Die neuen Kleidungsst&uuml;cke haben alle rot
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b7" data-answer="e" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b7">die Preisschilder (Pl.)</span>
+                                    </span>
+                                    Preisschilder.
+                                </p>
+                            </div>
+
+                            <div class="turn turn-b">
+                                <span class="speaker">Kundin</span>
+                                <p>
+                                    Dann m&ouml;chte ich noch die braunen Schuhe anprobieren.
+                                    Der schwarz
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b8" data-answer="e" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b8">der Pullover (m)</span>
+                                    </span>
+                                    Pullover, die schwarze Hose und die braun
+                                    <span class="blank-wrap">
+                                        <input type="text" class="fill-input" id="inp-b9" data-answer="en" placeholder="_" autocomplete="off" spellcheck={false} maxlength="4" />
+                                        <span class="blank-hint" id="hint-b9">die Schuhe (Pl.)</span>
+                                    </span>
+                                    Schuhe kosten zusammen nur 145,-&euro;
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-check" class="btn-primary">Pr\u00fcfen</button>
+                            <button id="btn-reset" class="btn-secondary">Zur\u00fccksetzen</button>
+                        </div>
+
+                        <div id="score-box" class="score-box hidden"></div>
+
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Context label */
+        .context-label {
+            display:flex; align-items:center; gap:0.5rem;
+            font-size:0.85rem; font-weight:700; color:#6b7280;
+            text-transform:uppercase; letter-spacing:0.05em;
+        }
+        .ctx-icon { font-size:1.1rem; }
+
+        /* Dialogue */
+        .dialogue { display:flex; flex-direction:column; gap:0.75rem; }
+
+        .turn {
+            display:flex; flex-direction:column; gap:0.25rem;
+            padding:0.8rem 1rem; border-radius:12px;
+        }
+        .turn-a { background:#eff6ff; border:1.5px solid #bfdbfe; align-self:flex-start; max-width:90%; }
+        .turn-b { background:#f0fdf4; border:1.5px solid #bbf7d0; align-self:flex-end;   max-width:90%; }
+
+        .speaker {
+            font-size:0.71rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em;
+        }
+        .turn-a .speaker { color:#1d4ed8; }
+        .turn-b .speaker { color:#15803d; }
+
+        .turn p { margin:0; font-size:0.95rem; line-height:1.9; color:#1e293b; }
+
+        /* Blank wrapper */
+        .blank-wrap {
+            display:inline-flex; flex-direction:column; align-items:center;
+            position:relative; margin:0 1px;
+        }
+        .blank-hint {
+            font-size:0.66rem; color:#9ca3af; white-space:nowrap;
+            line-height:1; margin-top:1px;
+        }
+
+        /* Input */
+        .fill-input {
+            width:52px; padding:0.15rem 0.3rem;
+            border:2px solid #94a3b8; border-radius:6px;
+            font-size:0.95rem; font-weight:700; text-align:center;
+            outline:none; transition:border-color 0.2s, background 0.2s;
+            background:#fff;
+        }
+        .fill-input:focus { border-color:#7c3aed; }
+        .fill-input.correct   { border-color:#16a34a; background:#dcfce7; color:#15803d; }
+        .fill-input.incorrect { border-color:#dc2626; background:#fee2e2; color:#b91c1c; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .btn-primary {
+            padding:0.55rem 1.4rem; border-radius:10px;
+            background:#7c3aed; color:#fff; font-weight:700;
+            border:none; cursor:pointer; font-size:0.92rem; transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#6d28d9; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        /* Score */
+        .score-box {
+            padding:0.7rem 1.1rem; border-radius:10px;
+            font-weight:700; font-size:0.95rem; text-align:center;
+        }
+        .score-box.good  { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; }
+        .score-box.bad   { background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; }
+        .hidden { display:none; }
+    </style>
+
+    <script>
+        const answers: Record<string, string> = {
+            "b1":"e","b2":"en","b3":"es","b4":"en",
+            "b5":"es","b6":"en","b7":"e","b8":"e","b9":"en"
+        };
+
+        document.getElementById("btn-check")?.addEventListener("click", () => {
+            let correct = 0;
+            const total = Object.keys(answers).length;
+            Object.entries(answers).forEach(([id, ans]) => {
+                const inp = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                if (!inp) return;
+                inp.classList.remove("correct","incorrect");
+                const val = inp.value.trim().toLowerCase();
+                if (val === ans) { inp.classList.add("correct"); correct++; }
+                else if (val !== "") { inp.classList.add("incorrect"); }
+            });
+            const box = document.getElementById("score-box");
+            if (box) {
+                box.classList.remove("hidden","good","bad");
+                box.classList.add(correct === total ? "good" : "bad");
+                box.textContent = `${correct} / ${total} richtig`;
+            }
+        });
+
+        document.getElementById("btn-reset")?.addEventListener("click", () => {
+            Object.keys(answers).forEach(id => {
+                const inp = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                if (inp) { inp.value=""; inp.classList.remove("correct","incorrect"); }
+            });
+            const box = document.getElementById("score-box");
+            if (box) { box.classList.add("hidden"); box.textContent=""; }
+        });
+    </script>
+</Layout>

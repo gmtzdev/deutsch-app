@@ -1,0 +1,326 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "e1",
+        pre: "Wir",
+        post: "mit 100\u202f000 Euro eine Reise durch Europa machen.",
+        answer: "w\u00fcrden",
+        hint: "wir \u2192 w\u00fcrden + Infinitiv"
+    },
+    {
+        id: "e2",
+        pre: "Ich",
+        post: "lieber etwas gew\u00fcnscht.",
+        answer: "h\u00e4tte",
+        hint: "ich + w\u00fcnschen (Perfekt) \u2192 h\u00e4tte + Partizip II"
+    },
+    {
+        id: "e3",
+        pre: "Ich",
+        post: "p\u00fcnktlich gekommen, h\u00e4tte ich gestern das Auto gekauft.",
+        answer: "w\u00e4re",
+        hint: "ich + kommen (Perfekt) \u2192 w\u00e4re + Partizip II"
+    },
+    {
+        id: "e4",
+        pre: "Wir",
+        post: "mehr Gewinn gemacht.",
+        answer: "h\u00e4tten",
+        hint: "wir + machen (Perfekt) \u2192 h\u00e4tten + Partizip II"
+    },
+];
+
+const options = ["w\u00fcrden", "h\u00e4tte", "w\u00e4re", "h\u00e4tten"];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={10} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Konjunktiv II &mdash; W&auml;hlen Sie die richtige Form und schreiben Sie sie in die L&uuml;cke.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Word bank -->
+                        <div class="word-bank">
+                            <span class="wb-label">Optionen:</span>
+                            {options.map(o => (
+                                <span class="wb-chip">{o}</span>
+                            ))}
+                        </div>
+
+                        <div class="exercises">
+                            {exercises.map((ex, i) => (
+                                <div class="ex-card" id={`card-${ex.id}`}>
+                                    <span class="ex-num">{i + 1}</span>
+                                    <div class="ex-body">
+                                        <p class="ex-sentence">
+                                            <span class="pre-word">{ex.pre}</span>
+                                            <span class="blank-wrap">
+                                                <input
+                                                    type="text"
+                                                    class="fill-input"
+                                                    id={`inp-${ex.id}`}
+                                                    data-answer={ex.answer}
+                                                    placeholder="???"
+                                                    autocomplete="off"
+                                                    spellcheck={false}
+                                                />
+                                                <span class="blank-hint">{ex.hint}</span>
+                                            </span>
+                                            <span class="post-word">{ex.post}</span>
+                                        </p>
+                                        <p class="ex-feedback" id={`fb-${ex.id}`}></p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-check" class="btn-primary">Pr\u00fcfen</button>
+                            <button id="btn-reset" class="btn-secondary">Zur\u00fccksetzen</button>
+                        </div>
+
+                        <div id="score-box" class="score-box hidden"></div>
+
+                        <!-- Quick reference -->
+                        <div class="ref-wrap">
+                            <p class="ref-heading">Konjunktiv II &mdash; Kurzreferenz</p>
+                            <div class="ref-grid">
+                                <div class="ref-box">
+                                    <p class="ref-title">w\u00fcrden + Infinitiv</p>
+                                    <table class="ref-table">
+                                        <tbody>
+                                            <tr><td>ich</td><td>w\u00fcrde</td></tr>
+                                            <tr><td>du</td><td>w\u00fcrdest</td></tr>
+                                            <tr><td>er/sie/es</td><td>w\u00fcrde</td></tr>
+                                            <tr><td>wir</td><td>w\u00fcrden</td></tr>
+                                            <tr><td>ihr</td><td>w\u00fcrdet</td></tr>
+                                            <tr><td>sie/Sie</td><td>w\u00fcrden</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="ref-box">
+                                    <p class="ref-title">h\u00e4tte/h\u00e4tten + Ptz. II</p>
+                                    <table class="ref-table">
+                                        <tbody>
+                                            <tr><td>ich</td><td>h\u00e4tte</td></tr>
+                                            <tr><td>du</td><td>h\u00e4ttest</td></tr>
+                                            <tr><td>er/sie/es</td><td>h\u00e4tte</td></tr>
+                                            <tr><td>wir</td><td>h\u00e4tten</td></tr>
+                                            <tr><td>ihr</td><td>h\u00e4ttet</td></tr>
+                                            <tr><td>sie/Sie</td><td>h\u00e4tten</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="ref-box">
+                                    <p class="ref-title">w\u00e4re/w\u00e4ren + Ptz. II</p>
+                                    <table class="ref-table">
+                                        <tbody>
+                                            <tr><td>ich</td><td>w\u00e4re</td></tr>
+                                            <tr><td>du</td><td>w\u00e4rst</td></tr>
+                                            <tr><td>er/sie/es</td><td>w\u00e4re</td></tr>
+                                            <tr><td>wir</td><td>w\u00e4ren</td></tr>
+                                            <tr><td>ihr</td><td>w\u00e4rt</td></tr>
+                                            <tr><td>sie/Sie</td><td>w\u00e4ren</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Word bank */
+        .word-bank {
+            display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.7rem 1rem;
+        }
+        .wb-label {
+            font-size:0.75rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#475569;
+        }
+        .wb-chip {
+            padding:0.25rem 0.85rem; border-radius:20px;
+            background:#ede9fe; color:#6d28d9;
+            font-weight:700; font-size:0.88rem;
+            border:1.5px solid #c4b5fd;
+        }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .ex-card {
+            display:flex; align-items:flex-start; gap:0.85rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:1rem 1.1rem;
+            transition:border-color 0.2s, background 0.2s;
+        }
+        .ex-card.correct   { border-color:#16a34a; background:#f0fdf4; }
+        .ex-card.incorrect { border-color:#dc2626; background:#fef2f2; }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#7c3aed; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; margin-top:2px; flex-shrink:0;
+        }
+
+        .ex-body { display:flex; flex-direction:column; gap:0.3rem; flex:1; }
+
+        .ex-sentence {
+            margin:0; font-size:0.98rem; color:#1e293b;
+            line-height:2; display:flex; align-items:center; flex-wrap:wrap; gap:0.25rem;
+        }
+
+        .pre-word  { font-weight:600; }
+        .post-word { flex:1; }
+
+        .blank-wrap {
+            display:inline-flex; flex-direction:column; align-items:center; margin:0 2px;
+        }
+        .blank-hint {
+            font-size:0.64rem; color:#9ca3af; white-space:nowrap; line-height:1;
+        }
+
+        .fill-input {
+            width:100px; padding:0.2rem 0.5rem;
+            border:2px solid #a78bfa; border-radius:8px;
+            font-size:0.97rem; font-weight:700; text-align:center;
+            outline:none; transition:border-color 0.2s, background 0.2s;
+            background:#fff;
+        }
+        .fill-input:focus { border-color:#7c3aed; }
+        .ex-card.correct   .fill-input { border-color:#16a34a; background:#dcfce7; color:#15803d; }
+        .ex-card.incorrect .fill-input { border-color:#dc2626; background:#fee2e2; color:#b91c1c; }
+
+        .ex-feedback {
+            margin:0; font-size:0.85rem; font-weight:700; min-height:1.1em;
+        }
+        .ex-card.correct   .ex-feedback { color:#16a34a; }
+        .ex-card.incorrect .ex-feedback { color:#dc2626; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .btn-primary {
+            padding:0.55rem 1.4rem; border-radius:10px;
+            background:#7c3aed; color:#fff; font-weight:700;
+            border:none; cursor:pointer; font-size:0.92rem; transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#6d28d9; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        /* Score */
+        .score-box {
+            padding:0.7rem 1.1rem; border-radius:10px;
+            font-weight:700; font-size:0.95rem; text-align:center;
+        }
+        .score-box.good { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; }
+        .score-box.bad  { background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; }
+        .hidden { display:none; }
+
+        /* Reference */
+        .ref-wrap { display:flex; flex-direction:column; gap:0.6rem; }
+        .ref-heading {
+            font-size:0.78rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#475569;
+        }
+        .ref-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:0.8rem;
+        }
+        .ref-box {
+            background:#f8fafc; border:1.5px solid #e2e8f0; border-radius:10px;
+            padding:0.75rem 0.9rem;
+        }
+        .ref-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.04em; color:#6d28d9; margin:0 0 0.4rem 0;
+        }
+        .ref-table { width:100%; border-collapse:collapse; }
+        .ref-table td { padding:0.18rem 0.3rem; font-size:0.83rem; color:#374151; }
+        .ref-table td:first-child { color:#9ca3af; width:68px; }
+        .ref-table td:last-child  { font-weight:700; color:#6d28d9; }
+        .ref-table tr:nth-child(even) td { background:#ede9fe44; }
+    </style>
+
+    <script>
+        const answers: Record<string, string> = {
+            "e1": "w\u00fcrden",
+            "e2": "h\u00e4tte",
+            "e3": "w\u00e4re",
+            "e4": "h\u00e4tten",
+        };
+
+        document.getElementById("btn-check")?.addEventListener("click", () => {
+            let correct = 0;
+            const total = Object.keys(answers).length;
+            Object.entries(answers).forEach(([id, ans]) => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                card.classList.remove("correct","incorrect");
+                const val = inp.value.trim().toLowerCase();
+                if (val === ans.toLowerCase()) {
+                    card.classList.add("correct");
+                    fb.textContent = "\u2713 Richtig!";
+                    correct++;
+                } else if (val !== "") {
+                    card.classList.add("incorrect");
+                    fb.textContent = `\u2717 Richtig: ${ans}`;
+                } else {
+                    fb.textContent = "";
+                }
+            });
+            const box = document.getElementById("score-box");
+            if (box) {
+                box.classList.remove("hidden","good","bad");
+                box.classList.add(correct === total ? "good" : "bad");
+                box.textContent = `${correct} / ${total} richtig`;
+            }
+        });
+
+        document.getElementById("btn-reset")?.addEventListener("click", () => {
+            Object.keys(answers).forEach(id => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                inp.value = ""; card.classList.remove("correct","incorrect"); fb.textContent = "";
+            });
+            const box = document.getElementById("score-box");
+            if (box) { box.classList.add("hidden"); box.textContent = ""; }
+        });
+    </script>
+</Layout>

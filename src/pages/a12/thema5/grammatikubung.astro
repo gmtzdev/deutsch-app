@@ -1,0 +1,216 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const groups = [
+    {
+        prep:    "mit",
+        kasus:   "Dativ",
+        color:   "grp-mit",
+        count:   3,
+        hint:    "mit + Dativ: Ich gehe mit meinem Freund \u2026",
+    },
+    {
+        prep:    "ohne",
+        kasus:   "Akkusativ",
+        color:   "grp-ohne",
+        count:   3,
+        hint:    "ohne + Akkusativ: Er kam ohne seinen Schl\u00fcssel \u2026",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Bilde 3 S&auml;tze mit <em>mit</em> und 3 S&auml;tze mit <em>ohne</em>.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Quick reference -->
+                        <div class="ref-strip">
+                            <span class="ref-item ref-mit">
+                                <strong>mit</strong> + Dativ
+                            </span>
+                            <span class="ref-item ref-ohne">
+                                <strong>ohne</strong> + Akkusativ
+                            </span>
+                            <span class="ref-item ref-inf">
+                                <strong>ohne</strong> + zu-Infinitiv
+                            </span>
+                        </div>
+
+                        <div class="groups">
+                            {groups.map((g) => (
+                                <div class={`group-card ${g.color}`}>
+                                    <div class="group-header">
+                                        <span class={`prep-chip chip-${g.prep}`}>{g.prep}</span>
+                                        <span class={`kasus-chip kasus-${g.kasus.toLowerCase()}`}>{g.kasus}</span>
+                                        <span class="group-hint">{g.hint}</span>
+                                    </div>
+                                    <div class="inputs-list">
+                                        {Array.from({ length: g.count }, (_, i) => (
+                                            <div class="input-row">
+                                                <span class="row-nr">{i + 1}.</span>
+                                                <textarea
+                                                    class="sentence-input"
+                                                    rows={2}
+                                                    placeholder={`Schreibe einen Satz mit \u201e${g.prep}\u201c \u2026`}
+                                                    aria-label={`${g.prep} Satz ${i + 1}`}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="clear-all" type="button" class="button-reset">
+                                Alle l&ouml;schen
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* Reference strip */
+        .ref-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .ref-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+        }
+        .ref-mit  { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+        .ref-ohne { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+        .ref-inf  { background: #f3e8ff; color: #7c3aed; border: 1px solid #d8b4fe; }
+
+        /* Group cards */
+        .groups { display: flex; flex-direction: column; gap: 1.25rem; }
+        .group-card {
+            border-radius: 14px;
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            border: 1.5px solid transparent;
+        }
+        .grp-mit  { background: #eff6ff; border-color: #93c5fd; }
+        .grp-ohne { background: #f0fdf4; border-color: #86efac; }
+
+        .group-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .prep-chip {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 800;
+        }
+        .chip-mit  { background: #1d4ed8; color: #fff; }
+        .chip-ohne { background: #15803d; color: #fff; }
+
+        .kasus-chip {
+            display: inline-block;
+            padding: 0.18rem 0.55rem;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .kasus-dativ     { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .kasus-akkusativ { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+        .group-hint {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* Input rows */
+        .inputs-list { display: flex; flex-direction: column; gap: 0.6rem; }
+        .input-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .row-nr {
+            font-weight: 800;
+            color: #9ca3af;
+            font-size: 0.85rem;
+            padding-top: 0.55rem;
+            min-width: 1.2rem;
+        }
+        .sentence-input {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            line-height: 1.5;
+            background: #fff;
+            resize: vertical;
+            transition: border-color 0.15s;
+            outline: none;
+        }
+        .sentence-input:focus { border-color: #3b82f6; }
+
+        .global-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .button-reset {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+        .button-reset:hover { background: #f3f4f6; }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        document.querySelector("#clear-all")?.addEventListener("click", () => {
+            document.querySelectorAll(".sentence-input").forEach((el) => {
+                if (el instanceof HTMLTextAreaElement) el.value = "";
+            });
+        });
+    </script>
+</Layout>

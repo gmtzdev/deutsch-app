@@ -1,0 +1,383 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const items = [
+    {
+        id: 1,
+        parts: [
+            { type:"text",  value:"Ich " },
+            { type:"blank", answer:"w\u00fcrde", id:"1-1" },
+            { type:"text",  value:" mit meiner Schwester essen." },
+        ],
+    },
+    {
+        id: 2,
+        parts: [
+            { type:"text",  value:"Ihr " },
+            { type:"blank", answer:"w\u00fcrdet", id:"2-1" },
+            { type:"text",  value:" euch morgen treffen." },
+        ],
+    },
+    {
+        id: 3,
+        parts: [
+            { type:"text",  value:"Du " },
+            { type:"blank", answer:"w\u00fcrdest", id:"3-1" },
+            { type:"text",  value:" dich bei deinem Chef melden." },
+        ],
+    },
+    {
+        id: 4,
+        parts: [
+            { type:"text",  value:"Er " },
+            { type:"blank", answer:"w\u00fcrde", id:"4-1" },
+            { type:"text",  value:" n\u00e4chste Woche im Urlaub sein." },
+        ],
+    },
+    {
+        id: 5,
+        parts: [
+            { type:"text",  value:"Ich " },
+            { type:"blank", answer:"w\u00fcrde", id:"5-1" },
+            { type:"text",  value:" zu ihr gehen." },
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 2</h1>
+                <p class="subtitle text-indications">
+                    F&uuml;lle die L&uuml;cken mit der richtigen Form von <em>w&uuml;rde-</em> aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Reference table -->
+                        <div class="ref-box">
+                            <p class="ref-label">Konjunktiv II &mdash; w&uuml;rde + Infinitiv</p>
+                            <div class="ref-grid">
+                                {[
+                                    ["ich",  "w\u00fcrde"],
+                                    ["du",   "w\u00fcrdest"],
+                                    ["er/sie/es", "w\u00fcrde"],
+                                    ["wir",  "w\u00fcrden"],
+                                    ["ihr",  "w\u00fcrdet"],
+                                    ["sie/Sie", "w\u00fcrden"],
+                                ].map(([pro, form]) => (
+                                    <div class="ref-row">
+                                        <span class="ref-pro">{pro}</span>
+                                        <span class="ref-form">{form}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div class="ex-list" id="ex-list">
+                            {items.map((item) => (
+                                <div
+                                    class="ex-block"
+                                    id={`ex-${item.id}`}
+                                    data-total={item.parts.filter((p) => p.type === "blank").length}
+                                >
+                                    <div class="text-block">
+                                        <span class="ex-nr">{item.id}.</span>
+                                        {item.parts.map((p) =>
+                                            p.type === "text" ? (
+                                                <span>{p.value}</span>
+                                            ) : (
+                                                <span class="blank-wrap">
+                                                    <input
+                                                        type="text"
+                                                        class="blank-input"
+                                                        data-answer={p.answer}
+                                                        data-blankid={p.id}
+                                                        data-exid={item.id}
+                                                        autocomplete="off"
+                                                        autocorrect="off"
+                                                        spellcheck="false"
+                                                        aria-label={`L\u00fccke ${p.id}`}
+                                                    />
+                                                    <span class="blank-feedback" aria-live="polite" />
+                                                </span>
+                                            )
+                                        )}
+                                    </div>
+
+                                    <div class="ex-actions">
+                                        <button type="button" class="btn-check" data-exid={item.id}>
+                                            Pr&uuml;fen
+                                        </button>
+                                        <button type="button" class="btn-reset" data-exid={item.id}>
+                                            &#x21BA;
+                                        </button>
+                                        <span class="ex-feedback" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle pr&uuml;fen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zur&uuml;cksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        /* Reference box */
+        .ref-box {
+            border: 1.5px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            background: #eff6ff;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-width: 420px;
+        }
+        .ref-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #1d4ed8;
+            margin: 0;
+        }
+        .ref-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.3rem 0.75rem;
+        }
+        .ref-row {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .ref-pro  { font-size: 0.8rem; color: #6b7280; min-width: 52px; }
+        .ref-form { font-size: 0.88rem; font-weight: 700; color: #1d4ed8; }
+
+        /* Exercise list */
+        .ex-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .ex-block {
+            padding: 0.75rem 1rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .ex-block.correct { border-color: #10b981; background: #f0fdf4; }
+        .ex-block.wrong   { border-color: #ef4444; background: #fef2f2; }
+
+        .text-block {
+            font-size: 1rem;
+            line-height: 2.6;
+            padding: 0.5rem 0.75rem;
+            background: var(--color-table-row-hover, #f9fafb);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .ex-nr {
+            font-weight: 800;
+            color: #9ca3af;
+            margin-right: 0.35rem;
+            font-size: 0.85rem;
+        }
+
+        .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.1rem;
+            vertical-align: middle;
+        }
+        .blank-input {
+            width: 90px;
+            padding: 0.2rem 0.4rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            transition: border-color 0.15s, background 0.15s;
+            outline: none;
+        }
+        .blank-input:focus   { border-color: #3b82f6; }
+        .blank-input.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 700; }
+        .blank-input.wrong   { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+
+        .blank-feedback { font-size: 0.75rem; font-weight: 700; min-width: 1em; }
+
+        .ex-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .btn-check {
+            padding: 0.3rem 0.85rem; font-size: 0.82rem; font-weight: 700;
+            border: none; border-radius: 8px; cursor: pointer;
+            background: #111827; color: #fff;
+        }
+        .btn-reset {
+            padding: 0.3rem 0.65rem; font-size: 0.9rem;
+            border: 1.5px solid #d1d5db; border-radius: 8px; cursor: pointer;
+            background: transparent; color: #374151;
+        }
+        .ex-feedback { font-size: 0.85rem; font-weight: 600; min-height: 1.1em; }
+
+        .global-actions { display: flex; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
+        .button-submit {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 700;
+            border: none; border-radius: 8px; cursor: pointer;
+            background: #111827; color: #fff;
+        }
+        .button-reset {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 600;
+            border: 1.5px solid #d1d5db; border-radius: 8px; cursor: pointer;
+            background: transparent; color: #374151;
+        }
+        .result { margin-top: 0.25rem; font-size: 1.05rem; font-weight: 700; min-height: 1.4em; }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const getBlock = (id: string | number) =>
+            document.querySelector(`#ex-${id}`) as HTMLDivElement | null;
+        const getInputs = (block: HTMLDivElement) =>
+            [...block.querySelectorAll(".blank-input")] as HTMLInputElement[];
+
+        document.querySelectorAll(".blank-input").forEach((el) => {
+            const inp = el as HTMLInputElement;
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(90, inp.value.length * 13 + 20) + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+                const block = inp.closest(".ex-block");
+                if (block instanceof HTMLDivElement)
+                    block.classList.remove("correct", "wrong");
+                const exFb = block?.querySelector(".ex-feedback");
+                if (exFb instanceof HTMLSpanElement) exFb.textContent = "";
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+            inp.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") checkBlock(inp.dataset.exid ?? "");
+            });
+        });
+
+        const checkBlock = (id: string | number) => {
+            const block = getBlock(id);
+            if (!block) return;
+            const inputs = getInputs(block);
+            const exFb   = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            let score = 0, answered = 0;
+
+            inputs.forEach((inp) => {
+                const given   = inp.value.trim().toLowerCase();
+                const correct = (inp.dataset.answer ?? "").toLowerCase();
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                inp.classList.remove("correct", "wrong");
+                if (!given) { if (fb) fb.textContent = ""; return; }
+                answered++;
+                if (given === correct) {
+                    score++;
+                    inp.classList.add("correct");
+                    if (fb) fb.textContent = "\u2705";
+                } else {
+                    inp.classList.add("wrong");
+                    if (fb) fb.textContent = "\u274c";
+                }
+            });
+
+            block.classList.remove("correct", "wrong");
+            if (answered === 0) return;
+            if (score === inputs.length) {
+                block.classList.add("correct");
+                if (exFb) exFb.textContent = "\u2705 Richtig!";
+            } else {
+                block.classList.add("wrong");
+                if (exFb) exFb.textContent = `\u274c L\u00f6sung: ${inputs.map((i) => i.dataset.answer).join(", ")}`;
+            }
+        };
+
+        const resetBlock = (id: string | number) => {
+            const block = getBlock(id);
+            if (!block) return;
+            block.classList.remove("correct", "wrong");
+            getInputs(block).forEach((inp) => {
+                inp.value = "";
+                inp.style.width = "90px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            const exFb = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            if (exFb) exFb.textContent = "";
+        };
+
+        document.querySelectorAll(".btn-check").forEach((btn) =>
+            btn.addEventListener("click", () => checkBlock((btn as HTMLButtonElement).dataset.exid ?? ""))
+        );
+        document.querySelectorAll(".btn-reset").forEach((btn) =>
+            btn.addEventListener("click", () => {
+                resetBlock((btn as HTMLButtonElement).dataset.exid ?? "");
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            })
+        );
+
+        document.querySelector("#check-all")?.addEventListener("click", () => {
+            const blocks = [...document.querySelectorAll(".ex-block")] as HTMLDivElement[];
+            let total = 0, correct = 0;
+            blocks.forEach((b) => {
+                checkBlock(b.id.replace("ex-", ""));
+                const inputs = getInputs(b);
+                total   += inputs.length;
+                correct += inputs.filter((i) => i.classList.contains("correct")).length;
+            });
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) {
+                gr.textContent =
+                    `${correct} / ${total} richtig` +
+                    (correct === total ? " \u2014 Ausgezeichnet! \uD83C\uDF89" : "");
+            }
+        });
+
+        document.querySelector("#reset-all")?.addEventListener("click", () => {
+            [...document.querySelectorAll(".ex-block")].forEach((b) =>
+                resetBlock((b as HTMLDivElement).id.replace("ex-", ""))
+            );
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+        });
+    </script>
+</Layout>

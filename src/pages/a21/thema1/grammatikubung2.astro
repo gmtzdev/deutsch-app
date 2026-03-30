@@ -1,0 +1,344 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 2</h1>
+                <p class="subtitle text-indications">
+                    Erg&auml;nzen Sie den richtigen Possessivartikel
+                    (<strong>sein / seine / ihr / ihre</strong>).
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Word bank -->
+                        <div class="wordbank">
+                            <span class="wb-label">W&ouml;rterkasten:</span>
+                            <span class="wb-chip chip-sein">sein</span>
+                            <span class="wb-chip chip-sein">seine</span>
+                            <span class="wb-chip chip-ihr">ihr</span>
+                            <span class="wb-chip chip-ihr">ihre</span>
+                        </div>
+
+                        <!-- Context note -->
+                        <div class="context-box">
+                            <p class="ctx-title">Familienbaum</p>
+                            <p>
+                                Leo ist der Bruder von Maries Mutter.
+                                Arthur ist Maries Vater. Anna ist Maries Mutter.
+                                Ingrid ist Maries Gro&szlig;mutter (Mutter von Anna).
+                            </p>
+                        </div>
+
+                        <div class="exercises">
+
+                            <!-- 1: Amira ist Leos Tochter → Leo = männlich → sein/seine -->
+                            <div class="ex-row">
+                                <span class="ex-num">1.</span>
+                                <div class="sentence">
+                                    Leo ist der Bruder von Maries Mutter. Amira ist
+                                    <input class="ipt ipt-md" data-ans="seine" placeholder="_______" />
+                                    Tochter.
+                                </div>
+                            </div>
+
+                            <!-- 2: Lukas ist Amiras Bruder → Amira = weiblich → ihr -->
+                            <div class="ex-row">
+                                <span class="ex-num">2.</span>
+                                <div class="sentence">
+                                    Lukas ist Amiras Bruder. Er ist
+                                    <input class="ipt ipt-sm" data-ans="ihr" placeholder="_____" />
+                                    Bruder.
+                                </div>
+                            </div>
+
+                            <!-- 3: Ingrid ist Maries Großmutter. Anna ist Ingrids Tochter → Ingrid = weiblich → ihre -->
+                            <div class="ex-row">
+                                <span class="ex-num">3.</span>
+                                <div class="sentence">
+                                    Ingrid ist Maries Gro&szlig;mutter. Anna ist
+                                    <input class="ipt ipt-md" data-ans="ihre" placeholder="_______" />
+                                    Tochter.
+                                </div>
+                            </div>
+
+                            <!-- 4: Marie hat eine Schwester. Lina ist Maries Schwester → Marie = weiblich → ihre -->
+                            <div class="ex-row">
+                                <span class="ex-num">4.</span>
+                                <div class="sentence">
+                                    Marie hat eine Schwester. Lina ist
+                                    <input class="ipt ipt-md" data-ans="ihre" placeholder="_______" />
+                                    Schwester.
+                                </div>
+                            </div>
+
+                            <!-- 5: Arthur ist Maries Vater. Anna ist Arthurs Frau → Arthur = männlich → seine -->
+                            <div class="ex-row">
+                                <span class="ex-num">5.</span>
+                                <div class="sentence">
+                                    Arthur ist Maries Vater. Anna ist
+                                    <input class="ipt ipt-md" data-ans="seine" placeholder="_______" />
+                                    Frau.
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnCheck" class="btn-check">Pr&uuml;fen</button>
+                            <button id="btnSolution" class="btn-solution">L&ouml;sung zeigen</button>
+                            <button id="btnReset" class="btn-reset">Zur&uuml;cksetzen</button>
+                        </div>
+
+                        <div id="result" class="result hidden"></div>
+
+                        <!-- Mini reference -->
+                        <div class="ref-row">
+                            <div class="ref-card card-sein">
+                                <p class="ref-title chip-sein-txt">sein / seine</p>
+                                <p>m&auml;nnlicher Besitzer (er)</p>
+                                <p class="ref-ex"><em>Das ist <strong>sein</strong> Bruder. / <strong>seine</strong> Schwester.</em></p>
+                            </div>
+                            <div class="ref-card card-ihr">
+                                <p class="ref-title chip-ihr-txt">ihr / ihre</p>
+                                <p>weiblicher Besitzer (sie)</p>
+                                <p class="ref-ex"><em>Das ist <strong>ihr</strong> Bruder. / <strong>ihre</strong> Schwester.</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+
+        /* Word bank */
+        .wordbank {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.65rem 1rem;
+        }
+        .wb-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 0.25rem;
+        }
+        .wb-chip {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.88rem;
+        }
+        .chip-sein { background: #1d4ed8; color: #fff; }
+        .chip-ihr  { background: #be185d; color: #fff; }
+
+        /* Context box */
+        .context-box {
+            background: #f0f9ff;
+            border: 1.5px solid #bae6fd;
+            border-radius: 10px;
+            padding: 0.75rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .ctx-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #0369a1;
+            margin: 0;
+        }
+        .context-box p:last-child { font-size: 0.88rem; margin: 0; color: #0c4a6e; }
+
+        /* Exercises */
+        .exercises { display: flex; flex-direction: column; gap: 0.85rem; }
+        .ex-row { display: flex; align-items: center; gap: 0.6rem; }
+        .ex-num {
+            min-width: 1.5rem;
+            font-weight: 700;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+        .sentence {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            font-size: 0.97rem;
+            color: #111827;
+        }
+
+        /* Inputs */
+        .ipt {
+            border: none;
+            border-bottom: 2px solid #93c5fd;
+            background: transparent;
+            outline: none;
+            font-size: 0.97rem;
+            font-family: inherit;
+            color: #1d4ed8;
+            font-weight: 700;
+            padding: 0.05rem 0.2rem;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .ipt:focus { border-bottom-color: #2563eb; }
+        .ipt-sm { width: 4.5rem; }
+        .ipt-md { width: 5.5rem; }
+
+        .ipt.correct   { border-bottom-color: #16a34a; color: #15803d; background: #f0fdf4; border-radius: 3px; }
+        .ipt.incorrect { border-bottom-color: #dc2626; color: #b91c1c; background: #fef2f2; border-radius: 3px; }
+        .ipt.shown     { border-bottom-color: #d97706; color: #b45309; background: #fffbeb; border-radius: 3px; }
+
+        /* Buttons */
+        .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.25rem; }
+
+        .btn-check {
+            padding: 0.5rem 1.4rem;
+            background: #1d4ed8;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-check:hover { background: #1e40af; }
+
+        .btn-solution {
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            color: #d97706;
+            border: 1.5px solid #fcd34d;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-solution:hover { background: #fffbeb; }
+
+        .btn-reset {
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            color: #6b7280;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-reset:hover { border-color: #9ca3af; color: #374151; }
+
+        /* Result */
+        .result { padding: 0.7rem 1rem; border-radius: 10px; font-size: 0.9rem; font-weight: 700; }
+        .result.hidden { display: none; }
+        .result.ok  { background: #f0fdf4; color: #15803d; border: 1.5px solid #86efac; }
+        .result.err { background: #fef2f2; color: #991b1b; border: 1.5px solid #fca5a5; }
+
+        /* Reference cards */
+        .ref-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .ref-card {
+            flex: 1;
+            min-width: 190px;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            border: 1.5px solid transparent;
+        }
+        .card-sein { background: #eff6ff; border-color: #93c5fd; }
+        .card-ihr  { background: #fdf2f8; border-color: #f9a8d4; }
+
+        .ref-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin: 0 0 0.2rem;
+        }
+        .chip-sein-txt { color: #1d4ed8; }
+        .chip-ihr-txt  { color: #be185d; }
+
+        .ref-card p { font-size: 0.86rem; margin: 0; color: #374151; }
+        .ref-ex { font-style: italic; margin-top: 0.2rem !important; }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll<HTMLInputElement>(".ipt");
+        const btnCheck    = document.getElementById("btnCheck")!;
+        const btnSolution = document.getElementById("btnSolution")!;
+        const btnReset    = document.getElementById("btnReset")!;
+        const result      = document.getElementById("result")!;
+
+        btnCheck.addEventListener("click", () => {
+            let correct = 0;
+            inputs.forEach(inp => {
+                const ans = (inp.dataset.ans ?? "").trim().toLowerCase();
+                const val = inp.value.trim().toLowerCase();
+                inp.classList.remove("shown");
+                if (val === ans) {
+                    inp.classList.add("correct");
+                    inp.classList.remove("incorrect");
+                    correct++;
+                } else {
+                    inp.classList.add("incorrect");
+                    inp.classList.remove("correct");
+                }
+            });
+            result.classList.remove("hidden", "ok", "err");
+            if (correct === inputs.length) {
+                result.textContent = `Perfekt! Alle ${inputs.length} Antworten richtig!`;
+                result.classList.add("ok");
+            } else {
+                result.textContent = `${correct} von ${inputs.length} richtig. Versuche es nochmal!`;
+                result.classList.add("err");
+            }
+        });
+
+        btnSolution.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = inp.dataset.ans ?? "";
+                inp.classList.remove("correct", "incorrect");
+                inp.classList.add("shown");
+            });
+            result.classList.add("hidden");
+        });
+
+        btnReset.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect", "shown");
+            });
+            result.classList.add("hidden");
+            result.classList.remove("ok", "err");
+        });
+    </script>
+</Layout>

@@ -1,0 +1,265 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 2</h1>
+                <p class="subtitle text-indications">
+                    Stelle die richtige Frage &mdash;
+                    <span class="q-wo">Wo?</span> oder <span class="q-wohin">Wohin?</span>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Mini reference -->
+                        <div class="ref-row">
+                            <div class="ref-card card-wo">
+                                <p class="ref-title">Wo? &rarr; Dativ</p>
+                                <p>Ort / Lage &mdash; kein Bewegungsziel</p>
+                                <p class="ref-ex"><em>Das Buch liegt auf <strong>dem</strong> Tisch.</em></p>
+                            </div>
+                            <div class="ref-card card-wohin">
+                                <p class="ref-title">Wohin? &rarr; Akkusativ</p>
+                                <p>Richtung / Bewegungsziel</p>
+                                <p class="ref-ex"><em>Ich lege das Buch auf <strong>den</strong> Tisch.</em></p>
+                            </div>
+                        </div>
+
+                        <div class="exercises">
+
+                            <!-- 1: läuft in das Haus → Wohin? (Richtung, Akk) -->
+                            <div class="ex-block">
+                                <div class="ex-row">
+                                    <span class="ex-num">1.</span>
+                                    <div class="sentence-col">
+                                        <div class="question-line">
+                                            <input class="ipt ipt-md" data-ans="Wohin" placeholder="________" />
+                                            l&auml;uft der Hund?
+                                        </div>
+                                        <div class="answer-line">
+                                            &rarr; Der Hund l&auml;uft in das Haus.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2: liegt auf dem Tisch → Wo? (Lage, Dat) -->
+                            <div class="ex-block">
+                                <div class="ex-row">
+                                    <span class="ex-num">2.</span>
+                                    <div class="sentence-col">
+                                        <div class="question-line">
+                                            <input class="ipt ipt-sm" data-ans="Wo" placeholder="______" />
+                                            liegt das Buch?
+                                        </div>
+                                        <div class="answer-line">
+                                            &rarr; Das Buch liegt auf dem Tisch.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3: ist hinter dem Haus → Wo? (Lage, Dat) -->
+                            <div class="ex-block">
+                                <div class="ex-row">
+                                    <span class="ex-num">3.</span>
+                                    <div class="sentence-col">
+                                        <div class="question-line">
+                                            <input class="ipt ipt-sm" data-ans="Wo" placeholder="______" />
+                                            ist der Hund?
+                                        </div>
+                                        <div class="answer-line">
+                                            &rarr; Der Hund ist hinter dem Haus.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4: lege auf den Tisch → Wohin? (Richtung, Akk) -->
+                            <div class="ex-block">
+                                <div class="ex-row">
+                                    <span class="ex-num">4.</span>
+                                    <div class="sentence-col">
+                                        <div class="question-line">
+                                            <input class="ipt ipt-md" data-ans="Wohin" placeholder="________" />
+                                            legst du das Buch?
+                                        </div>
+                                        <div class="answer-line">
+                                            &rarr; Ich lege das Buch auf den Tisch.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnCheck" class="btn-check">Pr&uuml;fen</button>
+                            <button id="btnSolution" class="btn-solution">L&ouml;sung zeigen</button>
+                            <button id="btnReset" class="btn-reset">Zur&uuml;cksetzen</button>
+                        </div>
+
+                        <div id="result" class="result hidden"></div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+
+        /* Subtitle chips */
+        .q-wo    { display:inline-block; padding:0.1rem 0.45rem; background:#1d4ed8; color:#fff; border-radius:6px; font-weight:800; font-size:0.9rem; }
+        .q-wohin { display:inline-block; padding:0.1rem 0.45rem; background:#7c3aed; color:#fff; border-radius:6px; font-weight:800; font-size:0.9rem; }
+
+        /* Reference cards */
+        .ref-row { display:flex; gap:1rem; flex-wrap:wrap; }
+        .ref-card {
+            flex:1; min-width:190px;
+            border-radius:12px; padding:0.9rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+            border:1.5px solid transparent;
+        }
+        .card-wo    { background:#eff6ff; border-color:#93c5fd; }
+        .card-wohin { background:#f5f3ff; border-color:#c4b5fd; }
+
+        .ref-title { font-size:0.8rem; font-weight:800; margin:0 0 0.2rem; }
+        .card-wo    .ref-title { color:#1d4ed8; }
+        .card-wohin .ref-title { color:#6d28d9; }
+        .ref-card p { font-size:0.86rem; margin:0; color:#374151; }
+        .ref-ex { font-style:italic; margin-top:0.15rem !important; color:#6b7280 !important; }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .ex-block {
+            background:#f9fafb;
+            border:1.5px solid #e5e7eb;
+            border-radius:12px;
+            padding:0.85rem 1.1rem;
+        }
+        .ex-row { display:flex; align-items:flex-start; gap:0.6rem; }
+        .ex-num { min-width:1.5rem; font-weight:700; color:#374151; font-size:0.95rem; padding-top:0.3rem; }
+
+        .sentence-col { display:flex; flex-direction:column; gap:0.35rem; }
+
+        .question-line {
+            display:flex; align-items:center; flex-wrap:wrap; gap:0.35rem;
+            font-size:0.97rem; font-weight:600; color:#111827;
+        }
+        .answer-line {
+            font-size:0.88rem; color:#6b7280; font-style:italic; padding-left:0.1rem;
+        }
+
+        /* Input */
+        .ipt {
+            border:none; border-bottom:2px solid #93c5fd;
+            background:transparent; outline:none;
+            font-size:0.97rem; font-family:inherit;
+            color:#1d4ed8; font-weight:700;
+            padding:0.05rem 0.2rem; text-align:center;
+            transition:border-color 0.2s;
+        }
+        .ipt:focus { border-bottom-color:#2563eb; }
+        .ipt-sm { width:4.5rem; }
+        .ipt-md { width:5.5rem; }
+
+        .ipt.correct   { border-bottom-color:#16a34a; color:#15803d; background:#f0fdf4; border-radius:3px; }
+        .ipt.incorrect { border-bottom-color:#dc2626; color:#b91c1c; background:#fef2f2; border-radius:3px; }
+        .ipt.shown     { border-bottom-color:#d97706; color:#b45309; background:#fffbeb; border-radius:3px; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.25rem; }
+
+        .btn-check {
+            padding:0.5rem 1.4rem; background:#1d4ed8; color:#fff;
+            border:none; border-radius:8px; font-size:0.9rem; font-weight:700;
+            cursor:pointer; transition:background 0.2s;
+        }
+        .btn-check:hover { background:#1e40af; }
+
+        .btn-solution {
+            padding:0.5rem 1.2rem; background:transparent; color:#d97706;
+            border:1.5px solid #fcd34d; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-solution:hover { background:#fffbeb; }
+
+        .btn-reset {
+            padding:0.5rem 1.2rem; background:transparent; color:#6b7280;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-reset:hover { border-color:#9ca3af; color:#374151; }
+
+        /* Result */
+        .result { padding:0.7rem 1rem; border-radius:10px; font-size:0.9rem; font-weight:700; }
+        .result.hidden { display:none; }
+        .result.ok  { background:#f0fdf4; color:#15803d; border:1.5px solid #86efac; }
+        .result.err { background:#fef2f2; color:#991b1b; border:1.5px solid #fca5a5; }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll<HTMLInputElement>(".ipt");
+        const btnCheck    = document.getElementById("btnCheck")!;
+        const btnSolution = document.getElementById("btnSolution")!;
+        const btnReset    = document.getElementById("btnReset")!;
+        const result      = document.getElementById("result")!;
+
+        btnCheck.addEventListener("click", () => {
+            let correct = 0;
+            inputs.forEach(inp => {
+                const ans = (inp.dataset.ans ?? "").trim().toLowerCase();
+                const val = inp.value.trim().toLowerCase();
+                inp.classList.remove("shown");
+                if (val === ans) {
+                    inp.classList.add("correct"); inp.classList.remove("incorrect"); correct++;
+                } else {
+                    inp.classList.add("incorrect"); inp.classList.remove("correct");
+                }
+            });
+            result.classList.remove("hidden", "ok", "err");
+            if (correct === inputs.length) {
+                result.textContent = `Perfekt! Alle ${inputs.length} Antworten richtig!`;
+                result.classList.add("ok");
+            } else {
+                result.textContent = `${correct} von ${inputs.length} richtig. Versuche es nochmal!`;
+                result.classList.add("err");
+            }
+        });
+
+        btnSolution.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = inp.dataset.ans ?? "";
+                inp.classList.remove("correct", "incorrect");
+                inp.classList.add("shown");
+            });
+            result.classList.add("hidden");
+        });
+
+        btnReset.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect", "shown");
+            });
+            result.classList.add("hidden");
+            result.classList.remove("ok", "err");
+        });
+    </script>
+</Layout>

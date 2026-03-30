@@ -1,0 +1,222 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const rows = [
+    {
+        von:     "Das ist die Mutter von Lisa.",
+        genitiv: "Das ist Lisas Mutter.",
+        name:    "Lisa",
+        ending:  "s",
+        note:    "",
+    },
+    {
+        von:     "Das ist der Hund vom Mann.",
+        genitiv: "Das ist Mannes Hund.",
+        name:    "Mann",
+        ending:  "es",
+        note:    "Namen auf -n, -nn \u2192 -es",
+    },
+    {
+        von:     "Das ist der Schuh von Max.",
+        genitiv: "Das ist Maxs Schuh.",
+        name:    "Max",
+        ending:  "s",
+        note:    "Namen auf -s/-x/-z \u2192 nur -s",
+    },
+    {
+        von:     "Ich bin im Haus von Marco.",
+        genitiv: "Ich bin in Marcos Haus.",
+        name:    "Marco",
+        ending:  "s",
+        note:    "",
+    },
+    {
+        von:     "Ist das das Spielzeug von Lucas?",
+        genitiv: "Ja, das ist Lucas\u2019 Spielzeug.",
+        name:    "Lucas",
+        ending:  "\u2019",
+        note:    "Namen enden auf -s \u2192 nur Apostroph",
+    },
+    {
+        von:     "Das ist der Schreibtisch von Erika.",
+        genitiv: "Das ist Erikas Schreibtisch.",
+        name:    "Erika",
+        ending:  "s",
+        note:    "",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 3</h1>
+                <p class="subtitle text-indications">
+                    Das Genitiv-<em>s</em> f&uuml;r Namen
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Rule box -->
+                        <div class="rule-box">
+                            <p class="rule-title">Regel</p>
+                            <ul class="rule-list">
+                                <li>
+                                    <span class="rule-chip chip-default">Normalfall</span>
+                                    Name + <strong>-s</strong>
+                                    <span class="rule-ex">Lisa &rarr; <strong>Lisas</strong> Mutter</span>
+                                </li>
+                                <li>
+                                    <span class="rule-chip chip-s">Name endet auf -s / -x / -z</span>
+                                    Name + <strong>-s</strong> (kurz &amp; gesprochen wie Apostroph)
+                                    <span class="rule-ex">Max &rarr; <strong>Maxs</strong> Schuh</span>
+                                </li>
+                                <li>
+                                    <span class="rule-chip chip-apos">Name endet auf -s (Schrift)</span>
+                                    Name + <strong>&rsquo;</strong> (Apostroph, kein Extra-s)
+                                    <span class="rule-ex">Lucas &rarr; <strong>Lucas&rsquo;</strong> Spielzeug</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Examples table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table gen-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-von">von + Name</th>
+                                        <th class="th-arrow"></th>
+                                        <th class="th-gen">Genitiv-s</th>
+                                        <th class="th-note">Hinweis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-von">{r.von}</td>
+                                            <td class="td-arrow" aria-hidden="true">&rarr;</td>
+                                            <td class="td-gen">
+                                                {r.genitiv.split(r.name + r.ending).map((part, idx, arr) =>
+                                                    idx < arr.length - 1 ? (
+                                                        <>
+                                                            {part}
+                                                            <strong class="hl-name">{r.name}</strong><strong class="hl-end">{r.ending}</strong>
+                                                        </>
+                                                    ) : part
+                                                )}
+                                            </td>
+                                            <td class="td-note">{r.note}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        /* Rule box */
+        .rule-box {
+            background: #faf5ff;
+            border: 1.5px solid #d8b4fe;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .rule-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #7e22ce;
+            margin: 0;
+        }
+        .rule-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+        .rule-list li {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            font-size: 0.88rem;
+            color: #374151;
+        }
+        .rule-chip {
+            display: inline-block;
+            padding: 0.1rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+        .chip-default { background: #e0e7ff; color: #3730a3; border: 1px solid #a5b4fc; }
+        .chip-s       { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+        .chip-apos    { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .rule-ex {
+            margin-left: 0.3rem;
+            color: #6b7280;
+            font-style: italic;
+            font-size: 0.82rem;
+        }
+
+        /* Table */
+        .table-wrapper { overflow-x: auto; }
+
+        .th-von   { width: 38%; }
+        .th-arrow { width: 32px; text-align: center; }
+        .th-gen   { width: 38%; }
+        .th-note  { width: 24%; font-size: 0.75rem; }
+
+        .td-von {
+            color: #374151;
+            font-size: 0.9rem;
+        }
+        .td-arrow {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #9ca3af;
+            padding: 0 0.3rem;
+        }
+        .td-gen { font-size: 0.9rem; color: #111827; }
+        .td-note {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* Highlighted name + ending */
+        .hl-name { color: #1d4ed8; }
+        .hl-end  { color: #7c3aed; font-size: 1.05em; }
+
+        /* Alternating rows */
+        .row-even { background: #ffffff; }
+        .row-odd  { background: #f9fafb; }
+        .gen-table tbody tr:hover { background: #f3e8ff33; }
+    </style>
+</Layout>

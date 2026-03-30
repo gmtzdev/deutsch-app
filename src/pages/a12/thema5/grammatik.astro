@@ -1,0 +1,192 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const rows = [
+    {
+        prep:     "mit",
+        kasus:    "Dativ",
+        examples: [
+            "Ich trinke Tee \u2794 mit Zucker.",
+            "Er ging mit seinen Freunden ins Theater.",
+            "Es ist schwer, mit ihr t\u00e4glich zu arbeiten.",
+        ],
+    },
+    {
+        prep:     "ohne",
+        kasus:    "Akkusativ",
+        examples: [
+            "Ich trinke Tee ohne Zucker.",
+            "Er ging ohne seine Schl\u00fcssel aus der Wohnung.",
+            "Sie verlie\u00df den Raum, ohne ein Wort zu sagen.",
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Pr&auml;positionen <em>mit</em> und <em>ohne</em>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table prep-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-prep">Pr&auml;position</th>
+                                        <th class="th-kasus">Kasus</th>
+                                        <th class="th-ex">Beispiele</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r) => (
+                                        <tr class={r.prep === "mit" ? "row-mit" : "row-ohne"}>
+                                            <td class="td-prep">
+                                                <span class={`chip chip-${r.prep}`}>{r.prep}</span>
+                                            </td>
+                                            <td class="td-kasus">
+                                                <span class={`kasus-chip kasus-${r.kasus.toLowerCase()}`}>
+                                                    {r.kasus}
+                                                </span>
+                                            </td>
+                                            <td class="td-ex">
+                                                <ol class="ex-list">
+                                                    {r.examples.map((ex) => (
+                                                        <li>{ex}</li>
+                                                    ))}
+                                                </ol>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Contrast box -->
+                        <div class="contrast-box">
+                            <div class="contrast-col col-mit">
+                                <div class="contrast-label">mit + Dativ</div>
+                                <p>Ich trinke Tee <strong>mit Zucker</strong>.</p>
+                                <p>Er ging <strong>mit seinen Freunden</strong>.</p>
+                            </div>
+                            <div class="contrast-divider">vs.</div>
+                            <div class="contrast-col col-ohne">
+                                <div class="contrast-label">ohne + Akkusativ</div>
+                                <p>Ich trinke Tee <strong>ohne Zucker</strong>.</p>
+                                <p>Er ging <strong>ohne seine Schl&uuml;ssel</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        .th-prep  { width: 110px; }
+        .th-kasus { width: 120px; text-align: center; }
+        .th-ex    { }
+
+        .td-prep   { vertical-align: top; padding: 1rem; }
+        .td-kasus  { vertical-align: top; padding: 1rem; text-align: center; }
+        .td-ex     { vertical-align: top; padding: 0.75rem 1rem; }
+
+        .chip {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+        }
+        .chip-mit   { background: #dbeafe; color: #1d4ed8; border: 1.5px solid #93c5fd; }
+        .chip-ohne  { background: #dcfce7; color: #15803d; border: 1.5px solid #86efac; }
+
+        .kasus-chip {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .kasus-dativ     { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .kasus-akkusativ { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+        .ex-list {
+            list-style: decimal inside;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .ex-list li { font-size: 0.95rem; line-height: 1.55; }
+
+        .row-mit  { background: #f0f7ff; }
+        .row-ohne { background: #f0fdf6; }
+
+        /* Contrast box */
+        .contrast-box {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .contrast-col {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .col-mit  { background: #eff6ff; }
+        .col-ohne { background: #f0fdf4; }
+        .contrast-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.75rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #9ca3af;
+            background: #f9fafb;
+            border-left: 1px solid #e5e7eb;
+            border-right: 1px solid #e5e7eb;
+        }
+        .contrast-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.25rem;
+        }
+        .col-mit  .contrast-label { color: #1d4ed8; }
+        .col-ohne .contrast-label { color: #15803d; }
+        .contrast-col p { font-size: 0.9rem; margin: 0; }
+        .contrast-col strong { font-weight: 700; }
+    </style>
+</Layout>

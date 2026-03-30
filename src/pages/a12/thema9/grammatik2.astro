@@ -1,0 +1,197 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const hauptPraefixe = ["be-", "ent-", "er-", "ver-", "zer-"];
+
+const weiterePraefixe = ["miss-", "fehl-", "a-", "de(s)-", "dis-", "ge-", "im-", "in-", "non-", "re-", "un-"];
+
+const beispiele = [
+    { prefix:"be-",   verb:"bemerken",    meaning:"to notice"    },
+    { prefix:"be-",   verb:"bem\u00fchen", meaning:"to try/strive" },
+    { prefix:"ent-",  verb:"entkommen",   meaning:"to escape"    },
+    { prefix:"ent-",  verb:"entlassen",   meaning:"to dismiss"   },
+    { prefix:"er-",   verb:"erfordern",   meaning:"to require"   },
+    { prefix:"er-",   verb:"erforschen",  meaning:"to explore"   },
+    { prefix:"ge-",   verb:"gebrauchen",  meaning:"to use"       },
+    { prefix:"ge-",   verb:"gef\u00e4hrden", meaning:"to endanger" },
+    { prefix:"hinter-",verb:"hintergehen",meaning:"to deceive"   },
+    { prefix:"hinter-",verb:"hinterlassen",meaning:"to leave behind"},
+    { prefix:"ver-",  verb:"ver\u00e4ndern", meaning:"to change" },
+    { prefix:"ver-",  verb:"ver\u00e4rgern", meaning:"to annoy"  },
+    { prefix:"zer-",  verb:"zerrei\u00dfen", meaning:"to tear"   },
+    { prefix:"zer-",  verb:"zerst\u00f6ren","meaning":"to destroy" },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={9} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Nicht trennbare Verben &mdash; Pr&auml;fixe (Vorsilben)
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Regel -->
+                        <div class="regel-box">
+                            <p class="regel-title">Regel</p>
+                            <p>
+                                Nicht trennbare Verben werden <strong>niemals</strong> getrennt.
+                                Der Pr&auml;fix bleibt immer mit dem Verb verbunden &mdash;
+                                auch im Imperativ und im Partizip II (ohne <em>ge-</em>).
+                            </p>
+                            <p class="regel-ex">
+                                <em>Er <strong>bemerkt</strong> nichts.</em> &nbsp;&bull;&nbsp;
+                                <em>Das Wasser <strong>zerst&ouml;rt</strong> alles.</em>
+                            </p>
+                        </div>
+
+                        <!-- Haupt-Präfixe -->
+                        <div class="gruppe-label">Wichtigste nicht trennbare Pr&auml;fixe</div>
+                        <div class="chip-row">
+                            {hauptPraefixe.map(p => (
+                                <span class="chip-haupt">{p}</span>
+                            ))}
+                        </div>
+
+                        <!-- Weitere Präfixe -->
+                        <div class="gruppe-label">Weitere nicht trennbare Pr&auml;fixe</div>
+                        <div class="chip-row">
+                            {weiterePraefixe.map(p => (
+                                <span class="chip-weitere">{p}</span>
+                            ))}
+                        </div>
+
+                        <!-- Beispiele table -->
+                        <div class="gruppe-label">Beispiele</div>
+                        <div class="table-wrapper">
+                            <table class="vocab-table bsp-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-pre">Pr&auml;fix</th>
+                                        <th class="th-verb">Verb</th>
+                                        <th class="th-mean">Bedeutung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {beispiele.map((b, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-pre">
+                                                <span class="pre-badge">{b.prefix}</span>
+                                            </td>
+                                            <td class="td-verb">
+                                                <strong>{b.verb}</strong>
+                                            </td>
+                                            <td class="td-mean">{b.meaning}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Partizip II note -->
+                        <div class="p2-box">
+                            <span class="p2-label">Partizip II</span>
+                            <span class="p2-note">
+                                Nicht trennbare Verben bilden das Partizip II <strong>ohne ge-</strong>:
+                            </span>
+                            <div class="p2-examples">
+                                <span class="p2-chip">bemerkt</span>
+                                <span class="p2-chip">entkommen</span>
+                                <span class="p2-chip">ver&auml;ndert</span>
+                                <span class="p2-chip">zerst&ouml;rt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+        .table-wrapper { overflow-x:auto; }
+
+        /* Regel box */
+        .regel-box {
+            background:#eff6ff; border:1.5px solid #bfdbfe;
+            border-radius:10px; padding:0.85rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.35rem;
+        }
+        .regel-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#1d4ed8; margin:0;
+        }
+        .regel-box p { margin:0; font-size:0.9rem; color:#1e3a5f; }
+        .regel-ex   { font-size:0.87rem !important; color:#2563eb !important; }
+
+        /* Group labels */
+        .gruppe-label {
+            font-size:0.8rem; font-weight:700; text-transform:uppercase;
+            letter-spacing:0.05em; color:#475569; margin-top:0.3rem;
+        }
+
+        /* Chip rows */
+        .chip-row {
+            display:flex; flex-wrap:wrap; gap:0.5rem;
+        }
+        .chip-haupt {
+            padding:0.3rem 0.85rem; border-radius:20px; font-weight:800;
+            font-size:0.88rem; background:#dbeafe; color:#1d4ed8;
+            border:1.5px solid #bfdbfe;
+        }
+        .chip-weitere {
+            padding:0.25rem 0.75rem; border-radius:20px; font-weight:700;
+            font-size:0.83rem; background:#f1f5f9; color:#475569;
+            border:1.5px solid #e2e8f0;
+        }
+
+        /* Table */
+        .bsp-table th { text-align:left; }
+        .th-pre  { width:90px; }
+        .th-verb { width:160px; }
+
+        .td-pre  { padding:0.7rem 0.9rem; vertical-align:middle; }
+        .td-verb { padding:0.7rem 0.9rem; font-size:0.95rem; }
+        .td-mean { padding:0.7rem 0.9rem; font-size:0.87rem; color:#6b7280; font-style:italic; }
+
+        .pre-badge {
+            display:inline-block; padding:0.15rem 0.6rem;
+            border-radius:8px; font-weight:800; font-size:0.82rem;
+            background:#fee2e2; color:#b91c1c;
+        }
+
+        /* Partizip II box */
+        .p2-box {
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.5rem;
+        }
+        .p2-label {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#475569;
+        }
+        .p2-note { font-size:0.88rem; color:#374151; }
+        .p2-examples { display:flex; flex-wrap:wrap; gap:0.45rem; }
+        .p2-chip {
+            display:inline-block; padding:0.2rem 0.7rem;
+            background:#fce7f3; color:#9d174d;
+            border-radius:8px; font-weight:800; font-size:0.88rem;
+        }
+    </style>
+</Layout>

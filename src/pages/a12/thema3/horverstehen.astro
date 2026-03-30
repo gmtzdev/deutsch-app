@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
-import ActivitesList from "@/components/ActivitesList.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
 import Card from "@/components/Card.astro";
 import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
 import "@/styles/page.css";
@@ -38,7 +38,7 @@ const questions = [
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={2} />
+        <ActivitesListA12 open={3} />
 
         <main class="page bg-background">
             <Card>

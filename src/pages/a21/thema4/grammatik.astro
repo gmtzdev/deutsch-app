@@ -1,0 +1,194 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Indefinitpronomen &mdash; Nominativ &amp; Akkusativ
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table indef-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-kasus">Kasus</th>
+                                        <th class="th-man">
+                                            <span class="chip chip-man">man</span>
+                                        </th>
+                                        <th class="th-jem">
+                                            <span class="chip chip-jem">jemand</span>
+                                        </th>
+                                        <th class="th-nie">
+                                            <span class="chip chip-nie">niemand</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="row-even">
+                                        <td class="td-kasus">Nominativ</td>
+                                        <td class="td-form">
+                                            <span class="form form-man">man</span>
+                                        </td>
+                                        <td class="td-form">
+                                            <span class="form form-jem">jemand</span>
+                                        </td>
+                                        <td class="td-form">
+                                            <span class="form form-nie">niemand</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="row-odd">
+                                        <td class="td-kasus">Akkusativ</td>
+                                        <td class="td-form">
+                                            <span class="form form-man">einen</span>
+                                        </td>
+                                        <td class="td-form">
+                                            <span class="form form-jem">jemand(en)</span>
+                                        </td>
+                                        <td class="td-form">
+                                            <span class="form form-nie">niemand(en)</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Meaning cards -->
+                        <div class="meaning-row">
+                            <div class="meaning-card card-man">
+                                <p class="m-label chip chip-man">man</p>
+                                <p class="m-text">Unbekannte oder allgemeine Person &mdash; &ldquo;one&rdquo; / &ldquo;you&rdquo; / &ldquo;people&rdquo;</p>
+                                <p class="m-example"><em>Man lernt jeden Tag etwas Neues.</em></p>
+                            </div>
+                            <div class="meaning-card card-jem">
+                                <p class="m-label chip chip-jem">jemand</p>
+                                <p class="m-text">Eine unbekannte, aber existierende Person &mdash; &ldquo;someone&rdquo;</p>
+                                <p class="m-example"><em>Jemand hat mich angerufen.</em></p>
+                            </div>
+                            <div class="meaning-card card-nie">
+                                <p class="m-label chip chip-nie">niemand</p>
+                                <p class="m-text">Keine Person &mdash; &ldquo;no one&rdquo; / &ldquo;nobody&rdquo;</p>
+                                <p class="m-example"><em>Niemand hat mir geholfen.</em></p>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="note-box">
+                            <p class="note-title">Hinweis</p>
+                            <p>
+                                <strong>man</strong> wird nur im <strong>Nominativ</strong> verwendet. Im Akkusativ
+                                steht <strong>einen</strong>.<br/>
+                                Die Endung <em>-(e)n</em> bei <strong>jemand(en)</strong> und
+                                <strong>niemand(en)</strong> ist im Akkusativ fakultativ.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        /* Chips for header */
+        .chip {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.88rem;
+            color: #fff;
+        }
+        .chip-man { background: #1d4ed8; }
+        .chip-jem { background: #7c3aed; }
+        .chip-nie { background: #b91c1c; }
+
+        /* Table */
+        .indef-table th, .indef-table td { text-align: center; vertical-align: middle; }
+        .th-kasus { text-align: left !important; width: 110px; }
+        .td-kasus {
+            text-align: left !important;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #374151;
+            padding: 0.8rem 1rem;
+        }
+        .td-form  { padding: 0.8rem 1rem; }
+
+        .form {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+        .form-man { background: #dbeafe; color: #1d4ed8; }
+        .form-jem { background: #ede9fe; color: #6d28d9; }
+        .form-nie { background: #fee2e2; color: #b91c1c; }
+
+        /* Meaning cards */
+        .meaning-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .meaning-card {
+            flex: 1;
+            min-width: 190px;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            border: 1.5px solid transparent;
+        }
+        .card-man { background: #eff6ff; border-color: #93c5fd; }
+        .card-jem { background: #f5f3ff; border-color: #c4b5fd; }
+        .card-nie { background: #fef2f2; border-color: #fca5a5; }
+
+        .m-label { margin: 0 0 0.3rem; }
+        .m-text  { font-size: 0.86rem; margin: 0; color: #374151; }
+        .m-example { font-size: 0.86rem; margin: 0.2rem 0 0; color: #6b7280; }
+
+        /* Note box */
+        .note-box {
+            background: #fffbeb;
+            border: 1.5px solid #fcd34d;
+            border-radius: 10px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .note-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #b45309;
+            margin: 0;
+        }
+        .note-box p:last-child { font-size: 0.88rem; margin: 0; color: #374151; }
+    </style>
+</Layout>

@@ -1,0 +1,313 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "e1",
+        base: "arbeits",
+        nomen: "die Arbeit",
+        full: "arbeitslos",
+        beispiel: "Er ist seit einem Jahr arbeitslos."
+    },
+    {
+        id: "e2",
+        base: "respekt",
+        nomen: "der Respekt",
+        full: "respektlos",
+        beispiel: "Sein Verhalten war respektlos."
+    },
+    {
+        id: "e3",
+        base: "hilf",
+        nomen: "die Hilfe",
+        full: "hilflos",
+        beispiel: "Das Kind stand hilflos da."
+    },
+    {
+        id: "e4",
+        base: "sorgen",
+        nomen: "die Sorge",
+        full: "sorgenlos",
+        beispiel: "Sie f\u00fchrten ein sorgenloses Leben."
+    },
+    {
+        id: "e5",
+        base: "nutz",
+        nomen: "der Nutzen",
+        full: "nutzlos",
+        beispiel: "Diese Diskussion ist v\u00f6llig nutzlos."
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={10} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Nomen&nbsp;<span class="plus">+</span>&nbsp;<span class="suffix">-los</span>
+                    &nbsp;= Adjektiv &mdash; Erg&auml;nzen Sie das fehlende Adjektiv.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagWortschatz />
+
+                        <!-- Rule reminder -->
+                        <div class="regel-box">
+                            <p class="regel-title">Erinnerung</p>
+                            <p>
+                                Das Suffix <strong>-los</strong> wird an ein Nomen angeh&auml;ngt
+                                und bedeutet <em>&bdquo;ohne &hellip;&ldquo;</em>.
+                                Schreiben Sie das vollst&auml;ndige Adjektiv in das Feld.
+                            </p>
+                        </div>
+
+                        <div class="exercises">
+                            {exercises.map((ex, i) => (
+                                <div class="ex-card" id={`card-${ex.id}`}>
+                                    <span class="ex-num">{i + 1}</span>
+                                    <div class="ex-body">
+                                        <div class="ex-row">
+                                            <span class="nomen-chip">{ex.nomen}</span>
+                                            <span class="arrow">&rarr;</span>
+                                            <span class="base-word">{ex.base}</span>
+                                            <input
+                                                type="text"
+                                                class="fill-input"
+                                                id={`inp-${ex.id}`}
+                                                data-answer={ex.full}
+                                                placeholder="-los"
+                                                autocomplete="off"
+                                                spellcheck={false}
+                                            />
+                                        </div>
+                                        <p class="ex-feedback" id={`fb-${ex.id}`}></p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-check" class="btn-primary">Pr\u00fcfen</button>
+                            <button id="btn-show"  class="btn-outline">L\u00f6sungen zeigen</button>
+                            <button id="btn-reset" class="btn-secondary">Zur\u00fccksetzen</button>
+                        </div>
+
+                        <div id="score-box" class="score-box hidden"></div>
+
+                        <!-- Beispiele -->
+                        <div class="bsp-wrap hidden" id="bsp-section">
+                            <p class="bsp-heading">Beispiels\u00e4tze</p>
+                            <ul class="bsp-list">
+                                {exercises.map(ex => (
+                                    <li>
+                                        <span class="bsp-word">{ex.full}</span>
+                                        &mdash; <em>{ex.beispiel}</em>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Title suffix */
+        .plus   { color:#6b7280; font-weight:900; font-size:1.05rem; }
+        .suffix {
+            display:inline-block; padding:0.1rem 0.5rem;
+            background:#fbbf24; color:#1c1917;
+            border-radius:6px; font-weight:900; font-size:0.9rem;
+        }
+
+        /* Regel */
+        .regel-box {
+            background:#fefce8; border:1.5px solid #fde68a;
+            border-radius:10px; padding:0.85rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.35rem;
+        }
+        .regel-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#92400e; margin:0;
+        }
+        .regel-box p { margin:0; font-size:0.9rem; color:#1e293b; }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.85rem; }
+
+        .ex-card {
+            display:flex; align-items:center; gap:0.85rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:0.85rem 1.1rem;
+            transition:border-color 0.2s, background 0.2s;
+        }
+        .ex-card.correct   { border-color:#16a34a; background:#f0fdf4; }
+        .ex-card.incorrect { border-color:#dc2626; background:#fef2f2; }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#b45309; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; flex-shrink:0;
+        }
+
+        .ex-body { display:flex; flex-direction:column; gap:0.3rem; flex:1; }
+
+        .ex-row {
+            display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;
+        }
+
+        .nomen-chip {
+            display:inline-block; padding:0.2rem 0.75rem;
+            background:#fef9c3; color:#713f12;
+            border-radius:20px; font-weight:700; font-size:0.88rem;
+            border:1.5px solid #fde68a; white-space:nowrap;
+        }
+
+        .arrow { color:#9ca3af; font-size:1.1rem; }
+
+        .base-word {
+            font-weight:800; font-size:1rem; color:#374151;
+        }
+
+        .fill-input {
+            width:120px; padding:0.25rem 0.5rem;
+            border:2px solid #fcd34d; border-radius:8px;
+            font-size:0.97rem; font-weight:700; text-align:center;
+            outline:none; transition:border-color 0.2s, background 0.2s;
+            background:#fff;
+        }
+        .fill-input:focus { border-color:#b45309; }
+        .ex-card.correct   .fill-input { border-color:#16a34a; background:#dcfce7; color:#15803d; }
+        .ex-card.incorrect .fill-input { border-color:#dc2626; background:#fee2e2; color:#b91c1c; }
+
+        .ex-feedback {
+            margin:0; font-size:0.85rem; font-weight:700; min-height:1.1em;
+        }
+        .ex-card.correct   .ex-feedback { color:#16a34a; }
+        .ex-card.incorrect .ex-feedback { color:#dc2626; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .btn-primary {
+            padding:0.55rem 1.4rem; border-radius:10px;
+            background:#b45309; color:#fff; font-weight:700;
+            border:none; cursor:pointer; font-size:0.92rem; transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#92400e; }
+        .btn-outline {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#fff; color:#b45309; font-weight:700;
+            border:2px solid #fcd34d; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-outline:hover { background:#fefce8; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        /* Score */
+        .score-box {
+            padding:0.7rem 1.1rem; border-radius:10px;
+            font-weight:700; font-size:0.95rem; text-align:center;
+        }
+        .score-box.good { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; }
+        .score-box.bad  { background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; }
+        .hidden { display:none !important; }
+
+        /* Beispiele */
+        .bsp-wrap {
+            background:#fffbeb; border:1.5px solid #fde68a;
+            border-radius:10px; padding:0.85rem 1.1rem;
+        }
+        .bsp-heading {
+            font-size:0.75rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#92400e; margin:0 0 0.6rem 0;
+        }
+        .bsp-list {
+            margin:0; padding-left:1.1rem;
+            display:flex; flex-direction:column; gap:0.35rem;
+        }
+        .bsp-list li { font-size:0.88rem; color:#374151; }
+        .bsp-word { font-weight:800; color:#b45309; }
+    </style>
+
+    <script>
+        const answers: Record<string, string> = {
+            "e1": "arbeitslos",
+            "e2": "respektlos",
+            "e3": "hilflos",
+            "e4": "sorgenlos",
+            "e5": "nutzlos",
+        };
+
+        document.getElementById("btn-check")?.addEventListener("click", () => {
+            let correct = 0;
+            const total = Object.keys(answers).length;
+            Object.entries(answers).forEach(([id, ans]) => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                card.classList.remove("correct","incorrect");
+                const val = inp.value.trim().toLowerCase();
+                if (val === ans.toLowerCase()) {
+                    card.classList.add("correct");
+                    fb.textContent = "\u2713 Richtig!";
+                    correct++;
+                } else if (val !== "") {
+                    card.classList.add("incorrect");
+                    fb.textContent = `\u2717 Richtig: ${ans}`;
+                } else {
+                    fb.textContent = "";
+                }
+            });
+            const box = document.getElementById("score-box");
+            if (box) {
+                box.classList.remove("hidden","good","bad");
+                box.classList.add(correct === total ? "good" : "bad");
+                box.textContent = `${correct} / ${total} richtig`;
+            }
+        });
+
+        document.getElementById("btn-show")?.addEventListener("click", () => {
+            Object.entries(answers).forEach(([id, ans]) => {
+                const inp = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                if (inp && inp.value.trim() === "") inp.value = ans;
+            });
+            document.getElementById("bsp-section")?.classList.remove("hidden");
+        });
+
+        document.getElementById("btn-reset")?.addEventListener("click", () => {
+            Object.keys(answers).forEach(id => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                inp.value = ""; card.classList.remove("correct","incorrect"); fb.textContent = "";
+            });
+            const box = document.getElementById("score-box");
+            if (box) { box.classList.add("hidden"); box.textContent = ""; }
+            document.getElementById("bsp-section")?.classList.add("hidden");
+        });
+    </script>
+</Layout>

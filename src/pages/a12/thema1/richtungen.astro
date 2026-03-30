@@ -1,0 +1,229 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+
+const directions = [
+    { word: "geradeaus",  arrow: "↑",  label: "straight ahead", rotate: 0   },
+    { word: "links",      arrow: "←",  label: "left",           rotate: 0   },
+    { word: "rechts",     arrow: "→",  label: "right",          rotate: 0   },
+    { word: "hinauf",     arrow: "↑",  label: "up",             rotate: 0   },
+    { word: "hinunter",   arrow: "↓",  label: "down",           rotate: 0   },
+    { word: "vorwaerts",  arrow: "⇒",  label: "forward",        rotate: 0   },
+    { word: "rueckwaerts",arrow: "⇐",  label: "backward",       rotate: 0   },
+    { word: "herum",      arrow: "↺",  label: "around",         rotate: 0   },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Richtungen</h1>
+                <p class="subtitle text-indications">
+                    Indicaciones de direcci&oacute;n en alem&aacute;n
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagWortschatz />
+
+                        <div class="dir-grid">
+
+                            <!-- geradeaus — centered top -->
+                            <div class="dir-card accent-green" style="grid-column: 2;">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="30" y1="50" x2="30" y2="14" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="14,28 30,10 46,28" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">geradeaus</span>
+                                <span class="dir-hint">straight ahead</span>
+                            </div>
+
+                            <!-- links -->
+                            <div class="dir-card accent-blue" style="grid-column: 1; grid-row: 2;">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="50" y1="30" x2="14" y2="30" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="28,14 10,30 28,46" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">links</span>
+                                <span class="dir-hint">left</span>
+                            </div>
+
+                            <!-- rechts -->
+                            <div class="dir-card accent-blue" style="grid-column: 3; grid-row: 2;">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="10" y1="30" x2="46" y2="30" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="32,14 50,30 32,46" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">rechts</span>
+                                <span class="dir-hint">right</span>
+                            </div>
+
+                            <!-- hinauf -->
+                            <div class="dir-card accent-purple" style="grid-column: 2; grid-row: 2;">
+                                <!-- compass rose placeholder — just shows the context card -->
+                            </div>
+
+                            <!-- hinunter -->
+                            <div class="dir-card accent-orange" style="grid-column: 2; grid-row: 3;">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="30" y1="10" x2="30" y2="46" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="14,32 30,50 46,32" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">hinunter</span>
+                                <span class="dir-hint">down</span>
+                            </div>
+
+                        </div>
+
+                        <!-- Second row: special directions -->
+                        <div class="special-grid">
+
+                            <div class="dir-card accent-purple">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <line x1="30" y1="50" x2="30" y2="14" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="14,28 30,10 46,28" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">hinauf</span>
+                                <span class="dir-hint">up</span>
+                            </div>
+
+                            <div class="dir-card accent-teal">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- double right arrow = vorwärts -->
+                                        <line x1="8" y1="30" x2="34" y2="30" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="22,16 38,30 22,44" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                        <polyline points="32,16 48,30 32,44" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">vorw&auml;rts</span>
+                                <span class="dir-hint">forward</span>
+                            </div>
+
+                            <div class="dir-card accent-red">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- double left arrow = rückwärts -->
+                                        <line x1="52" y1="30" x2="26" y2="30" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+                                        <polyline points="38,16 22,30 38,44" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                        <polyline points="28,16 12,30 28,44" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">r&uuml;ckw&auml;rts</span>
+                                <span class="dir-hint">backward</span>
+                            </div>
+
+                            <div class="dir-card accent-yellow">
+                                <div class="arrow-box">
+                                    <svg class="arrow-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- circular arrow = herum -->
+                                        <path d="M 44 30 A 14 14 0 1 0 30 44" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round"/>
+                                        <polyline points="18,38 30,44 24,56" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="dir-word">herum</span>
+                                <span class="dir-hint">around</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        /* ── Compass grid (geradeaus / links / rechts / hinunter) ── */
+        .dir-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 120px);
+            grid-template-rows: repeat(3, 120px);
+            gap: 0.6rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ── Special directions row ── */
+        .special-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 120px);
+            gap: 0.6rem;
+            justify-content: center;
+        }
+
+        /* ── Card base ── */
+        .dir-card {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            border: 2px solid transparent;
+            transition: transform 0.15s, box-shadow 0.15s;
+            cursor: default;
+        }
+
+        .dir-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+
+        .arrow-box {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow-svg { width: 100%; height: 100%; }
+
+        .dir-word {
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            text-align: center;
+        }
+
+        .dir-hint {
+            font-size: 0.65rem;
+            opacity: 0.7;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* ── Colour accents ── */
+        .accent-green  { background: #f0fdf4; border-color: #86efac; color: #166534; }
+        .accent-blue   { background: #eff6ff; border-color: #93c5fd; color: #1e40af; }
+        .accent-orange { background: #fff7ed; border-color: #fdba74; color: #9a3412; }
+        .accent-purple { background: #faf5ff; border-color: #d8b4fe; color: #6b21a8; }
+        .accent-teal   { background: #f0fdfa; border-color: #5eead4; color: #115e59; }
+        .accent-red    { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+        .accent-yellow { background: #fefce8; border-color: #fde047; color: #854d0e; }
+    </style>
+</Layout>

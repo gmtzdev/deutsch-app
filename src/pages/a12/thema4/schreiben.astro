@@ -1,0 +1,199 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const prompts = [
+    { id: "q1", frage: "Wohin sind Sie gereist?",                   platzhalter: "Ich bin nach … gereist." },
+    { id: "q2", frage: "Wann war das?",                             platzhalter: "Das war im … (Monat/Jahr)." },
+    { id: "q3", frage: "Mit wem haben Sie den Urlaub verbracht?",   platzhalter: "Ich war mit … zusammen." },
+    { id: "q4", frage: "Was haben Sie dort gemacht?",               platzhalter: "Wir haben … gemacht." },
+    { id: "q5", frage: "Was hat Ihnen am besten gefallen?",         platzhalter: "Am besten hat mir … gefallen." },
+    { id: "q6", frage: "W\u00fcrden Sie diesen Ort empfehlen? Warum?", platzhalter: "Ich w\u00fcrde … empfehlen, weil …" },
+];
+
+const wortschatz = [
+    "ans Meer fahren", "in die Berge fahren", "eine Stadtbesichtigung machen",
+    "Sehenswürdigkeiten besuchen", "entspannen", "wandern", "tauchen",
+    "lokales Essen probieren", "Fotos machen", "Souvenirs kaufen",
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Schreiben</h1>
+                <p class="subtitle text-indications">
+                    Schreiben Sie &uuml;ber Ihren letzten Urlaub. Beantworten Sie die Fragen.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+
+                        <!-- Wortschatz bank -->
+                        <div class="word-bank">
+                            <span class="wb-label">N&uuml;tzliche Ausdr&uuml;cke:</span>
+                            <div class="wb-chips">
+                                {wortschatz.map(w => (
+                                    <span class="wb-chip">{w}</span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <!-- Writing prompts -->
+                        <div class="prompts">
+                            {prompts.map((p, i) => (
+                                <div class="prompt-card">
+                                    <div class="prompt-header">
+                                        <span class="prompt-num">{i + 1}</span>
+                                        <p class="prompt-frage">{p.frage}</p>
+                                    </div>
+                                    <textarea
+                                        id={p.id}
+                                        class="free-textarea"
+                                        rows={2}
+                                        placeholder={p.platzhalter}
+                                        spellcheck={false}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        <!-- Free composition -->
+                        <div class="free-section">
+                            <p class="free-label">
+                                Schreiben Sie jetzt einen zusammenh&auml;ngenden Text &uuml;ber Ihren Urlaub
+                                (ca. 80&ndash;100 W&ouml;rter):
+                            </p>
+                            <textarea
+                                id="ta-free"
+                                class="free-textarea free-big"
+                                rows={7}
+                                placeholder="Schreiben Sie Ihren Text hier …"
+                                spellcheck={false}
+                            />
+                            <div class="word-counter">
+                                <span id="wc-label">0 W\u00f6rter</span>
+                            </div>
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-clear" class="btn-secondary">Alles l\u00f6schen</button>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Word bank */
+        .word-bank {
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.8rem 1rem;
+            display:flex; flex-direction:column; gap:0.5rem;
+        }
+        .wb-label {
+            font-size:0.75rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#475569;
+        }
+        .wb-chips { display:flex; flex-wrap:wrap; gap:0.45rem; }
+        .wb-chip {
+            padding:0.22rem 0.75rem; border-radius:20px;
+            background:#dbeafe; color:#1d4ed8;
+            font-weight:600; font-size:0.83rem;
+            border:1.5px solid #bfdbfe;
+        }
+
+        /* Prompts */
+        .prompts { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .prompt-card {
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:0.9rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.6rem;
+        }
+
+        .prompt-header {
+            display:flex; align-items:center; gap:0.75rem;
+        }
+
+        .prompt-num {
+            min-width:26px; height:26px; border-radius:50%;
+            background:#1d4ed8; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.8rem; flex-shrink:0;
+        }
+
+        .prompt-frage {
+            margin:0; font-size:0.97rem; font-weight:600; color:#1e293b;
+        }
+
+        .free-textarea {
+            width:100%; padding:0.6rem 0.8rem;
+            border:2px solid #bfdbfe; border-radius:8px;
+            font-size:0.95rem; color:#1e293b;
+            resize:vertical; outline:none;
+            font-family:inherit; line-height:1.6;
+            transition:border-color 0.2s; background:#fff;
+        }
+        .free-textarea:focus { border-color:#1d4ed8; }
+        .free-big { border-color:#c4b5fd; }
+        .free-big:focus { border-color:#7c3aed; }
+
+        /* Free section */
+        .free-section {
+            display:flex; flex-direction:column; gap:0.5rem;
+            background:#fdf4ff; border:1.5px solid #e9d5ff;
+            border-radius:12px; padding:1rem 1.1rem;
+        }
+        .free-label {
+            margin:0; font-size:0.88rem; font-weight:600; color:#6b21a8;
+        }
+        .word-counter {
+            text-align:right; font-size:0.78rem; color:#9ca3af; font-weight:600;
+        }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+    </style>
+
+    <script>
+        // Word counter for free composition
+        const taFree = document.getElementById("ta-free") as HTMLTextAreaElement;
+        const wcLabel = document.getElementById("wc-label");
+        if (taFree && wcLabel) {
+            taFree.addEventListener("input", () => {
+                const words = taFree.value.trim() === "" ? 0
+                    : taFree.value.trim().split(/\s+/).length;
+                wcLabel.textContent = `${words} W\u00f6rter`;
+                wcLabel.style.color = words >= 80 && words <= 120 ? "#16a34a" : "#9ca3af";
+            });
+        }
+
+        // Clear all
+        document.getElementById("btn-clear")?.addEventListener("click", () => {
+            document.querySelectorAll<HTMLTextAreaElement>(".free-textarea").forEach(ta => {
+                ta.value = "";
+            });
+            if (wcLabel) { wcLabel.textContent = "0 W\u00f6rter"; wcLabel.style.color = "#9ca3af"; }
+        });
+    </script>
+</Layout>

@@ -1,0 +1,202 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const adverbs = [
+    { id: "morgens",     label: "morgens",     example: "Morgens esse ich immer Br\u00f6tchen." },
+    { id: "mittags",     label: "mittags",     example: "Mittags esse ich in der Kantine." },
+    { id: "abends",      label: "abends",      example: "Abends gehe ich meistens spazieren." },
+    { id: "nachts",      label: "nachts",      example: "Nachts schlafe ich sehr tief." },
+];
+
+const verbs = ["essen", "Sport machen", "arbeiten", "schlafen", "lernen", "kochen", "fernsehen", "lesen"];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Schreiben Sie mit jedem Adverb einen Satz.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Verb bank -->
+                        <div class="word-bank">
+                            <span class="wb-label">Verben / Ausdr\u00fccke:</span>
+                            {verbs.map(v => (
+                                <span class="wb-chip">{v}</span>
+                            ))}
+                        </div>
+
+                        <!-- Writing exercises -->
+                        <div class="exercises">
+                            {adverbs.map((a, i) => (
+                                <div class="ex-card">
+                                    <div class="ex-header">
+                                        <span class="ex-num">{i + 1}</span>
+                                        <span class="adv-badge">{a.label}</span>
+                                    </div>
+                                    <div class="ex-body">
+                                        <textarea
+                                            id={`ta-${a.id}`}
+                                            class="free-textarea"
+                                            rows={2}
+                                            placeholder={`Schreiben Sie einen Satz mit „${a.label}" …`}
+                                            spellcheck={false}
+                                        />
+                                        <button
+                                            class="btn-example"
+                                            data-example={a.example}
+                                            data-id={a.id}
+                                        >
+                                            Beispiel zeigen
+                                        </button>
+                                        <p class="example-text hidden" id={`ex-${a.id}`}>
+                                            <span class="ex-label">Beispiel:</span> {a.example}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-clear" class="btn-secondary">Alles l\u00f6schen</button>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Word bank */
+        .word-bank {
+            display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.7rem 1rem;
+        }
+        .wb-label {
+            font-size:0.75rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#475569;
+        }
+        .wb-chip {
+            padding:0.22rem 0.75rem; border-radius:20px;
+            background:#dbeafe; color:#1d4ed8;
+            font-weight:700; font-size:0.85rem;
+            border:1.5px solid #bfdbfe;
+        }
+
+        /* Exercise cards */
+        .exercises { display:flex; flex-direction:column; gap:1rem; }
+
+        .ex-card {
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:1rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.75rem;
+        }
+
+        .ex-header {
+            display:flex; align-items:center; gap:0.75rem;
+        }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#1d4ed8; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; flex-shrink:0;
+        }
+
+        .adv-badge {
+            display:inline-block; padding:0.25rem 0.85rem;
+            background:#dbeafe; color:#1d4ed8;
+            border-radius:20px; font-weight:800; font-size:1rem;
+            border:1.5px solid #bfdbfe;
+        }
+
+        .ex-body {
+            display:flex; flex-direction:column; gap:0.5rem;
+        }
+
+        .free-textarea {
+            width:100%; padding:0.6rem 0.8rem;
+            border:2px solid #bfdbfe; border-radius:8px;
+            font-size:0.97rem; color:#1e293b;
+            resize:vertical; outline:none;
+            font-family:inherit; line-height:1.6;
+            transition:border-color 0.2s;
+            background:#fff;
+        }
+        .free-textarea:focus { border-color:#1d4ed8; }
+
+        .btn-example {
+            align-self:flex-start;
+            padding:0.3rem 0.85rem; border-radius:8px;
+            background:#eff6ff; color:#1d4ed8;
+            font-weight:700; font-size:0.8rem;
+            border:1.5px solid #bfdbfe; cursor:pointer;
+            transition:background 0.15s;
+        }
+        .btn-example:hover { background:#dbeafe; }
+
+        .example-text {
+            margin:0; font-size:0.88rem; color:#475569;
+            background:#eff6ff; border-radius:8px;
+            padding:0.45rem 0.75rem;
+        }
+        .ex-label { font-weight:700; color:#1d4ed8; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        .hidden { display:none !important; }
+    </style>
+
+    <script>
+        // Toggle example buttons
+        document.querySelectorAll<HTMLButtonElement>(".btn-example").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id  = btn.dataset.id as string;
+                const box = document.getElementById(`ex-${id}`);
+                if (!box) return;
+                const hidden = box.classList.toggle("hidden");
+                btn.textContent = hidden ? "Beispiel zeigen" : "Beispiel verbergen";
+            });
+        });
+
+        // Clear all
+        document.getElementById("btn-clear")?.addEventListener("click", () => {
+            document.querySelectorAll<HTMLTextAreaElement>(".free-textarea").forEach(ta => {
+                ta.value = "";
+            });
+            document.querySelectorAll<HTMLParagraphElement>(".example-text").forEach(p => {
+                p.classList.add("hidden");
+            });
+            document.querySelectorAll<HTMLButtonElement>(".btn-example").forEach(btn => {
+                btn.textContent = "Beispiel zeigen";
+            });
+        });
+    </script>
+</Layout>

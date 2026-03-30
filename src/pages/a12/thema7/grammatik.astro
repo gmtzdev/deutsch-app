@@ -1,0 +1,215 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const verbs = [
+    {
+        verb: "sein",
+        du:   "Sei ruhig!",
+        ihr:  "Seid ruhig!",
+        sie:  "Seien Sie ruhig!",
+        note: "unregelm\u00e4\u00dfig",
+    },
+    {
+        verb: "haben",
+        du:   "Hab keine Angst!",
+        ihr:  "Habt keine Angst!",
+        sie:  "Haben Sie keine Angst!",
+        note: "unregelm\u00e4\u00dfig",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={7} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Imperativ &mdash; <em>sein</em> und <em>haben</em>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table imp-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-verb">Verb</th>
+                                        <th class="th-du col-du">du</th>
+                                        <th class="th-ihr col-ihr">ihr</th>
+                                        <th class="th-sie col-sie">Sie</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {verbs.map((v, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-verb">
+                                                <span class="verb-chip">{v.verb}</span>
+                                                <span class="verb-note">{v.note}</span>
+                                            </td>
+                                            <td class="td-form col-du">
+                                                <span class="imp-stem">{v.du.split(" ")[0]}</span>
+                                                {" " + v.du.split(" ").slice(1).join(" ")}
+                                            </td>
+                                            <td class="td-form col-ihr">
+                                                <span class="imp-stem">{v.ihr.split(" ")[0]}</span>
+                                                {" " + v.ihr.split(" ").slice(1).join(" ")}
+                                            </td>
+                                            <td class="td-form col-sie">
+                                                <span class="imp-stem">{v.sie.split(" ")[0]}</span>
+                                                {" " + v.sie.split(" ").slice(2).join(" ")}
+                                                <span class="pronoun-sie"> Sie</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Rule box -->
+                        <div class="rule-box">
+                            <p class="rule-title">Hinweis: Imperativ von <em>sein</em> und <em>haben</em></p>
+                            <div class="rule-grid">
+                                <div class="rule-item rule-sein">
+                                    <p class="rule-verb">sein</p>
+                                    <p><strong>du</strong> &rarr; <span class="form-chip">Sei</span> (nicht <em>Bis</em>)</p>
+                                    <p><strong>ihr</strong> &rarr; <span class="form-chip">Seid</span></p>
+                                    <p><strong>Sie</strong> &rarr; <span class="form-chip">Seien Sie</span></p>
+                                </div>
+                                <div class="rule-item rule-haben">
+                                    <p class="rule-verb">haben</p>
+                                    <p><strong>du</strong> &rarr; <span class="form-chip">Hab</span> (nicht <em>Habe</em>)</p>
+                                    <p><strong>ihr</strong> &rarr; <span class="form-chip">Habt</span></p>
+                                    <p><strong>Sie</strong> &rarr; <span class="form-chip">Haben Sie</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        /* Column headers */
+        .th-verb { width: 160px; }
+        .col-du  { background: #eff6ff; color: #1d4ed8; text-align: center; }
+        .col-ihr { background: #f0fdf4; color: #15803d; text-align: center; }
+        .col-sie { background: #fdf4ff; color: #7c3aed; text-align: center; }
+
+        .th-du, .th-ihr, .th-sie { font-weight: 800; font-size: 0.95rem; }
+
+        /* Verb column */
+        .td-verb {
+            padding: 0.9rem 0.75rem;
+            vertical-align: middle;
+        }
+        .verb-chip {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #111827;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-right: 0.4rem;
+        }
+        .verb-note {
+            font-size: 0.72rem;
+            color: #ef4444;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* Form cells */
+        .td-form {
+            padding: 0.9rem 0.75rem;
+            vertical-align: middle;
+            font-size: 0.95rem;
+        }
+        .imp-stem {
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+        .col-du  .imp-stem { color: #1d4ed8; }
+        .col-ihr .imp-stem { color: #15803d; }
+        .col-sie .imp-stem { color: #7c3aed; }
+
+        .pronoun-sie {
+            font-weight: 700;
+            color: #7c3aed;
+        }
+
+        /* Rule box */
+        .rule-box {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            background: #fafafa;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .rule-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #374151;
+            margin: 0;
+        }
+        .rule-grid {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .rule-item {
+            flex: 1;
+            min-width: 180px;
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .rule-sein  { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .rule-haben { background: #f0fdf4; border: 1px solid #bbf7d0; }
+
+        .rule-verb {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 0 0.25rem;
+        }
+        .rule-sein  .rule-verb { color: #1d4ed8; }
+        .rule-haben .rule-verb { color: #15803d; }
+
+        .rule-item p { font-size: 0.88rem; margin: 0; }
+
+        .form-chip {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .rule-sein  .form-chip { background: #dbeafe; color: #1d4ed8; }
+        .rule-haben .form-chip { background: #dcfce7; color: #15803d; }
+    </style>
+</Layout>

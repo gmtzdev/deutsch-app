@@ -1,0 +1,261 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+type Row = { kasus: string; m: [string,string,string]; f: [string,string,string]; n: [string,string,string] };
+// [article, adjEnding, noun]
+const rows: Row[] = [
+  {
+    kasus: "Nominativ",
+    m: ["ein",    "alter",   "Mann"],
+    f: ["eine",   "sch\u00f6ne",   "Frau"],
+    n: ["ein",    "kleines", "Kind"],
+  },
+  {
+    kasus: "Genitiv",
+    m: ["eines",  "alten",   "Mannes"],
+    f: ["einer",  "sch\u00f6nen",  "Frau"],
+    n: ["eines",  "kleinen", "Kindes"],
+  },
+  {
+    kasus: "Dativ",
+    m: ["einem",  "alten",   "Mann"],
+    f: ["einer",  "sch\u00f6nen",  "Frau"],
+    n: ["einem",  "kleinen", "Kind"],
+  },
+  {
+    kasus: "Akkusativ",
+    m: ["einen",  "alten",   "Mann"],
+    f: ["eine",   "sch\u00f6ne",   "Frau"],
+    n: ["ein",    "kleines", "Kind"],
+  },
+];
+
+// Adjective endings summary
+const endings = [
+  { kasus:"Nominativ", m:"-er", f:"-e",  n:"-es" },
+  { kasus:"Genitiv",   m:"-en", f:"-en", n:"-en" },
+  { kasus:"Dativ",     m:"-en", f:"-en", n:"-en" },
+  { kasus:"Akkusativ", m:"-en", f:"-e",  n:"-es" },
+];
+
+// Helper: split adjective into stem + ending
+function splitAdj(word: string): [string, string] {
+  if (word.endsWith("en")) return [word.slice(0,-2), "en"];
+  if (word.endsWith("es")) return [word.slice(0,-2), "es"];
+  if (word.endsWith("er")) return [word.slice(0,-2), "er"];
+  if (word.endsWith("e"))  return [word.slice(0,-1), "e"];
+  return [word, ""];
+}
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik 2</h1>
+                <p class="subtitle text-indications">
+                    Adjektivdeklination nach <strong>indefinitem Artikel</strong>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Main declension table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table adj-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-kasus">Kasus</th>
+                                        <th class="th-gen">
+                                            <span class="gen-chip chip-m">Maskulin</span>
+                                        </th>
+                                        <th class="th-gen">
+                                            <span class="gen-chip chip-f">Feminin</span>
+                                        </th>
+                                        <th class="th-gen">
+                                            <span class="gen-chip chip-n">Neutrum</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((row, i) => {
+                                        const [mStem, mEnd] = splitAdj(row.m[1]);
+                                        const [fStem, fEnd] = splitAdj(row.f[1]);
+                                        const [nStem, nEnd] = splitAdj(row.n[1]);
+                                        return (
+                                            <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                                <td class="td-kasus">{row.kasus}</td>
+                                                <td class="td-cell">
+                                                    <span class="art art-m">{row.m[0]}</span>{" "}
+                                                    <span class="adj-stem">{mStem}</span><span class="adj-end end-m">{mEnd}</span>{" "}
+                                                    <span class="noun">{row.m[2]}</span>
+                                                </td>
+                                                <td class="td-cell">
+                                                    <span class="art art-f">{row.f[0]}</span>{" "}
+                                                    <span class="adj-stem">{fStem}</span><span class="adj-end end-f">{fEnd}</span>{" "}
+                                                    <span class="noun">{row.f[2]}</span>
+                                                </td>
+                                                <td class="td-cell">
+                                                    <span class="art art-n">{row.n[0]}</span>{" "}
+                                                    <span class="adj-stem">{nStem}</span><span class="adj-end end-n">{nEnd}</span>{" "}
+                                                    <span class="noun">{row.n[2]}</span>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Endings summary -->
+                        <div class="end-summary">
+                            <p class="end-title">Adjektivendungen im \u00dcberblick</p>
+                            <div class="table-wrapper">
+                                <table class="vocab-table end-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="th-kasus">Kasus</th>
+                                            <th><span class="gen-chip chip-m">Maskulin</span></th>
+                                            <th><span class="gen-chip chip-f">Feminin</span></th>
+                                            <th><span class="gen-chip chip-n">Neutrum</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {endings.map((e, i) => (
+                                            <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                                <td class="td-kasus">{e.kasus}</td>
+                                                <td class="td-end"><span class="badge end-m">{e.m}</span></td>
+                                                <td class="td-end"><span class="badge end-f">{e.f}</span></td>
+                                                <td class="td-end"><span class="badge end-n">{e.n}</span></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="note-box">
+                            <p class="note-title">Hinweis</p>
+                            <p>
+                                Nach einem indefiniten Artikel (<strong>ein / eine / ein</strong>) erh\u00e4lt
+                                das Adjektiv <em>starke Endungen</em> im Nominativ und Akkusativ Neutrum/Feminin,
+                                und <em>schwache Endungen (-en)</em> in Genitiv und Dativ.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+        .table-wrapper { overflow-x: auto; }
+
+        /* Gender chips */
+        .gen-chip {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.82rem;
+        }
+        .chip-m { background: #1d4ed8; color: #fff; }
+        .chip-f { background: #be185d; color: #fff; }
+        .chip-n { background: #0369a1; color: #fff; }
+
+        /* Table layout */
+        .adj-table th { text-align: center; }
+        .th-kasus { text-align: left !important; width: 100px; }
+        .td-kasus {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: #374151;
+            padding: 0.8rem 0.9rem;
+            white-space: nowrap;
+        }
+        .td-cell {
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.93rem;
+            white-space: nowrap;
+        }
+
+        /* Article */
+        .art   { font-weight: 600; }
+        .art-m { color: #1d4ed8; }
+        .art-f { color: #be185d; }
+        .art-n { color: #0369a1; }
+
+        /* Adjective */
+        .adj-stem { color: #374151; font-weight: 500; }
+        .adj-end  { font-weight: 900; border-radius: 3px; padding: 0 1px; }
+        .end-m    { color: #1d4ed8; background: #dbeafe; }
+        .end-f    { color: #be185d; background: #fce7f3; }
+        .end-n    { color: #0369a1; background: #e0f2fe; }
+
+        /* Noun */
+        .noun { color: #6b7280; font-size: 0.88rem; }
+
+        /* Endings summary box */
+        .end-summary {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .end-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #475569;
+            margin: 0;
+        }
+        .end-table th { text-align: center; }
+        .td-end { text-align: center; padding: 0.55rem 0.9rem; }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        /* Note box */
+        .note-box {
+            background: #fffbeb;
+            border: 1.5px solid #fcd34d;
+            border-radius: 10px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .note-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #b45309;
+            margin: 0;
+        }
+        .note-box p:last-child { font-size: 0.88rem; margin: 0; color: #374151; }
+    </style>
+</Layout>

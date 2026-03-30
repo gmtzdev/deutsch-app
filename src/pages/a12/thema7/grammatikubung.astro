@@ -1,0 +1,242 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={7} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Welche Anweisungen gibst du auf der Arbeit?
+                    Bilde S&auml;tze im <strong>Imperativ</strong> (Sie-Form)!
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="exercises">
+
+                            <!-- 1 -->
+                            <div class="ex-row">
+                                <span class="ex-num">1.</span>
+                                <div class="ex-body">
+                                    <span class="prompt">Sie probieren &rarr;</span>
+                                    <div class="sentence">
+                                        <input class="ipt" data-ans="Probieren Sie" size="14" placeholder="_____________" />
+                                        das Essen in Deutschland!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2 trennbar -->
+                            <div class="ex-row">
+                                <span class="ex-num">2.</span>
+                                <div class="ex-body">
+                                    <span class="prompt">Sie steigen aus &rarr;</span>
+                                    <div class="sentence">
+                                        <input class="ipt" data-ans="Steigen Sie" size="13" placeholder="____________" />
+                                        an der letzten Station
+                                        <input class="ipt ipt-sm" data-ans="aus" size="5" placeholder="____" />!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3 -->
+                            <div class="ex-row">
+                                <span class="ex-num">3.</span>
+                                <div class="ex-body">
+                                    <span class="prompt">Sie warten &rarr;</span>
+                                    <div class="sentence">
+                                        <input class="ipt" data-ans="Warten Sie" size="13" placeholder="____________" />
+                                        10 Minuten!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4 -->
+                            <div class="ex-row">
+                                <span class="ex-num">4.</span>
+                                <div class="ex-body">
+                                    <span class="prompt">Sie gehen &rarr;</span>
+                                    <div class="sentence">
+                                        <input class="ipt" data-ans="Gehen Sie" size="12" placeholder="___________" />
+                                        bis zur n&auml;chsten Kreuzung!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5 trennbar -->
+                            <div class="ex-row">
+                                <span class="ex-num">5.</span>
+                                <div class="ex-body">
+                                    <span class="prompt">Sie fangen an &rarr;</span>
+                                    <div class="sentence">
+                                        <input class="ipt" data-ans="Fangen Sie" size="12" placeholder="___________" />
+                                        auf der ersten Seite
+                                        <input class="ipt ipt-sm" data-ans="an" size="4" placeholder="___" />!
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnCheck" class="btn-check">Pr&uuml;fen</button>
+                            <button id="btnReset" class="btn-reset">Zur&uuml;cksetzen</button>
+                        </div>
+
+                        <div id="result" class="result hidden"></div>
+
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+
+        .exercises { display: flex; flex-direction: column; gap: 1rem; }
+
+        .ex-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+        .ex-num {
+            min-width: 1.5rem;
+            font-weight: 700;
+            color: #374151;
+            padding-top: 0.45rem;
+            font-size: 0.95rem;
+        }
+        .ex-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .prompt {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #6b7280;
+            letter-spacing: 0.01em;
+        }
+        .sentence {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            font-size: 0.95rem;
+            color: #111827;
+        }
+
+        .ipt {
+            border: none;
+            border-bottom: 2px solid #93c5fd;
+            background: transparent;
+            outline: none;
+            font-size: 0.95rem;
+            font-family: inherit;
+            color: #1d4ed8;
+            font-weight: 600;
+            padding: 0.1rem 0.2rem;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+        .ipt:focus { border-bottom-color: #2563eb; }
+        .ipt-sm { width: 3.5rem; }
+
+        .ipt.correct  { border-bottom-color: #16a34a; color: #15803d; background: #f0fdf4; border-radius: 3px; }
+        .ipt.incorrect{ border-bottom-color: #dc2626; color: #b91c1c; background: #fef2f2; border-radius: 3px; }
+
+        .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
+
+        .btn-check {
+            padding: 0.5rem 1.4rem;
+            background: #1d4ed8;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-check:hover { background: #1e40af; }
+
+        .btn-reset {
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            color: #6b7280;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .btn-reset:hover { border-color: #9ca3af; color: #374151; }
+
+        .result {
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .result.hidden { display: none; }
+        .result.ok  { background: #f0fdf4; color: #15803d; border: 1.5px solid #86efac; }
+        .result.err { background: #fef2f2; color: #991b1b; border: 1.5px solid #fca5a5; }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll<HTMLInputElement>(".ipt");
+        const btnCheck = document.getElementById("btnCheck")!;
+        const btnReset = document.getElementById("btnReset")!;
+        const result  = document.getElementById("result")!;
+
+        btnCheck.addEventListener("click", () => {
+            let correct = 0;
+            inputs.forEach(inp => {
+                const ans = (inp.dataset.ans ?? "").trim().toLowerCase();
+                const val = inp.value.trim().toLowerCase();
+                if (val === ans) {
+                    inp.classList.add("correct");
+                    inp.classList.remove("incorrect");
+                    correct++;
+                } else {
+                    inp.classList.add("incorrect");
+                    inp.classList.remove("correct");
+                }
+            });
+            result.classList.remove("hidden", "ok", "err");
+            if (correct === inputs.length) {
+                result.textContent = `Perfekt! Alle ${inputs.length} Antworten richtig!`;
+                result.classList.add("ok");
+            } else {
+                result.textContent = `${correct} von ${inputs.length} richtig. Versuche es nochmal!`;
+                result.classList.add("err");
+            }
+        });
+
+        btnReset.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect");
+            });
+            result.classList.add("hidden");
+            result.classList.remove("ok", "err");
+        });
+    </script>
+</Layout>

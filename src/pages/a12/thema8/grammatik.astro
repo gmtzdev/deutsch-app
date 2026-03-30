@@ -1,0 +1,197 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const forms = [
+    { pos: "gut",   komp: "besser",  sup: "am besten"   },
+    { pos: "viel",  komp: "mehr",    sup: "am meisten"  },
+    { pos: "gern",  komp: "lieber",  sup: "am liebsten" },
+    { pos: "hoch",  komp: "h\u00f6her",  sup: "am h\u00f6chsten" },
+    { pos: "teuer", komp: "teurer",  sup: "am teuersten"},
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Unregelem&auml;&szlig;ige Formen &mdash; Komparativ &amp; Superlativ
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table irr-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-pos">
+                                            <span class="deg-chip chip-pos">Positiv</span>
+                                        </th>
+                                        <th class="th-komp">
+                                            <span class="deg-chip chip-komp">Komparativ</span>
+                                        </th>
+                                        <th class="th-sup">
+                                            <span class="deg-chip chip-sup">Superlativ</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {forms.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-pos">
+                                                <span class="form form-pos">{r.pos}</span>
+                                            </td>
+                                            <td class="td-komp">
+                                                <span class="form form-komp">{r.komp}</span>
+                                            </td>
+                                            <td class="td-sup">
+                                                <span class="form form-sup">{r.sup}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Example cards -->
+                        <div class="ex-row">
+                            <div class="ex-card card-pos">
+                                <p class="ex-label">Positiv</p>
+                                <p class="ex-text">Das Essen ist <strong>gut</strong>.</p>
+                                <p class="ex-text">Er spricht <strong>viel</strong>.</p>
+                                <p class="ex-text">Sie kocht <strong>gern</strong>.</p>
+                            </div>
+                            <div class="ex-card card-komp">
+                                <p class="ex-label">Komparativ</p>
+                                <p class="ex-text">Das Essen ist <strong>besser</strong>.</p>
+                                <p class="ex-text">Er spricht <strong>mehr</strong>.</p>
+                                <p class="ex-text">Sie kocht <strong>lieber</strong>.</p>
+                            </div>
+                            <div class="ex-card card-sup">
+                                <p class="ex-label">Superlativ</p>
+                                <p class="ex-text">Das Essen ist <strong>am besten</strong>.</p>
+                                <p class="ex-text">Er spricht <strong>am meisten</strong>.</p>
+                                <p class="ex-text">Sie kocht <strong>am liebsten</strong>.</p>
+                            </div>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="note-box">
+                            <p class="note-title">Hinweis</p>
+                            <p>
+                                Diese Formen sind <strong>unregulm&auml;&szlig;ig</strong> &mdash; sie folgen keinem
+                                Standardmuster (<em>-er / am -sten</em>). Sie m&uuml;ssen auswendig gelernt werden.
+                                <br/>
+                                <strong>teuer</strong> &rarr; <em>teurer</em> verliert das zweite <em>e</em>
+                                (teuer &rarr; teur&shy;er).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.2rem; }
+        .table-wrapper { overflow-x: auto; }
+
+        /* Degree chips */
+        .deg-chip {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.82rem;
+        }
+        .chip-pos  { background: #374151; color: #fff; }
+        .chip-komp { background: #1d4ed8; color: #fff; }
+        .chip-sup  { background: #7c3aed; color: #fff; }
+
+        /* Table */
+        .irr-table th { text-align: center; }
+        .th-pos, .th-komp, .th-sup { padding: 0.7rem 1rem; }
+
+        .td-pos, .td-komp, .td-sup {
+            text-align: center;
+            padding: 0.75rem 1rem;
+        }
+        .form {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.93rem;
+        }
+        .form-pos  { background: #f3f4f6; color: #111827; }
+        .form-komp { background: #dbeafe; color: #1d4ed8; }
+        .form-sup  { background: #ede9fe; color: #6d28d9; }
+
+        /* Example cards */
+        .ex-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .ex-card {
+            flex: 1;
+            min-width: 170px;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            border: 1.5px solid transparent;
+        }
+        .card-pos  { background: #f9fafb; border-color: #d1d5db; }
+        .card-komp { background: #eff6ff; border-color: #93c5fd; }
+        .card-sup  { background: #f5f3ff; border-color: #c4b5fd; }
+
+        .ex-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 0 0 0.25rem;
+        }
+        .card-pos  .ex-label { color: #374151; }
+        .card-komp .ex-label { color: #1d4ed8; }
+        .card-sup  .ex-label { color: #6d28d9; }
+
+        .ex-text { font-size: 0.88rem; margin: 0; color: #374151; }
+
+        /* Note */
+        .note-box {
+            background: #fffbeb;
+            border: 1.5px solid #fcd34d;
+            border-radius: 10px;
+            padding: 0.8rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .note-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #b45309;
+            margin: 0;
+        }
+        .note-box p:last-child { font-size: 0.88rem; margin: 0; color: #374151; }
+    </style>
+</Layout>
