@@ -1,9 +1,10 @@
 ---
 interface Props {
     // Define any props if needed
-    open: number
+    open: number,
+    teil: number
 }
-const { open } = Astro.props;
+const { open, teil } = Astro.props;
 import BookIcon from "@/icons/BookIcon.astro";
 
 const activities = [
@@ -599,9 +600,10 @@ activities[open - 1].open = true;
 
     <div id={`activities-list-${index}`} style={`display: ${activity.open ? "block" : "none"};`}>
         {
-            activity.lessons.map((lesson) => (
+            activity.lessons.map((lesson, lessonIndex) => (
                 <a
                     class="py-3 pl-8 text-base bg-background-50 hover:bg-nav-hover transition flex gap-2"
+                    style={`${lessonIndex === teil - 1 && index === open - 1 ? "background-color: var(--color-nav-hover)" : ""};`}
                     href={lesson.href}
                 >
                     <lesson.icon class="hover:scale-105 transition" />
