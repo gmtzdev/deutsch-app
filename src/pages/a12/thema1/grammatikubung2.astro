@@ -1,0 +1,500 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+// Each item is one sentence with mixed text/blank segments
+const items = [
+    {
+        id: 1,
+        label: "Satz 1",
+        parts: [
+            { type: "text",  value: "Am Mittwoch " },
+            { type: "blank", answer: "hatte",  id: "1-1" },
+            { type: "text",  value: " ich keinen Tanzunterricht. Die Lehrerin " },
+            { type: "blank", answer: "war",    id: "1-2" },
+            { type: "text",  value: " krank." },
+        ],
+    },
+    {
+        id: 2,
+        label: "Satz 2",
+        parts: [
+            { type: "text",  value: "Gestern " },
+            { type: "blank", answer: "hatte",  id: "2-1" },
+            { type: "text",  value: " Albert Kopfschmerzen. Jetzt geht es ihm wieder gut." },
+        ],
+    },
+    {
+        id: 3,
+        label: "Satz 3",
+        parts: [
+            { type: "text",  value: "Ich habe immer Unglück. Aber heute " },
+            { type: "blank", answer: "hatte",  id: "3-1" },
+            { type: "text",  value: " ich nur Glück." },
+        ],
+    },
+    {
+        id: 4,
+        label: "Satz 4",
+        parts: [
+            { type: "text",  value: "Im August " },
+            { type: "blank", answer: "hatten", id: "4-1" },
+            { type: "text",  value: " wir Ferien. Wir " },
+            { type: "blank", answer: "waren",  id: "4-2" },
+            { type: "text",  value: " aber zu Hause." },
+        ],
+    },
+    {
+        id: 5,
+        label: "Satz 5",
+        parts: [
+            { type: "text",  value: "Wir " },
+            { type: "blank", answer: "hatten", id: "5-1" },
+            { type: "text",  value: " am Montag keine Schule." },
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatikübung 2</h1>
+                <p class="subtitle text-indications">
+                    Präteritum von <strong>sein</strong> und <strong>haben</strong>
+                </p>
+
+                <div class="sections">
+
+                    <!-- Reference -->
+                    <div class="section">
+                        <TagGrammatik />
+                        <table class="vocab-table">
+                            <thead>
+                                <tr>
+                                    <th>Person</th>
+                                    <th>sein → …</th>
+                                    <th>haben → …</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong class="prep">ich</strong></td>
+                                    <td><strong>war</strong></td>
+                                    <td><strong>hatte</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="prep">er / sie / es</strong></td>
+                                    <td><strong>war</strong></td>
+                                    <td><strong>hatte</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong class="prep">wir / sie / Sie</strong></td>
+                                    <td><strong>waren</strong></td>
+                                    <td><strong>hatten</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Exercises -->
+                    <div class="section">
+                        <h3 class="ex-title">Füllen Sie die Lücken aus</h3>
+                        <p class="subtitle text-indications">
+                            Escribe la palabra correcta en cada hueco y pulsa
+                            "Prüfen".
+                        </p>
+
+                        <div class="ex-list" id="ex-list">
+                            {items.map((item) => (
+                                <div
+                                    class="ex-block"
+                                    id={`ex-${item.id}`}
+                                    data-total={item.parts.filter((p) => p.type === "blank").length}
+                                >
+                                    <p class="ex-label">{item.label}</p>
+
+                                    <div class="text-block">
+                                        {item.parts.map((p) =>
+                                            p.type === "text" ? (
+                                                <span>{p.value}</span>
+                                            ) : (
+                                                <span class="blank-wrap">
+                                                    <input
+                                                        type="text"
+                                                        class="blank-input"
+                                                        data-answer={p.answer}
+                                                        data-blankid={p.id}
+                                                        data-exid={item.id}
+                                                        autocomplete="off"
+                                                        autocorrect="off"
+                                                        spellcheck="false"
+                                                        aria-label={`Lücke ${p.id}`}
+                                                    />
+                                                    <span class="blank-feedback" aria-live="polite" />
+                                                </span>
+                                            )
+                                        )}
+                                    </div>
+
+                                    <div class="ex-actions">
+                                        <button type="button" class="btn-check" data-exid={item.id}>
+                                            Prüfen
+                                        </button>
+                                        <button type="button" class="btn-reset" data-exid={item.id}>
+                                            ↺
+                                        </button>
+                                        <span class="ex-feedback" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="hint-row text-indications">
+                            Ayuda:
+                            {["war", "waren", "hatte", "hatten"].map((w) => (
+                                <span class="prep-chip">{w}</span>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle prüfen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zurücksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+
+        .prep { color: #1d4ed8; }
+
+        /* Exercise list */
+        .ex-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem;
+        }
+
+        .ex-list { display: flex; flex-direction: column; gap: 1rem; }
+
+        .ex-block {
+            padding: 0.85rem 1rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .ex-block.correct { border-color: #10b981; background: #f0fdf4; }
+        .ex-block.wrong   { border-color: #ef4444; background: #fef2f2; }
+        .ex-block.partial { border-color: #f59e0b; background: #fffbeb; }
+
+        .ex-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        /* Text block */
+        .text-block {
+            font-size: 1.05rem;
+            line-height: 2.4;
+            padding: 0.6rem 0.8rem;
+            background: var(--color-table-row-hover, #f9fafb);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.1rem;
+            vertical-align: middle;
+        }
+
+        .blank-input {
+            width: 72px;
+            padding: 0.2rem 0.4rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            transition: border-color 0.15s, background 0.15s;
+            outline: none;
+        }
+
+        .blank-input:focus { border-color: #3b82f6; }
+        .blank-input.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 700; }
+        .blank-input.wrong   { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+
+        .blank-feedback { font-size: 0.75rem; font-weight: 700; min-width: 1em; }
+
+        /* Per-block actions */
+        .ex-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-check {
+            padding: 0.3rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .btn-reset {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.9rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .ex-feedback {
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 1.1em;
+        }
+
+        /* Hint row */
+        .hint-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.25rem;
+            font-size: 0.82rem;
+        }
+
+        .prep-chip {
+            display: inline-block;
+            padding: 0.15rem 0.55rem;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.78rem;
+        }
+
+        /* Global */
+        .global-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .button-submit {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .button-reset {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .result {
+            margin-top: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        // ── helpers ──────────────────────────────────────────────
+        const getBlock = (id: string | number) =>
+            document.querySelector(`#ex-${id}`) as HTMLDivElement | null;
+
+        const getInputs = (block: HTMLDivElement) =>
+            [...block.querySelectorAll(".blank-input")] as HTMLInputElement[];
+
+        // Auto-resize on input
+        document.querySelectorAll(".blank-input").forEach((el) => {
+            const inp = el as HTMLInputElement;
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(72, inp.value.length * 13 + 24) + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+                const block = inp.closest(".ex-block");
+                if (block instanceof HTMLDivElement)
+                    block.classList.remove("correct", "wrong", "partial");
+                const exFb = block?.querySelector(".ex-feedback");
+                if (exFb instanceof HTMLSpanElement) exFb.textContent = "";
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+
+            inp.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    const id = inp.dataset.exid ?? "";
+                    checkBlock(id);
+                }
+            });
+        });
+
+        // ── check one block ──────────────────────────────────────
+        const checkBlock = (id: string | number): "correct" | "partial" | "empty" | "wrong" => {
+            const block = getBlock(id);
+            if (!block) return "empty";
+
+            const inputs   = getInputs(block);
+            const exFb     = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            let score = 0;
+            let answered = 0;
+
+            inputs.forEach((inp) => {
+                const given   = inp.value.trim().toLowerCase();
+                const correct = (inp.dataset.answer ?? "").toLowerCase();
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+
+                inp.classList.remove("correct", "wrong");
+                if (!given) { if (fb) fb.textContent = ""; return; }
+                answered++;
+
+                if (given === correct) {
+                    score++;
+                    inp.classList.add("correct");
+                    if (fb) fb.textContent = "✅";
+                } else {
+                    inp.classList.add("wrong");
+                    if (fb) fb.textContent = "❌";
+                }
+            });
+
+            block.classList.remove("correct", "wrong", "partial");
+
+            if (answered === 0) return "empty";
+
+            if (score === inputs.length) {
+                block.classList.add("correct");
+                if (exFb) exFb.textContent = "✅ Richtig!";
+                return "correct";
+            } else if (score > 0) {
+                block.classList.add("partial");
+                if (exFb) exFb.textContent = `${score}/${inputs.length} richtig`;
+                return "partial";
+            } else {
+                block.classList.add("wrong");
+                if (exFb) exFb.textContent = `❌ Falsch (${inputs.map((i) => i.dataset.answer).join(", ")})`;
+                return "wrong";
+            }
+        };
+
+        // ── reset one block ──────────────────────────────────────
+        const resetBlock = (id: string | number) => {
+            const block = getBlock(id);
+            if (!block) return;
+            block.classList.remove("correct", "wrong", "partial");
+            getInputs(block).forEach((inp) => {
+                inp.value = "";
+                inp.style.width = "72px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            const exFb = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            if (exFb) exFb.textContent = "";
+        };
+
+        // Per-block buttons
+        document.querySelectorAll(".btn-check").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                checkBlock((btn as HTMLButtonElement).dataset.exid ?? "");
+            });
+        });
+
+        document.querySelectorAll(".btn-reset").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                resetBlock((btn as HTMLButtonElement).dataset.exid ?? "");
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+        });
+
+        // ── global check ─────────────────────────────────────────
+        document.querySelector("#check-all")?.addEventListener("click", () => {
+            const blocks = [...document.querySelectorAll(".ex-block")] as HTMLDivElement[];
+            let correct = 0;
+            let totalBlanks = 0;
+            let correctBlanks = 0;
+
+            blocks.forEach((b) => {
+                const id = b.id.replace("ex-", "");
+                const res = checkBlock(id);
+                if (res === "correct") correct++;
+                const inputs = getInputs(b);
+                totalBlanks += inputs.length;
+                correctBlanks += inputs.filter((i) => i.classList.contains("correct")).length;
+            });
+
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) {
+                gr.textContent =
+                    `${correct} von ${blocks.length} Sätzen komplett richtig · ` +
+                    `${correctBlanks}/${totalBlanks} Lücken richtig` +
+                    (correctBlanks === totalBlanks ? " — Perfekt! 🎉" : "");
+            }
+        });
+
+        // ── global reset ─────────────────────────────────────────
+        document.querySelector("#reset-all")?.addEventListener("click", () => {
+            const blocks = [...document.querySelectorAll(".ex-block")] as HTMLDivElement[];
+            blocks.forEach((b) => resetBlock(b.id.replace("ex-", "")));
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+        });
+    </script>
+</Layout>

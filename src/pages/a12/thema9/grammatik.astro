@@ -1,0 +1,159 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const rows = [
+    { pronoun:"ich",        pres:"habe",  pret:"hatte"   },
+    { pronoun:"du",         pres:"hast",  pret:"hattest" },
+    { pronoun:"er/sie/es",  pres:"hat",   pret:"hatte"   },
+    { pronoun:"wir",        pres:"haben", pret:"hatten"  },
+    { pronoun:"ihr",        pres:"habt",  pret:"hattet"  },
+    { pronoun:"sie/Sie",    pres:"haben", pret:"hatten"  },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={9} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    <strong>haben</strong> &mdash; Pr&auml;sens &amp; Pr&auml;teritum
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table haben-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-pro">Pronomen</th>
+                                        <th class="th-pres">
+                                            <span class="tense-chip chip-pres">Pr&auml;sens</span>
+                                        </th>
+                                        <th class="th-pret">
+                                            <span class="tense-chip chip-pret">Pr&auml;teritum</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-pro">{r.pronoun}</td>
+                                            <td class="td-pres">
+                                                <span class="form-pres">{r.pres}</span>
+                                            </td>
+                                            <td class="td-pret">
+                                                <span class="form-pret">{r.pret}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Partizip II -->
+                        <div class="p2-box">
+                            <span class="p2-label">Partizip II</span>
+                            <span class="p2-verb">haben</span>
+                            <span class="p2-arrow">&rarr;</span>
+                            <span class="p2-form">gehabt</span>
+                            <span class="p2-ex">&mdash; <em>Ich habe es <strong>gehabt</strong>.</em></span>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="note-box">
+                            <p class="note-title">Hinweis</p>
+                            <p>
+                                Im <strong>Pr&auml;teritum</strong> verliert <em>haben</em> das <em>-b-</em>:
+                                hab&shy; &rarr; hatt&shy;.
+                                Diese Form wird besonders in der <strong>Schriftsprache</strong> verwendet.
+                                Im Perfekt steht: <em>ich <strong>habe</strong> … <strong>gehabt</strong></em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+        .table-wrapper { overflow-x:auto; }
+
+        /* Tense chips */
+        .tense-chip {
+            display:inline-block; padding:0.2rem 0.65rem;
+            border-radius:8px; font-weight:800; font-size:0.82rem;
+        }
+        .chip-pres { background:#1d4ed8; color:#fff; }
+        .chip-pret { background:#7c3aed; color:#fff; }
+
+        /* Table */
+        .haben-table th { text-align:center; }
+        .th-pro  { text-align:left !important; width:120px; }
+        .th-pres, .th-pret { padding:0.7rem 1rem; }
+
+        .td-pro {
+            font-weight:700; font-size:0.9rem; color:#374151;
+            padding:0.8rem 0.9rem; white-space:nowrap;
+        }
+        .td-pres, .td-pret {
+            text-align:center; padding:0.8rem 1rem;
+        }
+
+        .form-pres {
+            display:inline-block; padding:0.25rem 0.85rem;
+            border-radius:8px; font-weight:700; font-size:0.93rem;
+            background:#dbeafe; color:#1d4ed8;
+        }
+        .form-pret {
+            display:inline-block; padding:0.25rem 0.85rem;
+            border-radius:8px; font-weight:700; font-size:0.93rem;
+            background:#ede9fe; color:#6d28d9;
+        }
+
+        /* Partizip II */
+        .p2-box {
+            display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.7rem 1.1rem;
+        }
+        .p2-label {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#475569;
+        }
+        .p2-verb  { font-weight:700; color:#374151; font-size:0.95rem; }
+        .p2-arrow { color:#9ca3af; font-size:1rem; }
+        .p2-form  {
+            display:inline-block; padding:0.2rem 0.7rem;
+            background:#fce7f3; color:#9d174d;
+            border-radius:8px; font-weight:800; font-size:0.93rem;
+        }
+        .p2-ex { font-size:0.88rem; color:#6b7280; }
+
+        /* Note */
+        .note-box {
+            background:#fffbeb; border:1.5px solid #fcd34d;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+        }
+        .note-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#b45309; margin:0;
+        }
+        .note-box p:last-child { font-size:0.88rem; margin:0; color:#374151; }
+    </style>
+</Layout>

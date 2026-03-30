@@ -1,0 +1,479 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Anmeldeformular</h1>
+                <p class="subtitle text-indications">
+                    Füll das Formular bitte vollständig aus. — Por favor,
+                    completa el formulario a continuación.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagWortschatz />
+
+                        <form id="anmelde-form" autocomplete="off" novalidate>
+                            <!-- Persönliche Daten -->
+                            <fieldset>
+                                <legend
+                                    >Persönliche Daten <span class="legend-es"
+                                        >Datos personales</span
+                                    ></legend
+                                >
+
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="vorname"
+                                            >Vorname <span class="label-es"
+                                                >Nombre</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="vorname"
+                                            name="vorname"
+                                            placeholder="z.B. Maria"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="field">
+                                        <label for="nachname"
+                                            >Nachname <span class="label-es"
+                                                >Apellido</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="nachname"
+                                            name="nachname"
+                                            placeholder="z.B. Müller"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="field">
+                                        <label for="telefon"
+                                            >Telefonnummer <span
+                                                class="label-es"
+                                                >Número de teléfono</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="tel"
+                                            id="telefon"
+                                            name="telefon"
+                                            placeholder="z.B. +49 123 456789"
+                                        />
+                                    </div>
+                                    <div class="field">
+                                        <label for="beruf"
+                                            >Beruf <span class="label-es"
+                                                >Profesión</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="beruf"
+                                            name="beruf"
+                                            placeholder="z.B. Lehrer / Studentin"
+                                        />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- Adresse -->
+                            <fieldset>
+                                <legend
+                                    >Adresse <span class="legend-es"
+                                        >Dirección</span
+                                    ></legend
+                                >
+
+                                <div class="form-grid">
+                                    <div class="field field--wide">
+                                        <label for="strasse"
+                                            >Straße <span class="label-es"
+                                                >Calle</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="strasse"
+                                            name="strasse"
+                                            placeholder="z.B. Hauptstraße"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="field">
+                                        <label for="hausnummer"
+                                            >Hausnummer <span class="label-es"
+                                                >Número de casa</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="hausnummer"
+                                            name="hausnummer"
+                                            placeholder="z.B. 12a"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="field">
+                                        <label for="plz"
+                                            >Postleitzahl <span class="label-es"
+                                                >Código postal</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="plz"
+                                            name="plz"
+                                            placeholder="z.B. 10115"
+                                            pattern="\d{4,6}"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="field field--wide">
+                                        <label for="stadt"
+                                            >Stadt <span class="label-es"
+                                                >Ciudad</span
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            id="stadt"
+                                            name="stadt"
+                                            placeholder="z.B. Berlin"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- Kurswahl -->
+                            <fieldset>
+                                <legend
+                                    >Kurswahl <span class="legend-es"
+                                        >Selección de curso</span
+                                    ></legend
+                                >
+
+                                <div class="kurs-grid">
+                                    <div class="kurs-card">
+                                        <span class="kurs-flag">🇩🇪</span>
+                                        <span class="kurs-label"
+                                            >Deutschkurs <span class="label-es"
+                                                >Curso de alemán</span
+                                            ></span
+                                        >
+                                        <div class="radio-group">
+                                            <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="deutsch"
+                                                    value="ja"
+                                                    required
+                                                />
+                                                Ja
+                                            </label>
+                                            <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="deutsch"
+                                                    value="nein"
+                                                />
+                                                Nein
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="kurs-card">
+                                        <span class="kurs-flag">🇬🇧</span>
+                                        <span class="kurs-label"
+                                            >Englischkurs <span class="label-es"
+                                                >Curso de inglés</span
+                                            ></span
+                                        >
+                                        <div class="radio-group">
+                                            <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="englisch"
+                                                    value="ja"
+                                                    required
+                                                />
+                                                Ja
+                                            </label>
+                                            <label class="radio-label">
+                                                <input
+                                                    type="radio"
+                                                    name="englisch"
+                                                    value="nein"
+                                                />
+                                                Nein
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="actions">
+                                <button type="submit"
+                                    >Absenden <span class="label-es"
+                                        >Enviar</span
+                                    ></button
+                                >
+                                <button type="reset" class="btn-reset"
+                                    >Zurücksetzen <span class="label-es"
+                                        >Limpiar</span
+                                    ></button
+                                >
+                            </div>
+                        </form>
+
+                        <div id="success-msg" class="success-msg" hidden>
+                            ✅ Das Formular wurde abgeschickt. — El formulario
+                            fue enviado correctamente.
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const form = document.getElementById("anmelde-form");
+        const successMsg = document.getElementById("success-msg");
+
+        if (
+            form instanceof HTMLFormElement &&
+            successMsg instanceof HTMLElement
+        ) {
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                successMsg.hidden = false;
+                successMsg.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                });
+            });
+
+            form.addEventListener("reset", () => {
+                successMsg.hidden = true;
+            });
+        }
+    </script>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        /* Fieldset */
+        fieldset {
+            border: 1px solid var(--color-table-row-border, #e5e7eb);
+            border-radius: 10px;
+            padding: 1rem 1.25rem 1.25rem;
+            margin: 0;
+        }
+
+        legend {
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0 0.5rem;
+            color: var(--color-text, #1f2937);
+        }
+
+        .legend-es {
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-left: 0.3rem;
+        }
+
+        /* Form grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.9rem;
+            margin-top: 0.75rem;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .field--wide {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--color-text, #1f2937);
+        }
+
+        .label-es {
+            font-weight: 400;
+            font-size: 0.73rem;
+            color: #9ca3af;
+            margin-left: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+            padding: 0.5rem 0.7rem;
+            border: 1px solid var(--color-table-row-border, #d1d5db);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--color-text, #1f2937);
+            background: var(--color-background, #fff);
+            transition: border-color 0.15s;
+        }
+
+        input[type="text"]:focus,
+        input[type="tel"]:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Kurs selection */
+        .kurs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.9rem;
+            margin-top: 0.75rem;
+        }
+
+        .kurs-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--color-table-row-border, #e5e7eb);
+            border-radius: 10px;
+        }
+
+        .kurs-flag {
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .kurs-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--color-text, #1f2937);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--color-text, #1f2937);
+        }
+
+        input[type="radio"] {
+            accent-color: #4f46e5;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        button[type="submit"] {
+            padding: 0.65rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #4f46e5;
+            color: #fff;
+            transition: background 0.15s;
+        }
+
+        button[type="submit"]:hover {
+            background: #4338ca;
+        }
+
+        .btn-reset {
+            padding: 0.65rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid var(--color-table-row-border, #d1d5db);
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: var(--color-text, #1f2937);
+        }
+
+        .success-msg {
+            margin-top: 0.5rem;
+            padding: 0.85rem 1.1rem;
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #065f46;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid,
+            .kurs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field--wide {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</Layout>

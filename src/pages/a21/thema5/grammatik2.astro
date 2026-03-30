@@ -1,0 +1,241 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Verb Konjugation</h1>
+                <p class="subtitle">
+                    Selecciona un verbo para ver su conjugación con todos los
+                    pronombres personales.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <table class="vocab-table" id="conj-table">
+                            <thead>
+                                <tr>
+                                    <th>Pronomen</th>
+                                    <th>Verb</th>
+                                    <th>Endung</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conj-body">
+                                <!-- filled by script -->
+                            </tbody>
+                        </table>
+
+                        <div class="verb-buttons">
+                            <button class="verb-btn active" data-verb="sein"
+                                >sein</button
+                            >
+                            <button class="verb-btn" data-verb="heißen"
+                                >heißen</button
+                            >
+                            <button class="verb-btn" data-verb="kommen"
+                                >kommen</button
+                            >
+                            <button class="verb-btn" data-verb="wohnen"
+                                >wohnen</button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        type ConjugationRow = { pronoun: string; form: string; ending: string };
+        type VerbData = { rows: ConjugationRow[] };
+
+        const verbs: Record<string, VerbData> = {
+            dürfen: {
+                rows: [
+                    { pronoun: "ich", form: "dürfte", ending: "—" },
+                    { pronoun: "du", form: "dürftest", ending: "—" },
+                    { pronoun: "er", form: "dürfte", ending: "—" },
+                    { pronoun: "sie", form: "dürfte", ending: "—" },
+                    { pronoun: "es", form: "dürfte", ending: "—" },
+                    { pronoun: "wir", form: "dürften", ending: "—" },
+                    { pronoun: "ihr", form: "dürftet", ending: "—" },
+                    { pronoun: "Sie/sie", form: "dürften", ending: "—" },
+                ],
+            },
+            können: {
+                rows: [
+                    { pronoun: "ich", form: "könnte", ending: "—" },
+                    { pronoun: "du", form: "könntest", ending: "—" },
+                    { pronoun: "er", form: "könnte", ending: "—" },
+                    { pronoun: "sie", form: "könnte", ending: "—" },
+                    { pronoun: "es", form: "könnte", ending: "—" },
+                    { pronoun: "wir", form: "könnten", ending: "—" },
+                    { pronoun: "ihr", form: "könntet", ending: "—" },
+                    { pronoun: "Sie/sie", form: "könnten", ending: "—" },
+                ],
+            },
+            mögen: {
+                rows: [
+                    { pronoun: "ich", form: "möchte", ending: "—" },
+                    { pronoun: "du", form: "möchtest", ending: "—" },
+                    { pronoun: "er", form: "möchte", ending: "—" },
+                    { pronoun: "sie", form: "möchte", ending: "—" },
+                    { pronoun: "es", form: "möchte", ending: "—" },
+                    { pronoun: "wir", form: "möchten", ending: "—" },
+                    { pronoun: "ihr", form: "möchtet", ending: "—" },
+                    { pronoun: "Sie/sie", form: "möchten", ending: "—" },
+                ],
+            },
+            müssen: {
+                rows: [
+                    { pronoun: "ich", form: "müsste", ending: "—" },
+                    { pronoun: "du", form: "müsstest", ending: "—" },
+                    { pronoun: "er", form: "müsste", ending: "—" },
+                    { pronoun: "sie", form: "müsste", ending: "—" },
+                    { pronoun: "es", form: "müsste", ending: "—" },
+                    { pronoun: "wir", form: "müssten", ending: "—" },
+                    { pronoun: "ihr", form: "müsstet", ending: "—" },
+                    { pronoun: "Sie/sie", form: "müssten", ending: "—" },
+                ],
+            },
+            sollen: {
+                rows: [
+                    { pronoun: "ich", form: "sollte", ending: "—" },
+                    { pronoun: "du", form: "solltest", ending: "—" },
+                    { pronoun: "er", form: "sollte", ending: "—" },
+                    { pronoun: "sie", form: "sollte", ending: "—" },
+                    { pronoun: "es", form: "sollte", ending: "—" },
+                    { pronoun: "wir", form: "sollten", ending: "—" },
+                    { pronoun: "ihr", form: "solltet", ending: "—" },
+                    { pronoun: "Sie/sie", form: "sollten", ending: "—" },
+                ],
+            },
+            wollen: {
+                rows: [
+                    { pronoun: "ich", form: "wollte", ending: "—" },
+                    { pronoun: "du", form: "wolltest", ending: "—" },
+                    { pronoun: "er", form: "wollte", ending: "—" },
+                    { pronoun: "sie", form: "wollte", ending: "—" },
+                    { pronoun: "es", form: "wollte", ending: "—" },
+                    { pronoun: "wir", form: "wollten", ending: "—" },
+                    { pronoun: "ihr", form: "wolltet", ending: "—" },
+                    { pronoun: "Sie/sie", form: "wollten", ending: "—" },
+                ],
+            },
+        };
+
+        function renderVerb(verb: string) {
+            const body = document.getElementById("conj-body");
+            if (!body) return;
+            const data = verbs[verb];
+            if (!data) return;
+
+            body.innerHTML = data.rows
+                .map(
+                    (r) => `
+                <tr>
+                    <td class="label">${r.pronoun}</td>
+                    <td><strong>${r.form}</strong></td>
+                    <td class="ending">${r.ending}</td>
+                </tr>`,
+                )
+                .join("");
+        }
+
+        renderVerb("dürfen");
+
+        document
+            .querySelectorAll<HTMLButtonElement>(".verb-btn")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    document
+                        .querySelectorAll(".verb-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    renderVerb(btn.dataset.verb ?? "dürfen");
+                });
+            });
+    </script>
+
+    <style>
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+            font-family:
+                system-ui,
+                -apple-system,
+                Segoe UI,
+                Roboto,
+                sans-serif;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.7rem;
+        }
+
+        .subtitle {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #4b5563;
+        }
+
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .verb-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+        }
+
+        .verb-btn {
+            padding: 0.45rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 999px;
+            cursor: pointer;
+            background: #fff;
+            color: #374151;
+            transition: all 0.15s;
+        }
+
+        .verb-btn:hover {
+            border-color: #6366f1;
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .verb-btn.active {
+            background: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+    </style>
+</Layout>

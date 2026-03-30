@@ -1,0 +1,140 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import "@/styles/page.css";
+import "@/styles/quiz.css";
+const exercises = [
+    { id: 1, before: "Ich", answer: "lerne", after: "Hans." },
+    { id: 2, before: "Du kommst", answer: "spielen", after: "Ecuador." },
+    {
+        id: 3,
+        before: "",
+        answer: "liest",
+        after: "wohnt in Dortmund.",
+    },
+];
+const exercises2 = [
+    { id: 4, before: "Ich studier", answer: "", after: "" },
+    { id: 5, before: "Ihr arbeit", answer: "erklärt", after: "die Grammatik." },
+    { id: 6, before: "Er komm", answer: "schreibt", after: "aus Portugal." },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Completa las oraciones en alemán</h1>
+
+                <form id="quiz-form" class="quiz" autocomplete="off">
+                    <p class="subtitle">
+                        Escribe la palabra que falta en cada oración y luego
+                        pulsa "Corregir".
+                    </p>
+                    {
+                        exercises.map((exercise) => (
+                            <label class="row" data-answer={exercise.answer}>
+                                <span class="sentence">
+                                    {exercise.before} ___ {exercise.after}
+                                </span>
+                                <input
+                                    type="text"
+                                    name={`exercise-${exercise.id}`}
+                                    placeholder="Tu respuesta"
+                                    required
+                                />
+                                <span class="feedback" aria-live="polite" />
+                            </label>
+                        ))
+                    }
+
+                    <p class="subtitle">
+                        Escribe la palabra que falta en cada oración y luego
+                        pulsa "Corregir".
+                    </p>
+
+                    {
+                        exercises2.map((exercise) => (
+                            <label class="row" data-answer={exercise.answer}>
+                                <span class="sentence">
+                                    {exercise.before} ___ {exercise.after}
+                                </span>
+                                <input
+                                    type="text"
+                                    name={`exercise-${exercise.id}`}
+                                    placeholder="Tu respuesta"
+                                    required
+                                />
+                                <span class="feedback" aria-live="polite" />
+                            </label>
+                        ))
+                    }
+                    <div class="actions">
+                        <button class="button-submit" type="submit"
+                            >Corregir</button
+                        >
+                    </div>
+                </form>
+
+                <p id="result" class="result" aria-live="polite"></p>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const form = document.querySelector("#quiz-form");
+        const result = document.querySelector("#result");
+
+        if (
+            form instanceof HTMLFormElement &&
+            result instanceof HTMLParagraphElement
+        ) {
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                const rows = [...form.querySelectorAll(".row")];
+                let score = 0;
+
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLLabelElement)) return;
+
+                    const input = row.querySelector("input");
+                    const feedback = row.querySelector(".feedback");
+                    const expected = row.dataset.answer ?? "";
+
+                    if (
+                        !(input instanceof HTMLInputElement) ||
+                        !(feedback instanceof HTMLSpanElement)
+                    )
+                        return;
+
+                    const userAnswer = input.value.trim().toLocaleLowerCase();
+                    const correctAnswer = expected.trim().toLocaleLowerCase();
+
+                    if (userAnswer === correctAnswer) {
+                        score += 1;
+                        row.classList.remove("wrong");
+                        row.classList.add("correct");
+                        feedback.textContent = "✅ Correcto";
+                    } else {
+                        row.classList.remove("correct");
+                        row.classList.add("wrong");
+                        feedback.textContent = `❌ Correcta: ${expected}`;
+                    }
+                });
+
+                result.textContent = `Tu puntuación final es ${score} de ${rows.length} aciertos.`;
+            });
+        }
+    </script>
+</Layout>

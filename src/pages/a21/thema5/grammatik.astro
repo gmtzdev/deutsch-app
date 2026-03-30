@@ -1,0 +1,144 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const rows = [
+    { adverb: "morgens",    zeit: "am Morgen",    beispiel: "Ich esse morgens am liebsten M\u00fcsli.",   wortart: "Adverb" },
+    { adverb: "vormittags", zeit: "am Vormittag",  beispiel: "Vormittags habe ich meistens Unterricht.",  wortart: "Adverb" },
+    { adverb: "mittags",    zeit: "am Mittag",     beispiel: "Ich war bis mittags in der Schule.",        wortart: "Adverb" },
+    { adverb: "nachmittags",zeit: "am Nachmittag", beispiel: "Nachmittags treffe ich mich mit Freunden.", wortart: "Adverb" },
+    { adverb: "abends",     zeit: "am Abend",      beispiel: "Ich gehe abends joggen.",                   wortart: "Adverb" },
+    { adverb: "nachts",     zeit: "in der Nacht",  beispiel: "Nachts schl\u00e4ft sie meistens gut.",     wortart: "Adverb" },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Tageszeiten als <strong>Adverbien</strong>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Rule card -->
+                        <div class="regel-box">
+                            <p class="regel-title">Regel</p>
+                            <p>
+                                Die Tageszeiten werden als <strong>Adverbien</strong> verwendet,
+                                indem man die Endung <strong>-s</strong> anh&auml;ngt:
+                                <em>der Morgen &rarr; morgens</em>.
+                                Sie antworten auf die Frage <strong>Wann?</strong> und
+                                sind <strong>unver&auml;nderlich</strong> (keine Deklination).
+                            </p>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table zeit-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-adv">Adverb</th>
+                                        <th class="th-zeit">Tageszeit</th>
+                                        <th class="th-bsp">Beispielsatz</th>
+                                        <th class="th-wort">Wortart</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-adv">
+                                                <span class="adv-chip">{r.adverb}</span>
+                                            </td>
+                                            <td class="td-zeit">{r.zeit}</td>
+                                            <td class="td-bsp">{r.beispiel}</td>
+                                            <td class="td-wort">
+                                                <span class="wort-badge">{r.wortart}</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="hinweis-box">
+                            <p class="hinweis-title">Hinweis</p>
+                            <p>
+                                Im Gegensatz dazu stehen Tageszeiten nach Pr\u00e4positionen <em>ohne</em> -s:
+                                <em>am <strong>Morgen</strong></em>, <em>am <strong>Abend</strong></em>,
+                                <em>in der <strong>Nacht</strong></em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+        .table-wrapper { overflow-x:auto; }
+
+        /* Regel */
+        .regel-box {
+            background:#eff6ff; border:1.5px solid #bfdbfe;
+            border-radius:10px; padding:0.85rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.35rem;
+        }
+        .regel-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#1d4ed8; margin:0;
+        }
+        .regel-box p { margin:0; font-size:0.9rem; color:#1e3a5f; }
+
+        /* Table */
+        .zeit-table th { text-align:left; }
+        .th-adv  { width:120px; }
+        .th-zeit { width:130px; }
+        .th-wort { width:90px; text-align:center !important; }
+
+        .td-adv  { padding:0.8rem 0.9rem; }
+        .td-zeit { padding:0.8rem 0.9rem; font-size:0.88rem; color:#374151; }
+        .td-bsp  { padding:0.8rem 0.9rem; font-size:0.87rem; color:#6b7280; font-style:italic; }
+        .td-wort { padding:0.8rem 0.9rem; text-align:center; }
+
+        .adv-chip {
+            display:inline-block; padding:0.2rem 0.75rem;
+            background:#dbeafe; color:#1d4ed8;
+            border-radius:20px; font-weight:800; font-size:0.9rem;
+        }
+
+        .wort-badge {
+            display:inline-block; padding:0.15rem 0.55rem;
+            background:#dcfce7; color:#15803d;
+            border-radius:6px; font-size:0.75rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.04em;
+        }
+
+        /* Hinweis */
+        .hinweis-box {
+            background:#fff7ed; border:1.5px solid #fed7aa;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+        }
+        .hinweis-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#c2410c; margin:0;
+        }
+        .hinweis-box p:last-child { margin:0; font-size:0.87rem; color:#374151; }
+    </style>
+</Layout>

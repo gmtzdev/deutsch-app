@@ -1,0 +1,288 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+
+const questions = [
+    {
+        id: 1,
+        question: "Wie viele Verwandte hast du?",
+        answer: "2 Cousinen und 2 Cousins",
+        hint: "2 Cousinen und 2 Cousins",
+    },
+    {
+        id: 2,
+        question: "Wie alt ist dein Bruder/Schwester?",
+        answer: "10 Jahre",
+        hint: "10 Jahre",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Leseverstehen — Vorstellung</h1>
+                <p class="subtitle">
+                    Lee el texto con atención y responde brevemente las
+                    preguntas en alemán.
+                </p>
+
+                <div class="sections">
+                    <!-- Reading passage -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <div class="reading-block">
+                            <p class="reading-text">
+                                Lesen Sie und sprechen Sie im Kurs.​ Hallo, ich
+                                bin Marie und das ist meine Familie.​ (Marie
+                                präsentiert ein Foto von ihrer ganzen Familie.)​
+                                Meine Mutter heißt Anna und mein Vater heißt
+                                Arthur. Meine Eltern sind schon 30 Jahre
+                                zusammen.​ Das ist Ingrid. Sie ist meine
+                                Großmutter und die Mutter von meiner Mutter.​
+                                Das sind Leo und seine Tochter Amira. Leo ist
+                                der Bruder von meiner Mutter und Amira ist meine
+                                Cousine. Das kleine Baby ist ihr Bruder, er
+                                heißt Lukas.​ Hier ist mein Großvater. Er ist
+                                der Vater von meinem Vater.​ Das sind ihre
+                                Töchter: Tante Claudia und Tante Bertha mit
+                                ihren Familien.​ Meine Tante Claudia hat keine
+                                Kinder, aber meine Tante Bertha hat zwei Söhne
+                                und eine Tochter.​ Und hier sind meine Schwester
+                                Lina und mein Bruder John.​ Ich habe nur zwei
+                                Geschwister, einen Onkel, zwei Tanten, zwei
+                                Cousinen und zwei Cousins.​ Meine Familie ist
+                                nicht so groß, aber alle sind sehr nett.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Comprehension questions -->
+                    <div class="section">
+                        <form id="quiz-form" class="quiz" autocomplete="off">
+                            {
+                                questions.map((q) => (
+                                    <label
+                                        class="row"
+                                        data-answer={q.answer}
+                                        data-hint={q.hint}
+                                    >
+                                        <span class="question-text">
+                                            {q.question}
+                                        </span>
+                                        <input
+                                            type="text"
+                                            name={`q-${q.id}`}
+                                            placeholder="Deine Antwort…"
+                                            required
+                                        />
+                                        <span
+                                            class="feedback"
+                                            aria-live="polite"
+                                        />
+                                    </label>
+                                ))
+                            }
+                            <div class="actions">
+                                <button type="submit">Corregir</button>
+                                <button type="reset" class="btn-reset"
+                                    >Reiniciar</button
+                                >
+                            </div>
+                        </form>
+
+                        <p id="result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const form = document.querySelector("#quiz-form");
+        const result = document.querySelector("#result");
+
+        if (
+            form instanceof HTMLFormElement &&
+            result instanceof HTMLParagraphElement
+        ) {
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                const rows = [...form.querySelectorAll(".row")];
+                let score = 0;
+
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLLabelElement)) return;
+
+                    const input = row.querySelector("input");
+                    const feedback = row.querySelector(".feedback");
+                    const expected = (row.dataset.answer ?? "").trim();
+                    const hint = row.dataset.hint ?? expected;
+
+                    if (
+                        !(input instanceof HTMLInputElement) ||
+                        !(feedback instanceof HTMLSpanElement)
+                    )
+                        return;
+
+                    const userAnswer = input.value.trim().toLocaleLowerCase();
+
+                    if (
+                        userAnswer.includes(expected) ||
+                        (expected.includes(userAnswer) && userAnswer.length > 2)
+                    ) {
+                        score += 1;
+                        row.classList.remove("wrong");
+                        row.classList.add("correct");
+                        feedback.textContent = "✅ Richtig";
+                    } else {
+                        row.classList.remove("correct");
+                        row.classList.add("wrong");
+                        feedback.textContent = `❌ Antwort: ${hint}`;
+                    }
+                });
+
+                result.textContent = `Puntuación: ${score} de ${rows.length} correctas.`;
+            });
+
+            form.addEventListener("reset", () => {
+                form.querySelectorAll(".row").forEach((row) => {
+                    row.classList.remove("correct", "wrong");
+                    const feedback = row.querySelector(".feedback");
+                    if (feedback instanceof HTMLSpanElement)
+                        feedback.textContent = "";
+                });
+                result.textContent = "";
+            });
+        }
+    </script>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Reading passage */
+        .reading-block {
+            margin-top: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            border-left: 4px solid #3b82f6;
+            border-radius: 0.5rem;
+            background: var(--color-table-header, #f9fafb);
+        }
+
+        .reading-text {
+            margin: 0;
+            font-size: 0.97rem;
+            line-height: 1.75;
+            color: var(--color-text, #1f2937);
+        }
+
+        /* Quiz */
+        .quiz {
+            display: grid;
+            gap: 0.9rem;
+            margin-top: 0.75rem;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr minmax(160px, 240px) auto;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid var(--color-table-header-border, #d1d5db);
+            border-radius: 10px;
+        }
+
+        .question-text {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--color-text, #1f2937);
+        }
+
+        input {
+            padding: 0.55rem 0.65rem;
+            border: 1px solid #9ca3af;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: var(--color-input-bg, #fff);
+            color: var(--color-text, #1f2937);
+        }
+
+        .feedback {
+            font-size: 0.88rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        button {
+            padding: 0.7rem 1.1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .btn-reset {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-reset:hover {
+            background: #d1d5db;
+        }
+
+        .result {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-text, #1f2937);
+        }
+
+        .row.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .row.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        @media (max-width: 640px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+
+            .feedback {
+                white-space: normal;
+            }
+        }
+    </style>
+</Layout>

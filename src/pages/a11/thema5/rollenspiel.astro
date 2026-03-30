@@ -1,0 +1,105 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Rollenspiel</h1>
+                <p class="subtitle text-indications">Was machst du, Wann?</p>
+
+                <div class="sections">
+                    <div class="section">
+                        <img
+                            style="width: 350px; margin: 0 auto;"
+                            src="/a11/thema5/rollenspiel.png"
+                            alt=""
+                        />
+                    </div>
+
+                    <div class="section">
+                        <TagWortschatz />
+
+                        <ul class="obj-list text-text">
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Wochentage
+                                <em></em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Uhrzeit
+                                <em></em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Hobbys
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

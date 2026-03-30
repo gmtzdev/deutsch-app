@@ -1,0 +1,230 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "e1",
+        indikativ: "Wenn du willst, gehen wir heute joggen.",
+        beispiel:  "Wenn du wolltest, w\u00fcrden wir heute joggen."
+    },
+    {
+        id: "e2",
+        indikativ: "Geh ins Fitnessstudio!",
+        beispiel:  "Du solltest ins Fitnessstudio gehen."
+    },
+    {
+        id: "e3",
+        indikativ: "Wenn du willst, kannst du ges\u00fcnder leben.",
+        beispiel:  "Wenn du wolltest, k\u00f6nntest du ges\u00fcnder leben."
+    },
+    {
+        id: "e4",
+        indikativ: "Fr\u00fchst\u00fcckst du hier?",
+        beispiel:  "W\u00fcrdest du hier fr\u00fchst\u00fccken?"
+    },
+    {
+        id: "e5",
+        indikativ: "Er kann bei mir essen, wenn er will.",
+        beispiel:  "Er k\u00f6nnte bei mir essen, wenn er wollte."
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Bilden Sie S&auml;tze im <strong>Konjunktiv II</strong> &mdash;
+                    Schreiben Sie jeden Satz in der Konjunktiv-II-Form um.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Quick reference -->
+                        <div class="ref-grid">
+                            <div class="ref-box">
+                                <p class="ref-title">w\u00fcrden + Infinitiv</p>
+                                <p class="ref-ex">ich <strong>w\u00fcrde</strong> gehen &bull; wir <strong>w\u00fcrden</strong> gehen</p>
+                            </div>
+                            <div class="ref-box">
+                                <p class="ref-title">k\u00f6nnen &rarr; k\u00f6nnte</p>
+                                <p class="ref-ex">ich <strong>k\u00f6nnte</strong> &bull; du <strong>k\u00f6nntest</strong></p>
+                            </div>
+                            <div class="ref-box">
+                                <p class="ref-title">wollen &rarr; wollte</p>
+                                <p class="ref-ex">er <strong>wollte</strong> &bull; du <strong>wolltest</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="exercises">
+                            {exercises.map((ex, i) => (
+                                <div class="ex-card">
+                                    <div class="ex-header">
+                                        <span class="ex-num">{i + 1}</span>
+                                        <p class="indikativ-text">
+                                            <span class="ind-label">Indikativ:</span> {ex.indikativ}
+                                        </p>
+                                    </div>
+                                    <div class="ex-body">
+                                        <label class="tx-label">Konjunktiv II:</label>
+                                        <textarea
+                                            id={`ta-${ex.id}`}
+                                            class="free-textarea"
+                                            rows={2}
+                                            placeholder="Schreiben Sie den Satz im Konjunktiv II …"
+                                            spellcheck={false}
+                                        />
+                                        <button
+                                            class="btn-example"
+                                            data-id={ex.id}
+                                        >
+                                            L\u00f6sung zeigen
+                                        </button>
+                                        <p class="example-text hidden" id={`sol-${ex.id}`}>
+                                            <span class="sol-label">M\u00f6gliche L\u00f6sung:</span> {ex.beispiel}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-clear" class="btn-secondary">Alles l\u00f6schen</button>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Reference chips */
+        .ref-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(170px,1fr)); gap:0.75rem;
+        }
+        .ref-box {
+            background:#ede9fe; border:1.5px solid #c4b5fd;
+            border-radius:10px; padding:0.7rem 0.9rem;
+        }
+        .ref-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#6d28d9; margin:0 0 0.3rem 0;
+        }
+        .ref-ex { margin:0; font-size:0.84rem; color:#374151; }
+
+        /* Exercise cards */
+        .exercises { display:flex; flex-direction:column; gap:1.1rem; }
+
+        .ex-card {
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:1rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.75rem;
+        }
+
+        .ex-header {
+            display:flex; align-items:flex-start; gap:0.75rem;
+        }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#7c3aed; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; flex-shrink:0; margin-top:2px;
+        }
+
+        .indikativ-text {
+            margin:0; font-size:0.95rem; color:#1e293b; line-height:1.5;
+        }
+        .ind-label {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#9ca3af; margin-right:0.35rem;
+        }
+
+        .ex-body { display:flex; flex-direction:column; gap:0.5rem; }
+
+        .tx-label {
+            font-size:0.75rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#7c3aed;
+        }
+
+        .free-textarea {
+            width:100%; padding:0.6rem 0.8rem;
+            border:2px solid #c4b5fd; border-radius:8px;
+            font-size:0.97rem; color:#1e293b;
+            resize:vertical; outline:none;
+            font-family:inherit; line-height:1.6;
+            transition:border-color 0.2s;
+            background:#fff;
+        }
+        .free-textarea:focus { border-color:#7c3aed; }
+
+        .btn-example {
+            align-self:flex-start;
+            padding:0.3rem 0.85rem; border-radius:8px;
+            background:#ede9fe; color:#6d28d9;
+            font-weight:700; font-size:0.8rem;
+            border:1.5px solid #c4b5fd; cursor:pointer;
+            transition:background 0.15s;
+        }
+        .btn-example:hover { background:#ddd6fe; }
+
+        .example-text {
+            margin:0; font-size:0.88rem; color:#374151;
+            background:#ede9fe; border-radius:8px;
+            padding:0.45rem 0.75rem; line-height:1.5;
+        }
+        .sol-label { font-weight:700; color:#7c3aed; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        .hidden { display:none !important; }
+    </style>
+
+    <script>
+        document.querySelectorAll<HTMLButtonElement>(".btn-example").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id  = btn.dataset.id as string;
+                const box = document.getElementById(`sol-${id}`);
+                if (!box) return;
+                const hidden = box.classList.toggle("hidden");
+                btn.textContent = hidden ? "L\u00f6sung zeigen" : "L\u00f6sung verbergen";
+            });
+        });
+
+        document.getElementById("btn-clear")?.addEventListener("click", () => {
+            document.querySelectorAll<HTMLTextAreaElement>(".free-textarea").forEach(ta => {
+                ta.value = "";
+            });
+            document.querySelectorAll<HTMLParagraphElement>(".example-text").forEach(p => {
+                p.classList.add("hidden");
+            });
+            document.querySelectorAll<HTMLButtonElement>(".btn-example").forEach(btn => {
+                btn.textContent = "L\u00f6sung zeigen";
+            });
+        });
+    </script>
+</Layout>

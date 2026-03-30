@@ -1,0 +1,164 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={3} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Indefiniter Artikel ein/eine
+                </p>
+
+                <div class="sections">
+                    <!-- Wortschatz -->
+                    <div class="section">
+                        <TagWortschatz />
+
+                        <div class="vocab-group">
+                            <h4>Wortschatz</h4>
+                            <table class="vocab-table">
+                                <thead>
+                                    <tr>
+                                        <th>Männlich (maskulin)</th>
+                                        <th>Weiblich (feminin)</th>
+                                        <th>Sächlich (neutrum)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ein Mann</td>
+                                        <td>eine Schwester</td>
+                                        <td>ein Gebäude</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ein Bruder</td>
+                                        <td>eine Großmutter</td>
+                                        <td>ein Schwesterchen</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ein Enkel</td>
+                                        <td>eine Mutter</td>
+                                        <td>ein Brot</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+</Layout>
+
+<script>
+    if (!localStorage.getItem("session")) {
+        window.location.replace("/login");
+    }
+
+    const form = document.querySelector("#quiz-form");
+    const result = document.querySelector("#result");
+
+    if (
+        form instanceof HTMLFormElement &&
+        result instanceof HTMLParagraphElement
+    ) {
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const rows = [...form.querySelectorAll(".row")];
+            let score = 0;
+
+            rows.forEach((row) => {
+                if (!(row instanceof HTMLLabelElement)) return;
+
+                const input = row.querySelector("input");
+                const feedback = row.querySelector(".feedback");
+                const expected = row.dataset.answer ?? "";
+
+                if (
+                    !(input instanceof HTMLInputElement) ||
+                    !(feedback instanceof HTMLSpanElement)
+                )
+                    return;
+
+                const userAnswer = input.value.trim().toLocaleLowerCase();
+                const correctAnswer = expected.trim().toLocaleLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    score += 1;
+                    row.classList.remove("wrong");
+                    row.classList.add("correct");
+                    feedback.textContent = "✅ Correcto";
+                } else {
+                    row.classList.remove("correct");
+                    row.classList.add("wrong");
+                    feedback.textContent = `❌ Correcta: ${expected}`;
+                }
+            });
+
+            result.textContent = `Tu puntuación final es ${score} de ${rows.length} aciertos.`;
+        });
+    }
+</script>
+
+<style>
+    .obj-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .obj-list li {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-size: 0.95rem;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .dot-blue {
+        background: #3b82f6;
+    }
+
+    .vocab-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .vocab-group h4 {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #6b7280;
+        margin: 0 0 0.5rem 0;
+    }
+
+    @media (max-width: 600px) {
+        .vocab-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

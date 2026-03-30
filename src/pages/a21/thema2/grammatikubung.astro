@@ -1,0 +1,267 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Ordnen Sie die Gegenteile zu &mdash; Lokaladverbien.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Word bank B -->
+                        <div class="wordbank">
+                            <span class="wb-label">Gegenteile:</span>
+                            <span class="wb-chip" id="opt-A">A. oben</span>
+                            <span class="wb-chip" id="opt-B">B. nirgends</span>
+                            <span class="wb-chip" id="opt-C">C. vorn</span>
+                            <span class="wb-chip" id="opt-D">D. drau&szlig;en</span>
+                        </div>
+
+                        <div class="pairs">
+
+                            <div class="pair-row">
+                                <div class="left-word">
+                                    <span class="num">1.</span>
+                                    <span class="word">hinten</span>
+                                </div>
+                                <span class="arrow">&harr;</span>
+                                <div class="right-side">
+                                    <input class="ipt" data-ans="C" placeholder="___" size="3" />
+                                    <span class="letter-hint">(A / B / C / D)</span>
+                                </div>
+                            </div>
+
+                            <div class="pair-row">
+                                <div class="left-word">
+                                    <span class="num">2.</span>
+                                    <span class="word">drinnen</span>
+                                </div>
+                                <span class="arrow">&harr;</span>
+                                <div class="right-side">
+                                    <input class="ipt" data-ans="D" placeholder="___" size="3" />
+                                    <span class="letter-hint">(A / B / C / D)</span>
+                                </div>
+                            </div>
+
+                            <div class="pair-row">
+                                <div class="left-word">
+                                    <span class="num">3.</span>
+                                    <span class="word">unten</span>
+                                </div>
+                                <span class="arrow">&harr;</span>
+                                <div class="right-side">
+                                    <input class="ipt" data-ans="A" placeholder="___" size="3" />
+                                    <span class="letter-hint">(A / B / C / D)</span>
+                                </div>
+                            </div>
+
+                            <div class="pair-row">
+                                <div class="left-word">
+                                    <span class="num">4.</span>
+                                    <span class="word">&uuml;berall</span>
+                                </div>
+                                <span class="arrow">&harr;</span>
+                                <div class="right-side">
+                                    <input class="ipt" data-ans="B" placeholder="___" size="3" />
+                                    <span class="letter-hint">(A / B / C / D)</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnCheck" class="btn-check">Pr&uuml;fen</button>
+                            <button id="btnSolution" class="btn-solution">L&ouml;sung zeigen</button>
+                            <button id="btnReset" class="btn-reset">Zur&uuml;cksetzen</button>
+                        </div>
+
+                        <div id="result" class="result hidden"></div>
+
+                        <!-- Summary table -->
+                        <div class="summary-box">
+                            <p class="sum-title">Zusammenfassung</p>
+                            <div class="sum-grid">
+                                <div class="sum-pair"><span class="s-word">hinten</span><span class="s-opp">&harr; vorn</span></div>
+                                <div class="sum-pair"><span class="s-word">drinnen</span><span class="s-opp">&harr; drau&szlig;en</span></div>
+                                <div class="sum-pair"><span class="s-word">unten</span><span class="s-opp">&harr; oben</span></div>
+                                <div class="sum-pair"><span class="s-word">&uuml;berall</span><span class="s-opp">&harr; nirgends</span></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+
+        /* Word bank */
+        .wordbank {
+            display:flex; align-items:center; flex-wrap:wrap; gap:0.5rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.65rem 1rem;
+        }
+        .wb-label {
+            font-size:0.78rem; font-weight:700; color:#6b7280;
+            text-transform:uppercase; letter-spacing:0.05em; margin-right:0.25rem;
+        }
+        .wb-chip {
+            display:inline-block; padding:0.2rem 0.7rem;
+            border-radius:8px; font-weight:800; font-size:0.88rem;
+            background:#1d4ed8; color:#fff;
+        }
+
+        /* Pairs */
+        .pairs { display:flex; flex-direction:column; gap:0.75rem; }
+
+        .pair-row {
+            display:flex; align-items:center; gap:1rem;
+            background:#f9fafb; border:1.5px solid #e5e7eb;
+            border-radius:12px; padding:0.8rem 1.1rem;
+        }
+
+        .left-word {
+            display:flex; align-items:center; gap:0.5rem;
+            min-width:110px;
+        }
+        .num  { font-weight:700; color:#374151; font-size:0.95rem; }
+        .word { font-weight:700; font-size:1rem; color:#111827; }
+
+        .arrow { font-size:1.2rem; color:#9ca3af; flex-shrink:0; }
+
+        .right-side { display:flex; align-items:center; gap:0.5rem; }
+
+        .letter-hint { font-size:0.78rem; color:#9ca3af; white-space:nowrap; }
+
+        /* Input */
+        .ipt {
+            border:none; border-bottom:2px solid #93c5fd;
+            background:transparent; outline:none;
+            font-size:1rem; font-family:inherit;
+            color:#1d4ed8; font-weight:800;
+            padding:0.05rem 0.25rem; text-align:center;
+            width:3rem;
+            transition:border-color 0.2s;
+        }
+        .ipt:focus { border-bottom-color:#2563eb; }
+
+        .ipt.correct   { border-bottom-color:#16a34a; color:#15803d; background:#f0fdf4; border-radius:3px; }
+        .ipt.incorrect { border-bottom-color:#dc2626; color:#b91c1c; background:#fef2f2; border-radius:3px; }
+        .ipt.shown     { border-bottom-color:#d97706; color:#b45309; background:#fffbeb; border-radius:3px; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.25rem; }
+
+        .btn-check {
+            padding:0.5rem 1.4rem; background:#1d4ed8; color:#fff;
+            border:none; border-radius:8px; font-size:0.9rem; font-weight:700;
+            cursor:pointer; transition:background 0.2s;
+        }
+        .btn-check:hover { background:#1e40af; }
+
+        .btn-solution {
+            padding:0.5rem 1.2rem; background:transparent; color:#d97706;
+            border:1.5px solid #fcd34d; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-solution:hover { background:#fffbeb; }
+
+        .btn-reset {
+            padding:0.5rem 1.2rem; background:transparent; color:#6b7280;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-reset:hover { border-color:#9ca3af; color:#374151; }
+
+        /* Result */
+        .result { padding:0.7rem 1rem; border-radius:10px; font-size:0.9rem; font-weight:700; }
+        .result.hidden { display:none; }
+        .result.ok  { background:#f0fdf4; color:#15803d; border:1.5px solid #86efac; }
+        .result.err { background:#fef2f2; color:#991b1b; border:1.5px solid #fca5a5; }
+
+        /* Summary */
+        .summary-box {
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:0.9rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.75rem;
+        }
+        .sum-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#475569; margin:0;
+        }
+        .sum-grid {
+            display:grid; grid-template-columns:1fr 1fr;
+            gap:0.5rem 2rem;
+        }
+        .sum-pair { display:flex; align-items:center; gap:0.5rem; }
+        .s-word { font-weight:700; color:#111827; font-size:0.92rem; min-width:75px; }
+        .s-opp  { font-size:0.92rem; color:#1d4ed8; font-weight:700; }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll<HTMLInputElement>(".ipt");
+        const btnCheck    = document.getElementById("btnCheck")!;
+        const btnSolution = document.getElementById("btnSolution")!;
+        const btnReset    = document.getElementById("btnReset")!;
+        const result      = document.getElementById("result")!;
+
+        btnCheck.addEventListener("click", () => {
+            let correct = 0;
+            inputs.forEach(inp => {
+                const ans = (inp.dataset.ans ?? "").trim().toUpperCase();
+                const val = inp.value.trim().toUpperCase();
+                inp.classList.remove("shown");
+                if (val === ans) {
+                    inp.classList.add("correct"); inp.classList.remove("incorrect"); correct++;
+                } else {
+                    inp.classList.add("incorrect"); inp.classList.remove("correct");
+                }
+            });
+            result.classList.remove("hidden", "ok", "err");
+            if (correct === inputs.length) {
+                result.textContent = `Perfekt! Alle ${inputs.length} Paare richtig zugeordnet!`;
+                result.classList.add("ok");
+            } else {
+                result.textContent = `${correct} von ${inputs.length} richtig. Versuche es nochmal!`;
+                result.classList.add("err");
+            }
+        });
+
+        btnSolution.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = inp.dataset.ans ?? "";
+                inp.classList.remove("correct", "incorrect");
+                inp.classList.add("shown");
+            });
+            result.classList.add("hidden");
+        });
+
+        btnReset.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect", "shown");
+            });
+            result.classList.add("hidden");
+            result.classList.remove("ok", "err");
+        });
+    </script>
+</Layout>

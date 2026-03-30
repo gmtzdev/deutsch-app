@@ -1,0 +1,182 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={3} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Lernziel — Thema 3</h1>
+                <p class="subtitle text-indications">
+                    Al final de esta unidad podrás saludar, presentarte y
+                    preguntar por el origen de las personas.
+                </p>
+
+                <div class="sections">
+                    <!-- Grammatik -->
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <table class="vocab-table" id="conj-table">
+                            <thead>
+                                <tr>
+                                    <th>Pronomen</th>
+                                    <th>Verb</th>
+                                    <th>Endung</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conj-body">
+                                <!-- filled by script -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <TagGrammatik />
+                    <div class="vocab-group">
+                        <h4>Wo steht das Verb?</h4>
+                        <table class="vocab-table">
+                            <thead>
+                                <tr><th>Deutsch</th><th>Español</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>W-Frage</td>
+                                    <td>Wer <strong>ist</strong> das?</td>
+                                </tr>
+                                <tr>
+                                    <td>Aussage</td>
+                                    <td>Das <strong>ist</strong> mein Vater.</td
+                                    >
+                                </tr>
+                                <tr>
+                                    <td>Ja/Nein –Frage-</td>
+                                    <td
+                                        ><strong>Ist</strong> das dein Bruder?</td
+                                    >
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        type ConjugationRow = { pronoun: string; form: string; ending: string };
+        type VerbData = { rows: ConjugationRow[] };
+
+        const verbs: Record<string, VerbData> = {
+            sprechen: {
+                rows: [
+                    { pronoun: "ich", form: "spreche", ending: "e" },
+                    { pronoun: "du", form: "sprichst", ending: "st" },
+                    { pronoun: "er", form: "spricht", ending: "t" },
+                    { pronoun: "sie", form: "spricht", ending: "t" },
+                    { pronoun: "es", form: "spricht", ending: "t" },
+                    { pronoun: "wir", form: "sprechen", ending: "en" },
+                    { pronoun: "ihr", form: "sprecht", ending: "t" },
+                    { pronoun: "Sie/sie", form: "sprechen", ending: "en" },
+                ],
+            },
+        };
+
+        function renderVerb(verb: string) {
+            const body = document.getElementById("conj-body");
+            if (!body) return;
+            const data = verbs[verb];
+            if (!data) return;
+
+            body.innerHTML = data.rows
+                .map(
+                    (r) => `
+                <tr>
+                    <td class="label">${r.pronoun}</td>
+                    <td><strong>${r.form}</strong></td>
+                    <td class="ending">${r.ending}</td>
+                </tr>`,
+                )
+                .join("");
+        }
+
+        renderVerb("sprechen");
+
+        document
+            .querySelectorAll<HTMLButtonElement>(".verb-btn")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    document
+                        .querySelectorAll(".verb-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    renderVerb(btn.dataset.verb ?? "sprechen");
+                });
+            });
+    </script>
+
+    <style>
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

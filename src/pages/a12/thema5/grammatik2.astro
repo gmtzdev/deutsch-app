@@ -1,0 +1,177 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const patterns = [
+    {
+        label: "mit + Nomen (Dativ)",
+        color: "col-mit",
+        rows: [
+            { sentence: "Ich trinke Tee ", highlight: "mit Zucker", rest: "." },
+            { sentence: "Er ging ", highlight: "mit seinen Freunden", rest: " ins Theater." },
+            { sentence: "Es ist schwer, ", highlight: "mit ihr", rest: " t\u00e4glich zu arbeiten." },
+        ],
+    },
+    {
+        label: "ohne + Nomen (Akkusativ)",
+        color: "col-ohne",
+        rows: [
+            { sentence: "Ich trinke Tee ", highlight: "ohne Zucker", rest: "." },
+            { sentence: "Er ging ", highlight: "ohne seine Schl\u00fcssel", rest: " aus der Wohnung." },
+        ],
+    },
+    {
+        label: "ohne + zu-Infinitiv",
+        color: "col-inf",
+        rows: [
+            { sentence: "Sie verlie\u00df den Raum, ", highlight: "ohne ein Wort zu sagen", rest: "." },
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik 2</h1>
+                <p class="subtitle text-indications">
+                    Satzmuster mit <em>mit</em> und <em>ohne</em>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Pattern cards -->
+                        {patterns.map((p) => (
+                            <div class={`pattern-card ${p.color}`}>
+                                <p class="pattern-label">{p.label}</p>
+                                <ol class="pattern-list">
+                                    {p.rows.map((r) => (
+                                        <li>
+                                            {r.sentence}
+                                            <span class="hl">{r.highlight}</span>
+                                            {r.rest}
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+                        ))}
+
+                        <!-- Structure overview table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table struct-table">
+                                <thead>
+                                    <tr>
+                                        <th>Struktur</th>
+                                        <th>Kasus</th>
+                                        <th>Beispiel</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="chip chip-mit">mit</span> + Nomen</td>
+                                        <td><span class="kasus-chip kasus-dat">Dativ</span></td>
+                                        <td>mit <strong>seinen Freunden</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="chip chip-ohne">ohne</span> + Nomen</td>
+                                        <td><span class="kasus-chip kasus-akk">Akkusativ</span></td>
+                                        <td>ohne <strong>seine Schl\u00fcssel</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="chip chip-ohne">ohne</span> + zu-Infinitiv</td>
+                                        <td class="td-center">&#8212;</td>
+                                        <td>ohne <strong>ein Wort zu sagen</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* Pattern cards */
+        .pattern-card {
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            border: 1.5px solid transparent;
+        }
+        .col-mit  { background: #eff6ff; border-color: #93c5fd; }
+        .col-ohne { background: #f0fdf4; border-color: #86efac; }
+        .col-inf  { background: #fdf4ff; border-color: #d8b4fe; }
+
+        .pattern-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 0;
+        }
+        .col-mit  .pattern-label { color: #1d4ed8; }
+        .col-ohne .pattern-label { color: #15803d; }
+        .col-inf  .pattern-label { color: #7c3aed; }
+
+        .pattern-list {
+            list-style: decimal inside;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .pattern-list li { font-size: 0.95rem; line-height: 1.6; }
+
+        .hl {
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .col-mit  .hl { color: #1d4ed8; }
+        .col-ohne .hl { color: #15803d; }
+        .col-inf  .hl { color: #7c3aed; }
+
+        /* Table */
+        .table-wrapper { overflow-x: auto; }
+        .td-center { text-align: center; color: #9ca3af; }
+
+        .chip {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+        .chip-mit  { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+        .chip-ohne { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+
+        .kasus-chip {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .kasus-dat { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .kasus-akk { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+    </style>
+</Layout>

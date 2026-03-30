@@ -1,0 +1,168 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import "@/styles/page.css";
+import "@/styles/quiz.css";
+
+const exercises = [
+    {
+        id: 1,
+        before: "Alex",
+        answer: "bist",
+        after: "nach Frankfurt in die Alte Oper gefahren.",
+    },
+    { id: 2, before: "Ich", answer: "", after: "keine Lust gehabt." },
+    {
+        id: 3,
+        before: "Ich",
+        answer: "habe",
+        after: "zu Hause geblieben.",
+    },
+    {
+        id: 4,
+        before: "Alex",
+        answer: "hat",
+        after: "in der Alten Oper eine Freundin getroffen.",
+    },
+    {
+        id: 5,
+        before: "Um halb zwei",
+        answer: "habe",
+        after: "ich mir Sorgen gemacht und die Polizei angerufen.",
+    },
+    { id: 6, before: "Ich", answer: "", after: "gesagt:" },
+    {
+        id: 7,
+        before: "“Mein Mann",
+        answer: "",
+        after: "nach Frankfurt gefahren.",
+    },
+    {
+        id: 8,
+        before: "Er",
+        answer: "",
+        after: "noch nicht nach Hause gekommen”.",
+    },
+    {
+        id: 9,
+        before: "Der Polizist",
+        answer: "",
+        after: "geantwortet: “Warten Sie noch ein bisschen! Ihr Mann kommt bestimmt wieder!",
+    },
+    {
+        id: 10,
+        before: "Diese Geschichte",
+        answer: "",
+        after: "ich schon oft gehört. Keine Sorge.",
+    },
+    {
+        id: 11,
+        before: "Die Männer",
+        answer: "",
+        after: "immer wieder zurückgekommen.",
+    },
+    {
+        id: 12,
+        before: "Sie",
+        answer: "",
+        after: "dann bei einer anderen Frau gewesen.” Ein ganz intelligenter Polizist.",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={9} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Completa las oraciones en alemán</h1>
+
+                <form id="quiz-form" class="quiz" autocomplete="off">
+                    <p class="subtitle">
+                        Ergänze “haben” oder “sein” in der richtigen Form.
+                    </p>
+                    {
+                        exercises.map((exercise) => (
+                            <label class="row" data-answer={exercise.answer}>
+                                <span class="sentence">
+                                    {exercise.before} ___ {exercise.after}
+                                </span>
+                                <input
+                                    type="text"
+                                    name={`exercise-${exercise.id}`}
+                                    placeholder="Tu respuesta"
+                                    required
+                                />
+                                <span class="feedback" aria-live="polite" />
+                            </label>
+                        ))
+                    }
+
+                    <div class="actions">
+                        <button class="button-submit" type="submit"
+                            >Corregir</button
+                        >
+                    </div>
+                </form>
+
+                <p id="result" class="result" aria-live="polite"></p>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const form = document.querySelector("#quiz-form");
+        const result = document.querySelector("#result");
+
+        if (
+            form instanceof HTMLFormElement &&
+            result instanceof HTMLParagraphElement
+        ) {
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+
+                const rows = [...form.querySelectorAll(".row")];
+                let score = 0;
+
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLLabelElement)) return;
+
+                    const input = row.querySelector("input");
+                    const feedback = row.querySelector(".feedback");
+                    const expected = row.dataset.answer ?? "";
+
+                    if (
+                        !(input instanceof HTMLInputElement) ||
+                        !(feedback instanceof HTMLSpanElement)
+                    )
+                        return;
+
+                    const userAnswer = input.value.trim().toLocaleLowerCase();
+                    const correctAnswer = expected.trim().toLocaleLowerCase();
+
+                    if (userAnswer === correctAnswer) {
+                        score += 1;
+                        row.classList.remove("wrong");
+                        row.classList.add("correct");
+                        feedback.textContent = "✅ Correcto";
+                    } else {
+                        row.classList.remove("correct");
+                        row.classList.add("wrong");
+                        feedback.textContent = `❌ Correcta: ${expected}`;
+                    }
+                });
+
+                result.textContent = `Tu puntuación final es ${score} de ${rows.length} aciertos.`;
+            });
+        }
+    </script>
+</Layout>

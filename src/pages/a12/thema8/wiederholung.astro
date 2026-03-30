@@ -1,0 +1,229 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Wiederholung</h1>
+                <p class="subtitle text-indications">
+                    Vergleiche <strong>drei Sachen</strong> und nutze
+                    <span class="chip-k">Komparativ</span> und
+                    <span class="chip-d">Demonstrativpronomen</span>.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Instructions -->
+                        <div class="instr-box">
+                            <p class="instr-title">Aufgabe</p>
+                            <p>
+                                W&auml;hle drei Dinge (z.&nbsp;B. Handys, Autos, St&auml;dte) und vergleiche sie.
+                                Nutze den <strong>Komparativ</strong> (<em>… ist besser/gr&ouml;&szlig;er/teurer als …</em>)
+                                und <strong>Demonstrativpronomen</strong> (<em>Dieses … ist … jenes …</em>).
+                                Schreibe mindestens <strong>4 S&auml;tze</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Example -->
+                        <div class="example-box">
+                            <p class="ex-title">Beispiel</p>
+                            <ul class="ex-list">
+                                <li><em>Dieses Handy ist teurer als jenes.</em></li>
+                                <li><em>Dieser Laptop ist leichter als dieser hier.</em></li>
+                                <li><em>Dieses Auto ist am schnellsten von allen dreien.</em></li>
+                                <li><em>Jenes Modell ist g&uuml;nstiger, aber dieses ist besser.</em></li>
+                            </ul>
+                        </div>
+
+                        <!-- Mini quick-ref -->
+                        <div class="ref-row">
+                            <div class="ref-card">
+                                <p class="ref-label chip-k-txt">Komparativ</p>
+                                <p class="ref-form">… <strong>-er als</strong> …</p>
+                                <p class="ref-irr">gut &rarr; besser &bull; viel &rarr; mehr &bull; gern &rarr; lieber</p>
+                            </div>
+                            <div class="ref-card ref-card-d">
+                                <p class="ref-label chip-d-txt">Demonstrativpronomen</p>
+                                <div class="dem-grid">
+                                    <span class="dg-g">Mask.</span><span class="dg-f">dieser / jener</span>
+                                    <span class="dg-g">Fem.</span><span class="dg-f">diese / jene</span>
+                                    <span class="dg-g">Neutr.</span><span class="dg-f">dieses / jenes</span>
+                                    <span class="dg-g">Pl.</span><span class="dg-f">diese / jene</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Topic input -->
+                        <div class="topic-row">
+                            <label class="topic-label" for="topic">Mein Thema:</label>
+                            <input id="topic" class="topic-input" type="text" placeholder="z. B. Smartphones, Autos, St&auml;dte …" />
+                        </div>
+
+                        <!-- Free writing sentences -->
+                        <div class="writing-area" id="writingArea">
+                            {[1,2,3,4].map(n => (
+                                <div class="sent-row">
+                                    <span class="sent-num">{n}.</span>
+                                    <textarea class="sent-ta" placeholder={`Satz ${n} …`}></textarea>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnAdd" class="btn-add">+ Satz hinzuf&uuml;gen</button>
+                            <button id="btnClear" class="btn-reset">Alles l&ouml;schen</button>
+                        </div>
+
+                        <!-- Checklist -->
+                        <div class="checklist">
+                            <p class="ck-title">Selbstkontrolle</p>
+                            <label class="ck-item"><input type="checkbox" /> Ich habe mindestens 3 verschiedene Sachen verglichen.</label>
+                            <label class="ck-item"><input type="checkbox" /> Ich habe den Komparativ verwendet (<em>-er als</em>).</label>
+                            <label class="ck-item"><input type="checkbox" /> Ich habe Demonstrativpronomen verwendet (<em>dieser / diese / dieses</em>).</label>
+                            <label class="ck-item"><input type="checkbox" /> Ich habe mindestens einen Superlativ verwendet (<em>am …-sten</em>).</label>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+
+        /* Chips */
+        .chip-k { display:inline-block; padding:0.1rem 0.45rem; background:#1d4ed8; color:#fff; border-radius:6px; font-weight:800; font-size:0.85rem; }
+        .chip-d { display:inline-block; padding:0.1rem 0.45rem; background:#7c3aed; color:#fff; border-radius:6px; font-weight:800; font-size:0.85rem; }
+        .chip-k-txt { color:#1d4ed8; }
+        .chip-d-txt { color:#6d28d9; }
+
+        /* Instruction box */
+        .instr-box {
+            background:#eff6ff; border:1.5px solid #93c5fd;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+        }
+        .instr-title { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#1d4ed8; margin:0; }
+        .instr-box p:last-child { font-size:0.88rem; margin:0; color:#1e3a5f; }
+
+        /* Example box */
+        .example-box {
+            background:#f5f3ff; border:1.5px solid #c4b5fd;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.4rem;
+        }
+        .ex-title { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#6d28d9; margin:0; }
+        .ex-list { margin:0; padding-left:1.2rem; display:flex; flex-direction:column; gap:0.25rem; }
+        .ex-list li { font-size:0.88rem; color:#4c1d95; }
+
+        /* Quick ref */
+        .ref-row { display:flex; gap:1rem; flex-wrap:wrap; }
+        .ref-card {
+            flex:1; min-width:200px;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:0.85rem 1rem;
+            display:flex; flex-direction:column; gap:0.35rem;
+        }
+        .ref-label { font-size:0.78rem; font-weight:800; margin:0; }
+        .ref-form  { font-size:0.9rem; color:#111827; margin:0; }
+        .ref-irr   { font-size:0.78rem; color:#6b7280; margin:0; font-style:italic; }
+
+        .dem-grid { display:grid; grid-template-columns:auto 1fr; gap:0.2rem 0.75rem; }
+        .dg-g { font-size:0.78rem; color:#9ca3af; font-weight:600; white-space:nowrap; }
+        .dg-f { font-size:0.85rem; color:#6d28d9; font-weight:700; }
+
+        /* Topic input */
+        .topic-row { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+        .topic-label { font-size:0.85rem; font-weight:700; color:#374151; white-space:nowrap; }
+        .topic-input {
+            flex:1; min-width:200px;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            padding:0.45rem 0.75rem; font-size:0.92rem; font-family:inherit;
+            outline:none; color:#111827; background:#fff;
+            transition:border-color 0.2s;
+        }
+        .topic-input:focus { border-color:#60a5fa; }
+
+        /* Writing area */
+        .writing-area { display:flex; flex-direction:column; gap:0.6rem; }
+        .sent-row { display:flex; align-items:flex-start; gap:0.6rem; }
+        .sent-num { min-width:1.5rem; font-weight:700; color:#374151; font-size:0.95rem; padding-top:0.5rem; flex-shrink:0; }
+        .sent-ta {
+            flex:1; min-height:52px;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            padding:0.5rem 0.75rem; font-size:0.92rem; font-family:inherit;
+            color:#111827; background:#fff; resize:vertical; outline:none;
+            transition:border-color 0.2s;
+        }
+        .sent-ta:focus { border-color:#60a5fa; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+
+        .btn-add {
+            padding:0.5rem 1.2rem; background:#f5f3ff;
+            color:#6d28d9; border:1.5px solid #c4b5fd;
+            border-radius:8px; font-size:0.9rem; font-weight:700;
+            cursor:pointer; transition:background 0.2s;
+        }
+        .btn-add:hover { background:#ede9fe; }
+
+        .btn-reset {
+            padding:0.5rem 1.2rem; background:transparent; color:#6b7280;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-reset:hover { border-color:#9ca3af; color:#374151; }
+
+        /* Checklist */
+        .checklist {
+            background:#f0fdf4; border:1.5px solid #86efac;
+            border-radius:12px; padding:0.9rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.5rem;
+        }
+        .ck-title { font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#15803d; margin:0; }
+        .ck-item {
+            display:flex; align-items:flex-start; gap:0.5rem;
+            font-size:0.88rem; color:#166534; cursor:pointer;
+        }
+        .ck-item input { margin-top:0.15rem; flex-shrink:0; accent-color:#16a34a; }
+    </style>
+
+    <script>
+        const area   = document.getElementById("writingArea")!;
+        const btnAdd = document.getElementById("btnAdd")!;
+        const btnClr = document.getElementById("btnClear")!;
+
+        let count = 4;
+
+        btnAdd.addEventListener("click", () => {
+            count++;
+            const row = document.createElement("div");
+            row.className = "sent-row";
+            row.innerHTML = `<span class="sent-num">${count}.</span><textarea class="sent-ta" placeholder="Satz ${count} …"></textarea>`;
+            area.appendChild(row);
+            (row.querySelector("textarea") as HTMLTextAreaElement).focus();
+        });
+
+        btnClr.addEventListener("click", () => {
+            if (!confirm("Alles l\u00f6schen?")) return;
+            area.querySelectorAll<HTMLTextAreaElement>(".sent-ta").forEach(ta => ta.value = "");
+            (document.getElementById("topic") as HTMLInputElement).value = "";
+            document.querySelectorAll<HTMLInputElement>(".ck-item input").forEach(cb => cb.checked = false);
+        });
+    </script>
+</Layout>

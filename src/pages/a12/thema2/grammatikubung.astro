@@ -1,0 +1,455 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const items = [
+    {
+        id: 1,
+        label: "Satz 1",
+        parts: [
+            { type:"text",  value:"Ist das " },
+            { type:"blank", answer:"dein",  id:"1-1" },
+            { type:"text",  value:" Buch? \u2013 Nein, das ist nicht " },
+            { type:"blank", answer:"mein",  id:"1-2" },
+            { type:"text",  value:" Buch. Vielleicht ist das Buch von Elena. Vielleicht ist das " },
+            { type:"blank", answer:"ihr",   id:"1-3" },
+            { type:"text",  value:" Buch." },
+        ],
+    },
+    {
+        id: 2,
+        label: "Satz 2",
+        parts: [
+            { type:"text",  value:"Ricarda hat zwei Kinder. " },
+            { type:"blank", answer:"ihr",   id:"2-1" },
+            { type:"text",  value:" Sohn ist 5 Jahre und " },
+            { type:"blank", answer:"ihre",  id:"2-2" },
+            { type:"text",  value:" Tochter ist 9 Jahre." },
+        ],
+    },
+    {
+        id: 3,
+        label: "Satz 3",
+        parts: [
+            { type:"text",  value:"Leo und Ingrid, wann ist " },
+            { type:"blank", answer:"eure",   id:"3-1" },
+            { type:"text",  value:" Hochzeit? \u2013 " },
+            { type:"blank", answer:"unsere", id:"3-2" },
+            { type:"text",  value:" Hochzeit ist am 17.09." },
+        ],
+    },
+    {
+        id: 4,
+        label: "Satz 4",
+        parts: [
+            { type:"text",  value:"Kannst du " },
+            { type:"blank", answer:"meine",  id:"4-1" },
+            { type:"text",  value:" Hausaufgaben machen? \u2013 Quatsch, ich mache doch nicht " },
+            { type:"blank", answer:"deine",  id:"4-2" },
+            { type:"text",  value:" Hausaufgaben!" },
+        ],
+    },
+    {
+        id: 5,
+        label: "Satz 5",
+        parts: [
+            { type:"text",  value:"Frau Schmied, " },
+            { type:"blank", answer:"ihre",   id:"5-1" },
+            { type:"text",  value:" Pr\u00e4sentation ist heute. " },
+            { type:"blank", answer:"ihr",    id:"5-2" },
+            { type:"text",  value:" Laptop ist vorbereitet." },
+        ],
+    },
+    {
+        id: 6,
+        label: "Satz 6",
+        parts: [
+            { type:"text",  value:"Tila und Beni, wie ist " },
+            { type:"blank", answer:"euer",   id:"6-1" },
+            { type:"text",  value:" Urlaub? \u2013 Es ist toll hier. " },
+            { type:"blank", answer:"unser",  id:"6-2" },
+            { type:"text",  value:" Hotel ist ruhig und " },
+            { type:"blank", answer:"unsere", id:"6-3" },
+            { type:"text",  value:" Reise ist spannend." },
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Aufgabe 1: Possessivartikel im Nominativ &mdash;
+                    Setze <em>mein-, dein-, ...</em> in die L&uuml;cken.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Quick reference -->
+                        <div class="ref-row">
+                            {[
+                                {p:"ich",   b:"mein-"},
+                                {p:"du",    b:"dein-"},
+                                {p:"er/es", b:"sein-"},
+                                {p:"sie",   b:"ihr-"},
+                                {p:"wir",   b:"unser-"},
+                                {p:"ihr",   b:"euer/eur-"},
+                                {p:"sie/Sie",b:"ihr-/Ihr-"},
+                            ].map((r) => (
+                                <div class="ref-chip">
+                                    <span class="ref-pron">{r.p}</span>
+                                    <span class="ref-base">{r.b}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <!-- Exercises -->
+                        <div class="ex-list" id="ex-list">
+                            {items.map((item) => (
+                                <div
+                                    class="ex-block"
+                                    id={`ex-${item.id}`}
+                                    data-total={item.parts.filter((p) => p.type === "blank").length}
+                                >
+                                    <p class="ex-label">{item.label}</p>
+
+                                    <div class="text-block">
+                                        {item.parts.map((p) =>
+                                            p.type === "text" ? (
+                                                <span>{p.value}</span>
+                                            ) : (
+                                                <span class="blank-wrap">
+                                                    <input
+                                                        type="text"
+                                                        class="blank-input"
+                                                        data-answer={p.answer}
+                                                        data-blankid={p.id}
+                                                        data-exid={item.id}
+                                                        autocomplete="off"
+                                                        autocorrect="off"
+                                                        spellcheck="false"
+                                                        aria-label={`L\u00fccke ${p.id}`}
+                                                    />
+                                                    <span class="blank-feedback" aria-live="polite" />
+                                                </span>
+                                            )
+                                        )}
+                                    </div>
+
+                                    <div class="ex-actions">
+                                        <button type="button" class="btn-check" data-exid={item.id}>
+                                            Pr&uuml;fen
+                                        </button>
+                                        <button type="button" class="btn-reset" data-exid={item.id}>
+                                            &#x21BA;
+                                        </button>
+                                        <span class="ex-feedback" aria-live="polite"></span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle pr&uuml;fen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zur&uuml;cksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        /* Quick reference chips */
+        .ref-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .ref-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.3rem 0.65rem;
+            background: #f3e8ff;
+            border: 1px solid #d8b4fe;
+            border-radius: 10px;
+            min-width: 58px;
+        }
+        .ref-pron {
+            font-size: 0.7rem;
+            color: #7e22ce;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .ref-base {
+            font-size: 0.82rem;
+            color: #581c87;
+            font-weight: 800;
+        }
+
+        /* Exercise list */
+        .ex-list { display: flex; flex-direction: column; gap: 1rem; }
+
+        .ex-block {
+            padding: 0.85rem 1rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .ex-block.correct { border-color: #10b981; background: #f0fdf4; }
+        .ex-block.wrong   { border-color: #ef4444; background: #fef2f2; }
+        .ex-block.partial { border-color: #f59e0b; background: #fffbeb; }
+
+        .ex-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        /* Text block */
+        .text-block {
+            font-size: 1rem;
+            line-height: 2.6;
+            padding: 0.6rem 0.8rem;
+            background: var(--color-table-row-hover, #f9fafb);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.1rem;
+            vertical-align: middle;
+        }
+
+        .blank-input {
+            width: 72px;
+            padding: 0.2rem 0.4rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            transition: border-color 0.15s, background 0.15s;
+            outline: none;
+        }
+        .blank-input:focus  { border-color: #7c3aed; }
+        .blank-input.correct{ border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 700; }
+        .blank-input.wrong  { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+
+        .blank-feedback { font-size: 0.75rem; font-weight: 700; min-width: 1em; }
+
+        /* Per-block actions */
+        .ex-actions { display: flex; align-items: center; gap: 0.5rem; }
+
+        .btn-check {
+            padding: 0.3rem 0.85rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+        .btn-reset {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.9rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+        .ex-feedback { font-size: 0.85rem; font-weight: 600; min-height: 1.1em; }
+
+        /* Global */
+        .global-actions { display: flex; gap: 0.75rem; margin-top: 0.75rem; flex-wrap: wrap; }
+
+        .button-submit {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+        .button-reset {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+        .result {
+            margin-top: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const getBlock = (id: string | number) =>
+            document.querySelector(`#ex-${id}`) as HTMLDivElement | null;
+
+        const getInputs = (block: HTMLDivElement) =>
+            [...block.querySelectorAll(".blank-input")] as HTMLInputElement[];
+
+        // Auto-resize + clear state on input
+        document.querySelectorAll(".blank-input").forEach((el) => {
+            const inp = el as HTMLInputElement;
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(72, inp.value.length * 13 + 24) + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+                const block = inp.closest(".ex-block");
+                if (block instanceof HTMLDivElement)
+                    block.classList.remove("correct", "wrong", "partial");
+                const exFb = block?.querySelector(".ex-feedback");
+                if (exFb instanceof HTMLSpanElement) exFb.textContent = "";
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+            inp.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") checkBlock(inp.dataset.exid ?? "");
+            });
+        });
+
+        // Check one block — case-insensitive comparison
+        const checkBlock = (id: string | number): "correct" | "partial" | "empty" | "wrong" => {
+            const block = getBlock(id);
+            if (!block) return "empty";
+            const inputs  = getInputs(block);
+            const exFb    = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            let score = 0, answered = 0;
+
+            inputs.forEach((inp) => {
+                const given   = inp.value.trim().toLowerCase();
+                const correct = (inp.dataset.answer ?? "").toLowerCase();
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                inp.classList.remove("correct", "wrong");
+                if (!given) { if (fb) fb.textContent = ""; return; }
+                answered++;
+                if (given === correct) {
+                    score++;
+                    inp.classList.add("correct");
+                    if (fb) fb.textContent = "\u2705";
+                } else {
+                    inp.classList.add("wrong");
+                    if (fb) fb.textContent = "\u274c";
+                }
+            });
+
+            block.classList.remove("correct", "wrong", "partial");
+            if (answered === 0) return "empty";
+            if (score === inputs.length) {
+                block.classList.add("correct");
+                if (exFb) exFb.textContent = "\u2705 Richtig!";
+                return "correct";
+            } else if (score > 0) {
+                block.classList.add("partial");
+                if (exFb) exFb.textContent = `${score}/${inputs.length} richtig`;
+                return "partial";
+            } else {
+                block.classList.add("wrong");
+                if (exFb) exFb.textContent = `\u274c Falsch (${inputs.map((i) => i.dataset.answer).join(", ")})`;
+                return "wrong";
+            }
+        };
+
+        const resetBlock = (id: string | number) => {
+            const block = getBlock(id);
+            if (!block) return;
+            block.classList.remove("correct", "wrong", "partial");
+            getInputs(block).forEach((inp) => {
+                inp.value = "";
+                inp.style.width = "72px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            const exFb = block.querySelector(".ex-feedback") as HTMLSpanElement | null;
+            if (exFb) exFb.textContent = "";
+        };
+
+        document.querySelectorAll(".btn-check").forEach((btn) =>
+            btn.addEventListener("click", () => checkBlock((btn as HTMLButtonElement).dataset.exid ?? ""))
+        );
+        document.querySelectorAll(".btn-reset").forEach((btn) =>
+            btn.addEventListener("click", () => {
+                resetBlock((btn as HTMLButtonElement).dataset.exid ?? "");
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            })
+        );
+
+        document.querySelector("#check-all")?.addEventListener("click", () => {
+            const blocks = [...document.querySelectorAll(".ex-block")] as HTMLDivElement[];
+            let correct = 0, totalBlanks = 0, correctBlanks = 0;
+            blocks.forEach((b) => {
+                const id = b.id.replace("ex-", "");
+                if (checkBlock(id) === "correct") correct++;
+                const inputs = getInputs(b);
+                totalBlanks  += inputs.length;
+                correctBlanks += inputs.filter((i) => i.classList.contains("correct")).length;
+            });
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) {
+                gr.textContent =
+                    `${correct} von ${blocks.length} S\u00e4tzen komplett richtig \u00b7 ` +
+                    `${correctBlanks}/${totalBlanks} L\u00fccken richtig` +
+                    (correctBlanks === totalBlanks ? " \u2014 Ausgezeichnet! \uD83C\uDF89" : "");
+            }
+        });
+
+        document.querySelector("#reset-all")?.addEventListener("click", () => {
+            const blocks = [...document.querySelectorAll(".ex-block")] as HTMLDivElement[];
+            blocks.forEach((b) => resetBlock(b.id.replace("ex-", "")));
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+        });
+    </script>
+</Layout>

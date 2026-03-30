@@ -1,0 +1,382 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const seasons = [
+    {
+        name: "Fruehling",
+        es: "primavera",
+        icon: "🌸",
+        color: "#86efac",
+        months: [3, 4, 5],
+    },
+    {
+        name: "Sommer",
+        es: "verano",
+        icon: "☀️",
+        color: "#fde047",
+        months: [6, 7, 8],
+    },
+    {
+        name: "Herbst",
+        es: "otoño",
+        icon: "🍂",
+        color: "#fdba74",
+        months: [9, 10, 11],
+    },
+    {
+        name: "Winter",
+        es: "invierno",
+        icon: "❄️",
+        color: "#bae6fd",
+        months: [12, 1, 2],
+    },
+];
+
+const months = [
+    { num: 1,  de: "Januar",     es: "enero",      kontr: "im Januar"     },
+    { num: 2,  de: "Februar",    es: "febrero",    kontr: "im Februar"    },
+    { num: 3,  de: "März",       es: "marzo",      kontr: "im März"       },
+    { num: 4,  de: "April",      es: "abril",      kontr: "im April"      },
+    { num: 5,  de: "Mai",        es: "mayo",       kontr: "im Mai"        },
+    { num: 6,  de: "Juni",       es: "junio",      kontr: "im Juni"       },
+    { num: 7,  de: "Juli",       es: "julio",      kontr: "im Juli"       },
+    { num: 8,  de: "August",     es: "agosto",     kontr: "im August"     },
+    { num: 9,  de: "September",  es: "septiembre", kontr: "im September"  },
+    { num: 10, de: "Oktober",    es: "octubre",    kontr: "im Oktober"    },
+    { num: 11, de: "November",   es: "noviembre",  kontr: "im November"   },
+    { num: 12, de: "Dezember",   es: "diciembre",  kontr: "im Dezember"   },
+];
+
+const seasonForMonth = (num: number) =>
+    seasons.find((s) => s.months.includes(num));
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={5} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Monate &amp; Jahreszeiten</h1>
+                <p class="subtitle text-indications">
+                    Los meses del año y las estaciones en alemán.
+                </p>
+
+                <div class="sections">
+
+                    <!-- Seasons strip -->
+                    <div class="section">
+                        <div class="seasons-strip">
+                            {seasons.map((s) => (
+                                <div class="season-card" style={`--s-color:${s.color}`}>
+                                    <span class="season-icon">{s.icon}</span>
+                                    <span class="season-de">{s.name}</span>
+                                    <span class="season-es">{s.es}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <!-- Months table -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <table class="vocab-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Deutsch</th>
+                                    <th>Española</th>
+                                    <th>Kontraktion</th>
+                                    <th>Jahreszeit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {months.map((m) => {
+                                    const s = seasonForMonth(m.num);
+                                    return (
+                                        <tr>
+                                            <td class="num-cell">{m.num}</td>
+                                            <td><strong>{m.de}</strong></td>
+                                            <td>{m.es}</td>
+                                            <td class="kontr-cell"><em>{m.kontr}</em></td>
+                                            <td>
+                                                {s && (
+                                                    <span class="season-badge" style={`background:${s.color}`}>
+                                                        {s.icon} {s.name}
+                                                    </span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                        <p class="hint text-indications">
+                            * La contracción <strong>im</strong> = <strong>in + dem</strong>.
+                            Se usa para indicar el mes en que ocurre algo: <em>Im Juli fahre ich in Urlaub.</em>
+                        </p>
+                    </div>
+
+                    <!-- Quiz -->
+                    <div class="section">
+                        <h3 class="quiz-title">Übung: Wie heißt der Monat?</h3>
+                        <p class="subtitle text-indications">
+                            Escribe el mes en alemán que corresponde al número.
+                        </p>
+                        <div class="quiz-area">
+                            <div class="quiz-prompt">
+                                <span class="quiz-num" id="quiz-num"></span>
+                            </div>
+                            <div class="quiz-input-row">
+                                <input id="quiz-input" type="text" placeholder="Monat auf Deutsch..." autocomplete="off" />
+                                <button id="quiz-check" type="button" class="button-submit">OK</button>
+                            </div>
+                            <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+                            <div class="actions">
+                                <button id="quiz-next" type="button" class="button-submit" style="display:none">Weiter →</button>
+                            </div>
+                            <p id="quiz-score" class="result" aria-live="polite"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Seasons strip */
+        .seasons-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+        }
+
+        .season-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 1rem 0.5rem;
+            border-radius: 14px;
+            background: var(--s-color);
+        }
+
+        .season-icon { font-size: 1.8rem; }
+
+        .season-de {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #111827;
+        }
+
+        .season-es {
+            font-size: 0.75rem;
+            color: #374151;
+        }
+
+        /* Table extras */
+        .num-cell {
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.82rem;
+        }
+
+        .kontr-cell {
+            color: #1d4ed8;
+            font-size: 0.88rem;
+        }
+
+        .season-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .hint {
+            margin-top: 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        /* Quiz */
+        .quiz-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 0.25rem;
+        }
+
+        .quiz-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-prompt {
+            text-align: center;
+        }
+
+        .quiz-num {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--color-text, #111827);
+            line-height: 1;
+        }
+
+        .quiz-input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .quiz-input-row input {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .quiz-feedback {
+            font-size: 1rem;
+            font-weight: 600;
+            min-height: 1.5rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .button-submit {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .result {
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+
+        @media (max-width: 600px) {
+            .seasons-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const months = [
+            { num: 1,  de: "Januar"    },
+            { num: 2,  de: "Februar"   },
+            { num: 3,  de: "März"      },
+            { num: 4,  de: "April"     },
+            { num: 5,  de: "Mai"       },
+            { num: 6,  de: "Juni"      },
+            { num: 7,  de: "Juli"      },
+            { num: 8,  de: "August"    },
+            { num: 9,  de: "September" },
+            { num: 10, de: "Oktober"   },
+            { num: 11, de: "November"  },
+            { num: 12, de: "Dezember"  },
+        ];
+
+        const shuffle = <T,>(a: T[]) => [...a].sort(() => Math.random() - 0.5);
+
+        const numEl    = document.querySelector("#quiz-num");
+        const input    = document.querySelector("#quiz-input");
+        const checkBtn = document.querySelector("#quiz-check");
+        const nextBtn  = document.querySelector("#quiz-next");
+        const fbEl     = document.querySelector("#quiz-feedback");
+        const scoreEl  = document.querySelector("#quiz-score");
+
+        if (
+            !(numEl    instanceof HTMLSpanElement)      ||
+            !(input    instanceof HTMLInputElement)     ||
+            !(checkBtn instanceof HTMLButtonElement)    ||
+            !(nextBtn  instanceof HTMLButtonElement)    ||
+            !(fbEl     instanceof HTMLParagraphElement) ||
+            !(scoreEl  instanceof HTMLParagraphElement)
+        ) throw new Error("Missing elements");
+
+        let queue   = shuffle(months);
+        let current = 0;
+        let score   = 0;
+
+        const show = () => {
+            if (current >= queue.length) {
+                numEl.textContent = "🎉";
+                input.disabled = true;
+                checkBtn.disabled = true;
+                nextBtn.style.display = "none";
+                fbEl.textContent = "";
+                scoreEl.textContent =
+                    `Fertig! ${score} von ${queue.length} richtig (${Math.round((score / queue.length) * 100)}%).`;
+                return;
+            }
+            numEl.textContent = String(queue[current].num);
+            input.value = "";
+            input.disabled = false;
+            checkBtn.disabled = false;
+            input.focus();
+            nextBtn.style.display = "none";
+            fbEl.textContent = "";
+            scoreEl.textContent = `${current} / ${queue.length}`;
+        };
+
+        const check = () => {
+            const given   = input.value.trim().toLowerCase();
+            const correct = queue[current].de.toLowerCase();
+            if (!given) return;
+
+            input.disabled = true;
+            checkBtn.disabled = true;
+            nextBtn.style.display = "inline-block";
+            current++;
+
+            if (given === correct) {
+                score++;
+                fbEl.textContent = `Richtig! ✅`;
+            } else {
+                fbEl.textContent = `Falsch ❌ — richtige Antwort: ${queue[current - 1].de}`;
+            }
+            scoreEl.textContent = `${current} / ${queue.length}`;
+        };
+
+        checkBtn.addEventListener("click", check);
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") check();
+        });
+        nextBtn.addEventListener("click", show);
+
+        show();
+    </script>
+</Layout>

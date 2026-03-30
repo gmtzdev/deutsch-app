@@ -1,0 +1,441 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+import "@/styles/quiz.css";
+
+const exercises = [
+    { id: 1, before: "Mein Auto steht", after: "", answer: "lerne" },
+    {
+        id: 2,
+        before: "Rechts ist die Post und",
+        after: "steht der Laden.",
+        answer: "spielen",
+    },
+    {
+        id: 3,
+        before: "",
+        after: "der Tür haben wir die Putzmittel.",
+        answer: "schreibt",
+    },
+    { id: 4, before: "Die Lampe steht", after: "", answer: "läuft" },
+];
+
+const words = ["links", "rechts", "hinten", "hier", "vorne"];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatikübung</h1>
+                <p class="subtitle text-indications">Ordnen Sie es zu.</p>
+
+                <div class="sections">
+                    <!-- Grammatik -->
+                    <div class="section">
+                        <div
+                            class="word-bank"
+                            id="word-bank"
+                            aria-label="Banco de palabras"
+                        >
+                            {
+                                words.map((word, index) => (
+                                    <button
+                                        type="button"
+                                        class="word"
+                                        draggable="true"
+                                        data-word={word}
+                                        id={`word-${index}`}
+                                    >
+                                        {word}
+                                    </button>
+                                ))
+                            }
+                        </div>
+
+                        <div class="quiz" id="quiz">
+                            {
+                                exercises.map((exercise) => (
+                                    <div
+                                        class="row"
+                                        data-correct={exercise.answer}
+                                    >
+                                        <span class="sentence">
+                                            {exercise.before}
+                                        </span>
+                                        <div
+                                            class="dropzone"
+                                            data-value=""
+                                            aria-label="Espacio para respuesta"
+                                        >
+                                            Suelta aquí
+                                        </div>
+                                        <span class="sentence">
+                                            {exercise.after}
+                                        </span>
+                                        <span
+                                            class="feedback"
+                                            aria-live="polite"
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </div>
+
+                        <div class="actions">
+                            <button id="check" type="button">Corregir</button>
+                            <button id="reset" type="button" class="secondary"
+                                >Reiniciar</button
+                            >
+                        </div>
+
+                        <p id="result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            padding: 0.8rem;
+            border: 1px dashed #9ca3af;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            min-height: 58px;
+        }
+
+        .word {
+            padding: 0.45rem 0.7rem;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            border-radius: 8px;
+            cursor: grab;
+            font-weight: 600;
+        }
+
+        .word.dragging {
+            opacity: 0.5;
+        }
+
+        .quiz {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: auto minmax(140px, 180px) 1fr auto;
+            gap: 0.65rem;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+        }
+
+        .sentence {
+            font-weight: 500;
+        }
+
+        .dropzone {
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #9ca3af;
+            border-radius: 8px;
+            padding: 0.3rem;
+            background: #f9fafb;
+            color: #6b7280;
+        }
+
+        .dropzone.over {
+            border-color: #111827;
+        }
+
+        .feedback {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.7rem;
+        }
+
+        button {
+            padding: 0.7rem 1.1rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        button.secondary {
+            background: #374151;
+        }
+
+        .result {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .row.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .row.wrong {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        @media (max-width: 840px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <script>
+        const wordBank = document.querySelector("#word-bank");
+        const quiz = document.querySelector("#quiz");
+        const checkButton = document.querySelector("#check");
+        const resetButton = document.querySelector("#reset");
+        const result = document.querySelector("#result");
+
+        if (
+            wordBank instanceof HTMLDivElement &&
+            quiz instanceof HTMLDivElement &&
+            checkButton instanceof HTMLButtonElement &&
+            resetButton instanceof HTMLButtonElement &&
+            result instanceof HTMLParagraphElement
+        ) {
+            const dropzones = [...quiz.querySelectorAll(".dropzone")].filter(
+                (zone) => zone instanceof HTMLDivElement,
+            );
+            const words = [...wordBank.querySelectorAll(".word")].filter(
+                (word) => word instanceof HTMLButtonElement,
+            );
+
+            let dragging: HTMLButtonElement | null = null;
+
+            const enableDragForWord = (word: HTMLButtonElement) => {
+                word.addEventListener("dragstart", () => {
+                    dragging = word;
+                    word.classList.add("dragging");
+                });
+
+                word.addEventListener("dragend", () => {
+                    word.classList.remove("dragging");
+                    dragging = null;
+                });
+            };
+
+            words.forEach(enableDragForWord);
+
+            const clearStatus = () => {
+                const rows = [...quiz.querySelectorAll(".row")];
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLDivElement)) {
+                        return;
+                    }
+                    row.classList.remove("correct", "wrong");
+                    const feedback = row.querySelector(".feedback");
+                    if (feedback instanceof HTMLSpanElement) {
+                        feedback.textContent = "";
+                    }
+                });
+                result.textContent = "";
+            };
+
+            dropzones.forEach((zone) => {
+                zone.addEventListener("dragover", (event) => {
+                    event.preventDefault();
+                    zone.classList.add("over");
+                });
+
+                zone.addEventListener("dragleave", () => {
+                    zone.classList.remove("over");
+                });
+
+                zone.addEventListener("drop", (event) => {
+                    event.preventDefault();
+                    zone.classList.remove("over");
+                    clearStatus();
+
+                    if (!dragging) {
+                        return;
+                    }
+
+                    const previousZone = dragging.parentElement;
+                    if (
+                        previousZone instanceof HTMLDivElement &&
+                        previousZone.classList.contains("dropzone")
+                    ) {
+                        previousZone.textContent = "Suelta aquí";
+                        previousZone.dataset.value = "";
+                    }
+
+                    const zoneWord = zone.querySelector(".word");
+                    if (zoneWord instanceof HTMLButtonElement) {
+                        wordBank.append(zoneWord);
+                    }
+
+                    zone.textContent = "";
+                    zone.append(dragging);
+                    zone.dataset.value = dragging.dataset.word ?? "";
+                });
+            });
+
+            wordBank.addEventListener("dragover", (event) => {
+                event.preventDefault();
+            });
+
+            wordBank.addEventListener("drop", (event) => {
+                event.preventDefault();
+                clearStatus();
+                if (!dragging) {
+                    return;
+                }
+
+                const previousZone = dragging.parentElement;
+                if (
+                    previousZone instanceof HTMLDivElement &&
+                    previousZone.classList.contains("dropzone")
+                ) {
+                    previousZone.textContent = "Suelta aquí";
+                    previousZone.dataset.value = "";
+                }
+
+                wordBank.append(dragging);
+            });
+
+            checkButton.addEventListener("click", () => {
+                const rows = [...quiz.querySelectorAll(".row")];
+                let score = 0;
+
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLDivElement)) {
+                        return;
+                    }
+
+                    const correct = row.dataset.correct ?? "";
+                    const zone = row.querySelector(".dropzone");
+                    const feedback = row.querySelector(".feedback");
+
+                    if (
+                        !(zone instanceof HTMLDivElement) ||
+                        !(feedback instanceof HTMLSpanElement)
+                    ) {
+                        return;
+                    }
+
+                    const selected = zone.dataset.value ?? "";
+
+                    if (selected === correct) {
+                        score += 1;
+                        row.classList.remove("wrong");
+                        row.classList.add("correct");
+                        feedback.textContent = "✅ Correcto";
+                    } else {
+                        row.classList.remove("correct");
+                        row.classList.add("wrong");
+                        feedback.textContent = `❌ Correcta: ${correct}`;
+                    }
+                });
+
+                result.textContent = `Tu puntuación final es ${score} de ${rows.length} aciertos.`;
+            });
+
+            resetButton.addEventListener("click", () => {
+                const rows = [...quiz.querySelectorAll(".row")];
+                rows.forEach((row) => {
+                    if (!(row instanceof HTMLDivElement)) {
+                        return;
+                    }
+
+                    const zone = row.querySelector(".dropzone");
+                    if (!(zone instanceof HTMLDivElement)) {
+                        return;
+                    }
+
+                    const word = zone.querySelector(".word");
+                    if (word instanceof HTMLButtonElement) {
+                        wordBank.append(word);
+                    }
+
+                    zone.textContent = "Suelta aquí";
+                    zone.dataset.value = "";
+                });
+
+                clearStatus();
+            });
+        }
+    </script>
+</Layout>

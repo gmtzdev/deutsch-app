@@ -1,0 +1,142 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Ziel</h1>
+                <p class="subtitle text-indications">
+                    Al final de esta unidad podrás saludar, presentarte y
+                    preguntar por el origen de las personas.
+                </p>
+
+                <div class="sections">
+                    <table class="vocab-table">
+                        <thead>
+                            <tr
+                                ><th>Thema</th><th>Grammatik</th><th
+                                    >Wortschatz</th
+                                ></tr
+                            >
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Das ist...</td>
+                                <td>
+                                    Possessivartikel Negation mit kein / nicht <br
+                                    />
+                                    und Berufe Wortbildung -in feminin <br />
+                                    Verb: machen / arbeiten / haben / leben
+                                </td>
+                                <td>
+                                    Familienstand <br /> Beruf <br /> Zahlen 0-20
+                                    <br /> Formular ausfüllen
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            padding: 0.3rem 0.6rem;
+            background: var(--color-table-header);
+            color: var(--color-table-header-text);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--color-table-header-border);
+        }
+
+        .vocab-table td {
+            padding: 0.4rem 0.6rem;
+            border-bottom: 1px solid var(--color-table-row-border);
+            color: var(--color-text);
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vocab-table tr:hover td {
+            background: var(--color-table-row-hover);
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

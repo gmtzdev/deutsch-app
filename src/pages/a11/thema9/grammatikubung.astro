@@ -1,0 +1,517 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/quiz.css";
+
+const sentences = [
+    {
+        id: 1,
+        words: ["ich", "habe", "Brot", "gekauft"],
+        correct: "ich habe Brot gekauft",
+    },
+    {
+        id: 2,
+        words: ["wir", "sind", "nach", "Hause", "gelaufen"],
+        correct: "wir sind nach Hause gelaufen",
+    },
+    {
+        id: 3,
+        words: ["Tim", "hat", "Hockey", "gespielt"],
+        correct: "Tim hat Hockey gespielt",
+    },
+    {
+        id: 4,
+        words: ["ihr", "seid", "in", "die", "Stadt", "gefahren"],
+        correct: "ihr seid in die Stadt gefahren",
+    },
+    {
+        id: 5,
+        words: ["sie", "hat", "Eis", "gegessen"],
+        correct: "sie hat Eis gegessen",
+    },
+    {
+        id: 6,
+        words: ["ich", "habe", "Kaffee", "getrunken"],
+        correct: "ich habe Kaffee getrunken",
+    },
+    {
+        id: 7,
+        words: ["du", "bist", "letztes", "Jahr", "nach", "Berlin", "gereist"],
+        correct: "du bist letztes Jahr nach Berlin gereist",
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={9} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatikübung</h1>
+                <p class="subtitle text-indications">
+                    Ordne die Wörter und bilde Sätze im Perfekt.
+                </p>
+
+                <div class="sections">
+
+                    <!-- Grammar reminder -->
+                    <div class="section">
+                        <TagGrammatik />
+                        <div class="rule-box">
+                            <div class="rule-row">
+                                <span class="rule-label">mit <strong>haben</strong></span>
+                                <span class="rule-example">
+                                    Ich <strong>habe</strong> Brot <strong>gekauft</strong>.
+                                </span>
+                            </div>
+                            <div class="rule-row">
+                                <span class="rule-label">mit <strong>sein</strong></span>
+                                <span class="rule-example">
+                                    Wir <strong>sind</strong> nach Hause <strong>gelaufen</strong>.
+                                </span>
+                            </div>
+                            <p class="rule-note text-indications">
+                                Struktur: <strong>Subjekt + haben/sein + … + Partizip II</strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Sentence builder -->
+                    <div class="section">
+                        <div class="ex-list" id="ex-list">
+                            {sentences.map((s) => (
+                                <div class="ex-block" id={`ex-${s.id}`} data-correct={s.correct}>
+                                    <p class="ex-num">Satz {s.id}</p>
+
+                                    <!-- Drop zone: built sentence -->
+                                    <div class="drop-zone" data-exid={s.id} aria-label="Oración construida">
+                                        <span class="drop-hint">Klicke auf die Wörter unten ↓</span>
+                                    </div>
+
+                                    <!-- Word bank for this sentence -->
+                                    <div class="word-bank" data-exid={s.id}>
+                                        {s.words.map((w, i) => (
+                                            <button
+                                                type="button"
+                                                class="word-chip"
+                                                data-word={w}
+                                                data-exid={s.id}
+                                                id={`w-${s.id}-${i}`}
+                                            >
+                                                {w}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <div class="ex-actions">
+                                        <button type="button" class="btn-check" data-exid={s.id}>
+                                            Prüfen
+                                        </button>
+                                        <button type="button" class="btn-reset" data-exid={s.id}>
+                                            ↺
+                                        </button>
+                                    </div>
+                                    <p class="ex-feedback" aria-live="polite"></p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle prüfen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zurücksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+
+        /* Grammar rule box */
+        .rule-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.85rem 1rem;
+            background: var(--color-table-row-hover, #f9fafb);
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .rule-row {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+        }
+
+        .rule-label {
+            min-width: 120px;
+            font-size: 0.82rem;
+            color: #6b7280;
+        }
+
+        .rule-example { font-size: 0.95rem; }
+
+        .rule-note {
+            font-size: 0.82rem;
+            margin: 0.25rem 0 0;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Exercise blocks */
+        .ex-list { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .ex-block {
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .ex-block.correct { border-color: #10b981; background: #f0fdf4; }
+        .ex-block.wrong   { border-color: #ef4444; background: #fef2f2; }
+
+        .ex-num {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        /* Drop zone */
+        .drop-zone {
+            min-height: 46px;
+            border: 2px dashed #d1d5db;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            align-items: center;
+            padding: 0.4rem 0.6rem;
+            transition: border-color 0.15s;
+        }
+
+        .drop-hint {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            pointer-events: none;
+        }
+
+        /* Word bank */
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            min-height: 36px;
+        }
+
+        .word-chip {
+            padding: 0.35rem 0.8rem;
+            background: #1d4ed8;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.12s, background 0.12s;
+        }
+
+        .word-chip:hover:not(:disabled) { opacity: 0.85; }
+        .word-chip:disabled { cursor: default; opacity: 0.4; }
+
+        /* Placed chip (in drop-zone) */
+        .placed-chip {
+            padding: 0.35rem 0.8rem;
+            background: #374151;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.12s;
+        }
+
+        .placed-chip:hover { opacity: 0.75; }
+
+        /* Actions */
+        .ex-actions {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .btn-check {
+            padding: 0.35rem 0.9rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .btn-reset {
+            padding: 0.35rem 0.7rem;
+            font-size: 0.9rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .ex-feedback {
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 1.1em;
+        }
+
+        /* Global */
+        .global-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .button-submit {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: #fff;
+        }
+
+        .button-reset {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            background: transparent;
+            color: #374151;
+        }
+
+        .result {
+            margin-top: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            min-height: 1.4em;
+        }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        // ── helpers ──────────────────────────────────────────────
+        const getBlock  = (id: string | number) =>
+            document.querySelector(`#ex-${id}`) as HTMLDivElement | null;
+        const getZone   = (id: string | number) =>
+            document.querySelector(`.drop-zone[data-exid="${id}"]`) as HTMLDivElement | null;
+        const getBank   = (id: string | number) =>
+            document.querySelector(`.word-bank[data-exid="${id}"]`) as HTMLDivElement | null;
+
+        // Shuffle helper
+        const shuffle = <T,>(a: T[]) => [...a].sort(() => Math.random() - 0.5);
+
+        // Scramble each word-bank on load
+        document.querySelectorAll(".word-bank").forEach((bank) => {
+            if (!(bank instanceof HTMLDivElement)) return;
+            const chips = shuffle([...bank.querySelectorAll(".word-chip")]);
+            chips.forEach((c) => bank.append(c));
+        });
+
+        // ── place chip: bank → zone ───────────────────────────────
+        document.querySelectorAll(".word-bank").forEach((bank) => {
+            bank.addEventListener("click", (e) => {
+                const chip = (e.target as HTMLElement).closest(".word-chip");
+                if (!(chip instanceof HTMLButtonElement) || chip.disabled) return;
+
+                const id   = chip.dataset.exid ?? "";
+                const zone = getZone(id);
+                if (!zone) return;
+
+                // Remove hint if present
+                zone.querySelector(".drop-hint")?.remove();
+
+                // Create placed chip
+                const placed = document.createElement("button");
+                placed.type      = "button";
+                placed.className = "placed-chip";
+                placed.textContent = chip.textContent;
+                placed.dataset.srcId  = chip.id;
+                placed.dataset.exid   = id;
+                zone.append(placed);
+
+                chip.disabled = true;
+
+                clearStatus(id);
+            });
+        });
+
+        // ── remove chip: zone → bank ─────────────────────────────
+        document.querySelectorAll(".drop-zone").forEach((zone) => {
+            zone.addEventListener("click", (e) => {
+                const placed = (e.target as HTMLElement).closest(".placed-chip");
+                if (!(placed instanceof HTMLButtonElement)) return;
+
+                const id   = placed.dataset.exid ?? "";
+                const srcId = placed.dataset.srcId ?? "";
+                const orig = document.querySelector(`#${srcId}`);
+
+                if (orig instanceof HTMLButtonElement) orig.disabled = false;
+
+                placed.remove();
+
+                // Re-add hint if zone is now empty
+                const zone2 = getZone(id);
+                if (zone2 && zone2.querySelectorAll(".placed-chip").length === 0) {
+                    const hint = document.createElement("span");
+                    hint.className   = "drop-hint";
+                    hint.textContent = "Klicke auf die Wörter unten ↓";
+                    zone2.append(hint);
+                }
+
+                clearStatus(id);
+            });
+        });
+
+        // ── per-sentence check ───────────────────────────────────
+        const clearStatus = (id: string | number) => {
+            const block = getBlock(id);
+            if (!block) return;
+            block.classList.remove("correct", "wrong");
+            const fb = block.querySelector(".ex-feedback");
+            if (fb instanceof HTMLParagraphElement) fb.textContent = "";
+        };
+
+        const checkSentence = (id: string | number): boolean => {
+            const block   = getBlock(id);
+            const zone    = getZone(id);
+            if (!block || !zone) return false;
+
+            const correct = (block.dataset.correct ?? "").toLowerCase();
+            const chips   = [...zone.querySelectorAll(".placed-chip")];
+            const given   = chips.map((c) => c.textContent?.trim() ?? "").join(" ").toLowerCase();
+            const fb      = block.querySelector(".ex-feedback");
+
+            block.classList.remove("correct", "wrong");
+
+            if (!given) {
+                if (fb instanceof HTMLParagraphElement)
+                    fb.textContent = "⚠️ Noch keine Wörter platziert.";
+                return false;
+            }
+
+            if (given === correct) {
+                block.classList.add("correct");
+                if (fb instanceof HTMLParagraphElement) fb.textContent = "✅ Richtig!";
+                return true;
+            } else {
+                block.classList.add("wrong");
+                if (fb instanceof HTMLParagraphElement)
+                    fb.textContent = `❌ Richtig: ${block.dataset.correct}`;
+                return false;
+            }
+        };
+
+        const resetSentence = (id: string | number) => {
+            const block = getBlock(id);
+            const zone  = getZone(id);
+            const bank  = getBank(id);
+            if (!block || !zone || !bank) return;
+
+            clearStatus(id);
+
+            // Return placed chips to bank and re-enable originals
+            zone.querySelectorAll(".placed-chip").forEach((p) => {
+                if (!(p instanceof HTMLButtonElement)) return;
+                const orig = document.querySelector(`#${p.dataset.srcId}`);
+                if (orig instanceof HTMLButtonElement) orig.disabled = false;
+                p.remove();
+            });
+
+            // Re-add zone hint
+            if (!zone.querySelector(".drop-hint")) {
+                const hint = document.createElement("span");
+                hint.className   = "drop-hint";
+                hint.textContent = "Klicke auf die Wörter unten ↓";
+                zone.append(hint);
+            }
+
+            // Shuffle bank chips
+            const chips = shuffle([...bank.querySelectorAll(".word-chip")]);
+            chips.forEach((c) => bank.append(c));
+        };
+
+        // Per-block buttons
+        document.querySelectorAll(".btn-check").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const id = (btn as HTMLButtonElement).dataset.exid ?? "";
+                checkSentence(id);
+            });
+        });
+
+        document.querySelectorAll(".btn-reset").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const id = (btn as HTMLButtonElement).dataset.exid ?? "";
+                resetSentence(id);
+            });
+        });
+
+        // Global check all
+        document.querySelector("#check-all")?.addEventListener("click", () => {
+            let score = 0;
+            const blocks = [...document.querySelectorAll(".ex-block")];
+            blocks.forEach((b) => {
+                if (!(b instanceof HTMLDivElement)) return;
+                const id = b.id.replace("ex-", "");
+                if (checkSentence(id)) score++;
+            });
+            const result = document.querySelector("#global-result");
+            if (result instanceof HTMLParagraphElement)
+                result.textContent =
+                    `${score} von ${blocks.length} richtig (${Math.round((score / blocks.length) * 100)}%).`;
+        });
+
+        // Global reset all
+        document.querySelector("#reset-all")?.addEventListener("click", () => {
+            const blocks = [...document.querySelectorAll(".ex-block")];
+            blocks.forEach((b) => {
+                if (b instanceof HTMLDivElement)
+                    resetSentence(b.id.replace("ex-", ""));
+            });
+            const result = document.querySelector("#global-result");
+            if (result instanceof HTMLParagraphElement) result.textContent = "";
+        });
+    </script>
+</Layout>

@@ -1,0 +1,178 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+// Possessivpronomen: Nominativ & Akkusativ
+// columns: Maskulinum, Femininum, Neutrum, Plural
+const pronouns = [
+    { pron: "ich",     base: "mein",   nom_m:"mein",   nom_f:"meine",  nom_n:"mein",   nom_p:"meine",  akk_m:"meinen",  akk_f:"meine",  akk_n:"mein",   akk_p:"meine"  },
+    { pron: "du",      base: "dein",   nom_m:"dein",   nom_f:"deine",  nom_n:"dein",   nom_p:"deine",  akk_m:"deinen",  akk_f:"deine",  akk_n:"dein",   akk_p:"deine"  },
+    { pron: "er/es",   base: "sein",   nom_m:"sein",   nom_f:"seine",  nom_n:"sein",   nom_p:"seine",  akk_m:"seinen",  akk_f:"seine",  akk_n:"sein",   akk_p:"seine"  },
+    { pron: "sie",     base: "ihr",    nom_m:"ihr",    nom_f:"ihre",   nom_n:"ihr",    nom_p:"ihre",   akk_m:"ihren",   akk_f:"ihre",   akk_n:"ihr",    akk_p:"ihre"   },
+    { pron: "wir",     base: "unser",  nom_m:"unser",  nom_f:"unsere", nom_n:"unser",  nom_p:"unsere", akk_m:"unseren", akk_f:"unsere", akk_n:"unser",  akk_p:"unsere" },
+    { pron: "ihr",     base: "euer",   nom_m:"euer",   nom_f:"eure",   nom_n:"euer",   nom_p:"eure",   akk_m:"euren",   akk_f:"eure",   akk_n:"euer",   akk_p:"eure"   },
+    { pron: "sie/Sie", base: "ihr/Ihr",nom_m:"ihr",    nom_f:"ihre",   nom_n:"ihr",    nom_p:"ihre",   akk_m:"ihren",   akk_f:"ihre",   akk_n:"ihr",    akk_p:"ihre"   },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Possessivpronomen — Nominativ &amp; Akkusativ
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Legend -->
+                        <div class="legend">
+                            <span class="pill pill-nom">Nominativ</span>
+                            <span class="pill pill-akk">Akkusativ</span>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table poss-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" class="th-pron">Pronomen</th>
+                                        <th rowspan="2" class="th-base">Basis</th>
+                                        <th colspan="4" class="th-group th-nom">Nominativ</th>
+                                        <th colspan="4" class="th-group th-akk">Akkusativ</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="th-sub th-nom">Mask.</th>
+                                        <th class="th-sub th-nom">Fem.</th>
+                                        <th class="th-sub th-nom">Neutr.</th>
+                                        <th class="th-sub th-nom">Plural</th>
+                                        <th class="th-sub th-akk">Mask.</th>
+                                        <th class="th-sub th-akk">Fem.</th>
+                                        <th class="th-sub th-akk">Neutr.</th>
+                                        <th class="th-sub th-akk">Plural</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {pronouns.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-pron">{r.pron}</td>
+                                            <td class="td-base">{r.base}</td>
+                                            <td class="td-nom">{r.nom_m}</td>
+                                            <td class="td-nom">{r.nom_f}</td>
+                                            <td class="td-nom">{r.nom_n}</td>
+                                            <td class="td-nom td-border">{r.nom_p}</td>
+                                            <td class="td-akk td-highlight">{r.akk_m}</td>
+                                            <td class="td-akk">{r.akk_f}</td>
+                                            <td class="td-akk">{r.akk_n}</td>
+                                            <td class="td-akk">{r.akk_p}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="note text-indications">
+                            <strong>Hinweis:</strong> Im Femininum, Neutrum und Plural sind Nominativ und Akkusativ identisch.
+                            Nur im <em>Maskulinum Akkusativ</em> erscheint die Endung <strong>-en</strong>.
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        /* Legend */
+        .legend { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .pill {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+        .pill-nom { background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe; }
+        .pill-akk { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        /* Group span headers */
+        .th-group {
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 0.4rem 0.5rem;
+            letter-spacing: 0.03em;
+        }
+        .th-nom { background: #f3e8ff; color: #6b21a8; border-bottom: 2px solid #d8b4fe; }
+        .th-akk { background: #dbeafe; color: #1e40af; border-bottom: 2px solid #93c5fd; }
+
+        /* Sub-headers */
+        .th-sub {
+            font-size: 0.72rem;
+            text-align: center;
+            padding: 0.35rem 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .th-sub.th-nom { background: #faf5ff; color: #7e22ce; border-bottom: 1px solid #e9d5ff; }
+        .th-sub.th-akk { background: #eff6ff; color: #1d4ed8; border-bottom: 1px solid #bfdbfe; }
+
+        /* Pronomen & Basis columns */
+        .th-pron, .th-base {
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .td-pron {
+            font-weight: 800;
+            color: #111827;
+            white-space: nowrap;
+            border-right: 1px solid var(--color-table-row-border, #e5e7eb);
+        }
+        .td-base {
+            font-weight: 700;
+            color: #374151;
+            font-style: italic;
+            border-right: 2px solid var(--color-table-row-border, #e5e7eb);
+            white-space: nowrap;
+        }
+
+        /* Data cells */
+        .td-nom { text-align: center; color: #581c87; font-size: 0.9rem; }
+        .td-akk { text-align: center; color: #1e40af; font-size: 0.9rem; }
+
+        /* Separator between Nom plural and Akk mask */
+        .td-border { border-right: 2px solid #d8b4fe; }
+        .td-highlight { font-weight: 700; }
+
+        /* Alternating rows */
+        .row-even { background: #ffffff; }
+        .row-odd  { background: #f9fafb; }
+        .poss-table tbody tr:hover { background: #f1f5f9; }
+
+        /* Note */
+        .note {
+            font-size: 0.85rem;
+            border-left: 3px solid #d8b4fe;
+            padding-left: 0.75rem;
+            margin-top: 0.25rem;
+        }
+    </style>
+</Layout>

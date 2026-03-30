@@ -1,0 +1,123 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const rows = [
+    { person: "1. Person Singular",                      nom: "ich",     dat: "mir"         },
+    { person: "2. Person Singular",                      nom: "du",      dat: "dir"         },
+    { person: "3. Person Singular (maskulin)",            nom: "er",      dat: "ihm"         },
+    { person: "3. Person Singular (feminin)",             nom: "sie",     dat: "ihr"         },
+    { person: "3. Person Singular (neutral)",             nom: "es",      dat: "ihm"         },
+    { person: "1. Person Plural",                        nom: "wir",     dat: "uns"         },
+    { person: "2. Person Plural",                        nom: "ihr",     dat: "euch"        },
+    { person: "3. Person Plural / H\u00f6flichkeitsform", nom: "sie / Sie", dat: "ihnen / Ihnen" },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={3} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Personalpronomen — Nominativ &amp; Dativ
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="legend">
+                            <span class="pill pill-nom">Nominativ</span>
+                            <span class="pill pill-dat">Dativ</span>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table pron-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-person">Person</th>
+                                        <th class="th-nom">Nominativ</th>
+                                        <th class="th-dat">Dativ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-person">{r.person}</td>
+                                            <td class="td-nom">{r.nom}</td>
+                                            <td class="td-dat">{r.dat}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        .legend { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .pill {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .pill-nom { background: #e0e7ff; color: #3730a3; border: 1px solid #a5b4fc; }
+        .pill-dat { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        .th-person { text-align: left; }
+        .th-nom {
+            background: #e0e7ff !important;
+            color: #3730a3 !important;
+            border-bottom: 2px solid #a5b4fc !important;
+            text-align: center;
+        }
+        .th-dat {
+            background: #dcfce7 !important;
+            color: #166534 !important;
+            border-bottom: 2px solid #86efac !important;
+            text-align: center;
+        }
+
+        .td-person {
+            font-size: 0.82rem;
+            color: #6b7280;
+            border-right: 2px solid var(--color-table-row-border, #e5e7eb);
+        }
+        .td-nom {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #3730a3;
+        }
+        .td-dat {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #166534;
+        }
+
+        .row-even { background: #ffffff; }
+        .row-odd  { background: #f9fafb; }
+        .pron-table tbody tr:hover { background: #f1f5f9; }
+    </style>
+</Layout>

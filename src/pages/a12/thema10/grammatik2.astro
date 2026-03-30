@@ -1,0 +1,167 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const rows = [
+    { nomen: "die Kinder",    adjektiv: "kinderlos",   beispiel: "Sie sind kinderlos."              },
+    { nomen: "der Schlaf",    adjektiv: "schlaflos",   beispiel: "Er verbrachte eine schlaflose Nacht." },
+    { nomen: "die Arbeit",    adjektiv: "arbeitslos",  beispiel: "Er ist seit einem Jahr arbeitslos."   },
+    { nomen: "die Hoffnung",  adjektiv: "hoffnungslos",beispiel: "Die Lage wirkt hoffnungslos."         },
+    { nomen: "der Sinn",      adjektiv: "sinnlos",     beispiel: "Das ist eine sinnlose Diskussion."    },
+    { nomen: "die Hilfe",     adjektiv: "hilflos",     beispiel: "Das Kind stand hilflos da."           },
+    { nomen: "der Fehler",    adjektiv: "fehlerlos",   beispiel: "Sie schrieb eine fehlerlose Arbeit."  },
+    { nomen: "die Heimat",    adjektiv: "heimatlos",   beispiel: "Er f\u00fchlte sich heimatlos."       },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={10} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Wortbildung: Adjektive mit <strong>–los</strong>
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagWortschatz />
+
+                        <!-- Rule card -->
+                        <div class="regel-box">
+                            <p class="regel-title">Regel</p>
+                            <p>
+                                Das Suffix <strong>-los</strong> wird an ein <strong>Nomen</strong> angeh&auml;ngt
+                                und bildet ein neues <strong>Adjektiv</strong> mit der Bedeutung
+                                &bdquo;ohne&hellip;&ldquo;.
+                            </p>
+                            <p class="regel-formula">
+                                Nomen &nbsp;<span class="plus">+</span>&nbsp; <span class="suffix">-los</span>
+                                &nbsp;&rarr;&nbsp; Adjektiv
+                            </p>
+                        </div>
+
+                        <!-- Main table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table los-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-nomen">Nomen</th>
+                                        <th class="th-adj">
+                                            Nomen&nbsp;<span class="plus-sm">+</span>&nbsp;<span class="suffix-sm">-los</span>
+                                            &nbsp;&rarr;&nbsp; Adjektiv
+                                        </th>
+                                        <th class="th-bsp">Beispielsatz</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-nomen">{r.nomen}</td>
+                                            <td class="td-adj">
+                                                <span class="adj-base">{r.adjektiv.slice(0, r.adjektiv.length - 3)}</span>
+                                                <span class="adj-los">los</span>
+                                            </td>
+                                            <td class="td-bsp">{r.beispiel}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Hinweis -->
+                        <div class="hinweis-box">
+                            <p class="hinweis-title">Hinweis</p>
+                            <p>
+                                Das Adjektiv auf <em>-los</em> wird wie ein normales Adjektiv dekliniert:
+                                <em>ein schlaflos<strong>er</strong> Mann</em>,&nbsp;
+                                <em>eine arbeitslos<strong>e</strong> Frau</em>,&nbsp;
+                                <em>ein sinnlos<strong>es</strong> Gespr&auml;ch</em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+        .table-wrapper { overflow-x:auto; }
+
+        /* Regel */
+        .regel-box {
+            background:#fefce8; border:1.5px solid #fde68a;
+            border-radius:10px; padding:0.85rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.4rem;
+        }
+        .regel-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#92400e; margin:0;
+        }
+        .regel-box p { margin:0; font-size:0.9rem; color:#1e293b; }
+        .regel-formula {
+            font-size:0.95rem !important; font-weight:600;
+            display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;
+        }
+        .plus  { color:#6b7280; font-size:1.1rem; font-weight:900; }
+        .suffix {
+            display:inline-block; padding:0.15rem 0.6rem;
+            background:#fbbf24; color:#1c1917; border-radius:6px;
+            font-weight:900; font-size:0.9rem;
+        }
+        .plus-sm  { color:#6b7280; font-weight:800; }
+        .suffix-sm {
+            display:inline-block; padding:0.1rem 0.45rem;
+            background:#fbbf24; color:#1c1917; border-radius:5px;
+            font-weight:900; font-size:0.78rem;
+        }
+
+        /* Table */
+        .los-table th { text-align:left; }
+        .th-nomen { width:130px; }
+        .th-adj   { width:200px; }
+
+        .td-nomen {
+            font-size:0.93rem; font-weight:600; color:#374151;
+            padding:0.8rem 0.9rem; white-space:nowrap;
+        }
+        .td-adj { padding:0.8rem 0.9rem; }
+        .td-bsp {
+            padding:0.8rem 0.9rem; font-size:0.87rem;
+            color:#6b7280; font-style:italic;
+        }
+
+        .adj-base {
+            font-weight:700; font-size:0.95rem; color:#374151;
+        }
+        .adj-los {
+            font-weight:900; font-size:0.95rem;
+            color:#b45309;
+            background:#fef3c7; padding:0.05rem 0.3rem;
+            border-radius:4px; margin-left:1px;
+        }
+
+        /* Hinweis */
+        .hinweis-box {
+            background:#fff7ed; border:1.5px solid #fed7aa;
+            border-radius:10px; padding:0.8rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.3rem;
+        }
+        .hinweis-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#c2410c; margin:0;
+        }
+        .hinweis-box p:last-child { margin:0; font-size:0.87rem; color:#374151; }
+    </style>
+</Layout>

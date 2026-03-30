@@ -1,0 +1,219 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={2} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Kein / Nicht & Berufe</h1>
+                <p class="subtitle text-indications">
+                    Negación con <em>kein/keine</em> y <em>nicht</em>, formación
+                    del femenino en profesiones y frases para hablar del
+                    trabajo.
+                </p>
+
+                <div class="sections">
+                    <!-- Negation -->
+                    <div class="section">
+                        <TagGrammatik />
+                        <h4 class="section-title">
+                            Negation: kein/keine vs. nicht
+                        </h4>
+                        <div class="table-wrapper">
+                            <table class="gram-table">
+                                <thead>
+                                    <tr>
+                                        <th>Negation</th>
+                                        <th>Verwendung</th>
+                                        <th>Ejemplo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>kein / keine</strong></td>
+                                        <td
+                                            >Vor Nomen <span class="note"
+                                                >(Sustantivos)</span
+                                            ></td
+                                        >
+                                        <td
+                                            >Das ist <strong>kein</strong> Lehrer.
+                                            / Ich habe <strong>keine</strong> Zeit.</td
+                                        >
+                                    </tr>
+                                    <tr>
+                                        <td><strong>nicht</strong></td>
+                                        <td>Bei Verben & Adjektiven</td>
+                                        <td
+                                            >Er arbeitet <strong>nicht</strong>.
+                                            / Das ist <strong>nicht</strong> gut.</td
+                                        >
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Wortbildung /in -->
+                    <div class="section">
+                        <TagGrammatik />
+                        <h4 class="section-title">
+                            Wortbildung: Maskulinum → Femininum <span
+                                class="tag-in">-in</span
+                            >
+                        </h4>
+                        <div class="table-wrapper">
+                            <table class="gram-table">
+                                <thead>
+                                    <tr>
+                                        <th>Maskulinum</th>
+                                        <th>Femininum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>der Lehrer</td>
+                                        <td>die Lehrerin</td>
+                                    </tr>
+                                    <tr>
+                                        <td>der Kellner</td>
+                                        <td>die Kellnerin</td>
+                                    </tr>
+                                    <tr>
+                                        <td>der Schüler</td>
+                                        <td>die Schülerin</td>
+                                    </tr>
+                                    <tr>
+                                        <td>der Student</td>
+                                        <td>die Studentin</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Redewendungen -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <h4 class="section-title">Über den Beruf sprechen</h4>
+                        <div class="table-wrapper">
+                            <table class="gram-table">
+                                <thead>
+                                    <tr>
+                                        <th>Deutsch</th>
+                                        <th>Español</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ich arbeite als …</td>
+                                        <td>Trabajo como…</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ich arbeite bei …</td>
+                                        <td>Trabajo en… (empresa)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ich bin Student / Studentin.</td>
+                                        <td>Soy estudiante.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ich bin Schüler / Schülerin.</td>
+                                        <td>Soy alumno/a.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag-in {
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .gram-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .gram-table th {
+            text-align: left;
+            padding: 0.4rem 0.75rem;
+            background: var(--color-table-header);
+            color: var(--color-table-header-text);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--color-table-header-border);
+        }
+
+        .gram-table td {
+            padding: 0.45rem 0.75rem;
+            border-bottom: 1px solid var(--color-table-row-border);
+            color: var(--color-text);
+        }
+
+        .gram-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .gram-table tr:hover td {
+            background: var(--color-table-row-hover);
+        }
+
+        .note {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+    </style>
+</Layout>

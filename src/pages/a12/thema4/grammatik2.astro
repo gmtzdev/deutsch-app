@@ -1,0 +1,171 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Verb Konjugation</h1>
+                <p class="subtitle">
+                    Selecciona un verbo para ver su conjugación con todos los
+                    pronombres personales.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <table class="vocab-table" id="conj-table">
+                            <thead>
+                                <tr>
+                                    <th>Pronomen</th>
+                                    <th>Verb</th>
+                                    <th>Endung</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conj-body">
+                                <!-- filled by script -->
+                            </tbody>
+                        </table>
+
+                        <div class="verb-buttons">
+                            <button class="verb-btn active" data-verb="müssen"
+                                >müssen</button
+                            >
+                            <button class="verb-btn" data-verb="sollen"
+                                >sollen</button
+                            >
+                            <button class="verb-btn" data-verb="dürfen"
+                                >dürfen</button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        type ConjugationRow = { pronoun: string; form: string; ending: string };
+        type VerbData = { rows: ConjugationRow[] };
+
+        const verbs: Record<string, VerbData> = {
+            müssen: {
+                rows: [
+                    { pronoun: "ich", form: "muss", ending: "—" },
+                    { pronoun: "du", form: "musst", ending: "—" },
+                    { pronoun: "er", form: "muss", ending: "—" },
+                    { pronoun: "sie", form: "muss", ending: "—" },
+                    { pronoun: "es", form: "muss", ending: "—" },
+                    { pronoun: "wir", form: "müssen", ending: "—" },
+                    { pronoun: "ihr", form: "müsst", ending: "—" },
+                    { pronoun: "Sie/sie", form: "müssen", ending: "—" },
+                ],
+            },
+            sollen: {
+                rows: [
+                    { pronoun: "ich", form: "soll", ending: "—" },
+                    { pronoun: "du", form: "sollst", ending: "—" },
+                    { pronoun: "er", form: "soll", ending: "—" },
+                    { pronoun: "sie", form: "soll", ending: "—" },
+                    { pronoun: "es", form: "soll", ending: "—" },
+                    { pronoun: "wir", form: "sollen", ending: "—" },
+                    { pronoun: "ihr", form: "sollt", ending: "—" },
+                    { pronoun: "Sie/sie", form: "sollen", ending: "—" },
+                ],
+            },
+            dürfen: {
+                rows: [
+                    { pronoun: "ich", form: "darf", ending: "—" },
+                    { pronoun: "du", form: "darfst", ending: "—" },
+                    { pronoun: "er", form: "darf", ending: "—" },
+                    { pronoun: "sie", form: "darf", ending: "—" },
+                    { pronoun: "es", form: "darf", ending: "—" },
+                    { pronoun: "wir", form: "dürfen", ending: "—" },
+                    { pronoun: "ihr", form: "dürft", ending: "—" },
+                    { pronoun: "Sie/sie", form: "dürfen", ending: "—" },
+                ],
+            },
+        };
+
+        function renderVerb(verb: string) {
+            const body = document.getElementById("conj-body");
+            if (!body) return;
+            const data = verbs[verb];
+            if (!data) return;
+
+            body.innerHTML = data.rows
+                .map(
+                    (r) => `
+                <tr>
+                    <td class="label">${r.pronoun}</td>
+                    <td><strong>${r.form}</strong></td>
+                    <td class="ending">${r.ending}</td>
+                </tr>`,
+                )
+                .join("");
+        }
+
+        renderVerb("müssen");
+
+        document
+            .querySelectorAll<HTMLButtonElement>(".verb-btn")
+            .forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    document
+                        .querySelectorAll(".verb-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    renderVerb(btn.dataset.verb ?? "müssen");
+                });
+            });
+    </script>
+
+    <style>
+        .verb-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.25rem;
+        }
+
+        .verb-btn {
+            padding: 0.45rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1.5px solid #d1d5db;
+            border-radius: 999px;
+            cursor: pointer;
+            background: #fff;
+            color: #374151;
+            transition: all 0.15s;
+        }
+
+        .verb-btn:hover {
+            border-color: #6366f1;
+            color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .verb-btn.active {
+            background: #4f46e5;
+            color: #fff;
+            border-color: #4f46e5;
+        }
+    </style>
+</Layout>

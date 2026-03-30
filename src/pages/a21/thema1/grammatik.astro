@@ -1,0 +1,230 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+// [stem, ending, noun]
+const rows = [
+    {
+        kasus: "Nominativ",
+        cells: [
+            { stem:"mein", ending:"",   noun:"Vater"  },
+            { stem:"mein", ending:"e",  noun:"Mutter" },
+            { stem:"mein", ending:"",   noun:"Kind"   },
+            { stem:"mein", ending:"e",  noun:"Eltern" },
+        ],
+    },
+    {
+        kasus: "Dativ",
+        cells: [
+            { stem:"mein", ending:"em", noun:"Vater"  },
+            { stem:"mein", ending:"er", noun:"Mutter" },
+            { stem:"mein", ending:"em", noun:"Kind"   },
+            { stem:"mein", ending:"en", noun:"Eltern" },
+        ],
+    },
+    {
+        kasus: "Akkusativ",
+        cells: [
+            { stem:"mein", ending:"en", noun:"Vater"  },
+            { stem:"mein", ending:"e",  noun:"Mutter" },
+            { stem:"mein", ending:"",   noun:"Kind"   },
+            { stem:"mein", ending:"e",  noun:"Eltern" },
+        ],
+    },
+];
+
+const kasusColor: Record<string, string> = {
+    Nominativ:  "kasus-nom",
+    Dativ:      "kasus-dat",
+    Akkusativ:  "kasus-akk",
+};
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Possessivartikel &mdash; Nominativ / Dativ / Akkusativ
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="table-wrapper">
+                            <table class="vocab-table poss-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-kasus"></th>
+                                        <th class="th-gen col-mask">Maskulin</th>
+                                        <th class="th-gen col-fem">Feminin</th>
+                                        <th class="th-gen col-neut">Neutrum</th>
+                                        <th class="th-gen col-pl">Plural</th>
+                                    </tr>
+                                    <tr class="subhead-row">
+                                        <th></th>
+                                        <th class="subhead col-mask">mein <em>Vater</em></th>
+                                        <th class="subhead col-fem">mein <em>Mutter</em></th>
+                                        <th class="subhead col-neut">mein <em>Kind</em></th>
+                                        <th class="subhead col-pl">mein <em>Eltern</em></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows.map((r) => (
+                                        <tr class={`row-${r.kasus.toLowerCase()}`}>
+                                            <td class={`td-kasus ${kasusColor[r.kasus]}`}>
+                                                {r.kasus}
+                                            </td>
+                                            {r.cells.map((c) => (
+                                                <td class="td-cell">
+                                                    <span class="stem">{c.stem}</span>{c.ending ? <span class="ending">{c.ending}</span> : null}
+                                                    {" "}<span class="noun">{c.noun}</span>
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Endings summary -->
+                        <div class="endings-box">
+                            <p class="endings-title">Endungen im \u00dcberblick</p>
+                            <div class="endings-grid">
+                                <div class="end-item">
+                                    <span class="end-chip chip-nom">&mdash;</span>
+                                    <small>Nom. M/N</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-nom">-e</span>
+                                    <small>Nom. F/Pl</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-dat">-em</span>
+                                    <small>Dat. M/N</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-dat">-er</span>
+                                    <small>Dat. F</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-dat">-en</span>
+                                    <small>Dat. Pl</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-akk">-en</span>
+                                    <small>Akk. M</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-akk">-e</span>
+                                    <small>Akk. F/Pl</small>
+                                </div>
+                                <div class="end-item">
+                                    <span class="end-chip chip-akk">&mdash;</span>
+                                    <small>Akk. N</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        /* Column headers */
+        .th-kasus { width: 110px; }
+        .th-gen   { text-align: center; font-weight: 800; }
+        .col-mask { background: #eff6ff; color: #1d4ed8; }
+        .col-fem  { background: #fdf4ff; color: #7c3aed; }
+        .col-neut { background: #f0fdf4; color: #15803d; }
+        .col-pl   { background: #fff7ed; color: #c2410c; }
+
+        .subhead-row th { font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.75rem; }
+        .subhead em { font-style: italic; }
+
+        /* Kasus column */
+        .td-kasus {
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.85rem 0.75rem;
+            white-space: nowrap;
+        }
+        .kasus-nom { color: #1d4ed8; background: #eff6ff; }
+        .kasus-dat { color: #15803d; background: #f0fdf4; }
+        .kasus-akk { color: #9a3412; background: #fff7ed; }
+
+        /* Cells */
+        .td-cell { text-align: center; padding: 0.85rem 0.75rem; font-size: 0.97rem; }
+
+        .stem    { font-weight: 600; color: #374151; }
+        .ending  {
+            font-weight: 800;
+            color: #dc2626;
+            border-bottom: 2px solid #dc2626;
+        }
+        .noun { color: #6b7280; font-size: 0.88rem; }
+
+        /* Row stripes */
+        .row-nominativ { background: #f8faff; }
+        .row-dativ     { background: #f8fdf9; }
+        .row-akkusativ { background: #fffaf6; }
+
+        /* Endings box */
+        .endings-box {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            background: #fafafa;
+        }
+        .endings-title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6b7280;
+            margin: 0 0 0.75rem;
+        }
+        .endings-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .end-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            min-width: 52px;
+        }
+        .end-chip {
+            display: inline-block;
+            padding: 0.2rem 0.55rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+        .chip-nom { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+        .chip-dat { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+        .chip-akk { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
+        .end-item small { font-size: 0.68rem; color: #9ca3af; font-weight: 600; text-align: center; }
+    </style>
+</Layout>

@@ -1,0 +1,208 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const trennbar = [
+    { prefix:"ab-",      examples:["abfahren", "abschleppen", "abnehmen"]         },
+    { prefix:"an-",      examples:["ankommen", "anrufen", "ansehen"]              },
+    { prefix:"auf-",     examples:["aufstehen", "aufr\u00e4umen", "aufmachen"]    },
+    { prefix:"aus-",     examples:["ausgehen", "ausschalten", "ausdr\u00fccken"]  },
+    { prefix:"bei-",     examples:["beitragen", "beibringen", "beimischen"]       },
+    { prefix:"ein-",     examples:["eingeben", "einkaufen", "einladen"]           },
+    { prefix:"mit-",     examples:["mitmachen", "mitschreiben", "mitnehmen"]      },
+    { prefix:"nach-",    examples:["nachfragen", "nachfolgen", "nachdenken"]      },
+    { prefix:"vor-",     examples:["vorbereiten", "vorschlagen", "vorhersehen"]   },
+    { prefix:"wieder-",  examples:["wiederholen", "wiedersehen", "wiederfinden"]  },
+    { prefix:"zu-",      examples:["zudecken", "zuwerfen", "zumachen"]            },
+];
+
+const untrennbar = [
+    { prefix:"be-",      examples:["besprechen", "beantworten", "bewerben"]       },
+    { prefix:"\u00fcber-", examples:["\u00fcberlegen", "\u00fcbertragen", "\u00fcbertreiben"] },
+    { prefix:"unter-",   examples:["untersch\u00e4tzen", "unterbrechen", "unterst\u00fctzen"] },
+    { prefix:"ver-",     examples:["verstehen", "verlieren", "ver\u00e4ndern"]    },
+    { prefix:"zer-",     examples:["zerbrechen", "zerschlagen", "zerrei\u00dfen"] },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={7} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik 2</h1>
+                <p class="subtitle text-indications">
+                    Verbpr&auml;fixe &mdash; trennbar &amp; untrennbar
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Trennbar -->
+                        <div class="group-label label-trenn">Trennbare Pr&auml;fixe</div>
+                        <div class="table-wrapper">
+                            <table class="vocab-table prefix-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-prefix">Pr&auml;fix</th>
+                                        <th class="th-ex">Beispiele</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {trennbar.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-prefix">
+                                                <span class="chip-trenn">{r.prefix}</span>
+                                            </td>
+                                            <td class="td-ex">
+                                                {r.examples.map((ex, j) => (
+                                                    <span>
+                                                        <span class="ex-prefix">{r.prefix.replace("-","")}</span><span class="ex-rest">{ex.slice(r.prefix.length - 1)}</span>{j < r.examples.length - 1 ? <span class="sep"> · </span> : null}
+                                                    </span>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Untrennbar -->
+                        <div class="group-label label-untrenn">Untrennbare Pr&auml;fixe</div>
+                        <div class="table-wrapper">
+                            <table class="vocab-table prefix-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-prefix">Pr&auml;fix</th>
+                                        <th class="th-ex">Beispiele</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {untrennbar.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-prefix">
+                                                <span class="chip-untrenn">{r.prefix}</span>
+                                            </td>
+                                            <td class="td-ex">
+                                                {r.examples.map((ex, j) => (
+                                                    <span>
+                                                        <span class="ex-prefix-u">{r.prefix.replace("-","")}</span><span class="ex-rest">{ex.slice(r.prefix.length - 1)}</span>{j < r.examples.length - 1 ? <span class="sep"> · </span> : null}
+                                                    </span>
+                                                ))}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Rule note -->
+                        <div class="rule-row">
+                            <div class="rule-card card-trenn">
+                                <p class="rule-title">Trennbar</p>
+                                <p>Pr&auml;fix wird im Satz <strong>abgetrennt</strong> und ans Ende gestellt.</p>
+                                <p class="rule-example">Ich <strong>stehe</strong> um 7 Uhr <strong>auf</strong>.</p>
+                            </div>
+                            <div class="rule-card card-untrenn">
+                                <p class="rule-title">Untrennbar</p>
+                                <p>Pr&auml;fix bleibt <strong>immer</strong> am Verb.</p>
+                                <p class="rule-example">Ich <strong>verstehe</strong> das nicht.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1rem; }
+
+        .table-wrapper { overflow-x: auto; }
+
+        .group-label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 0.2rem 0.7rem;
+            border-radius: 8px;
+            align-self: flex-start;
+        }
+        .label-trenn   { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+        .label-untrenn { background: #fce7f3; color: #9d174d; border: 1px solid #f9a8d4; }
+
+        .th-prefix { width: 110px; }
+        .th-ex     { }
+
+        .td-prefix { vertical-align: middle; padding: 0.75rem 0.75rem; }
+        .td-ex     { vertical-align: middle; padding: 0.75rem 0.75rem; font-size: 0.92rem; line-height: 1.9; }
+
+        .chip-trenn {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #1d4ed8;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+        .chip-untrenn {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #9d174d;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .ex-prefix   { font-weight: 800; color: #1d4ed8; }
+        .ex-prefix-u { font-weight: 800; color: #9d174d; }
+        .ex-rest     { color: #374151; }
+        .sep         { color: #9ca3af; }
+
+        /* Rule row */
+        .rule-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .rule-card {
+            flex: 1;
+            min-width: 200px;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            border: 1.5px solid transparent;
+        }
+        .card-trenn   { background: #eff6ff; border-color: #93c5fd; }
+        .card-untrenn { background: #fdf2f8; border-color: #f9a8d4; }
+
+        .rule-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 0 0.2rem;
+        }
+        .card-trenn   .rule-title { color: #1d4ed8; }
+        .card-untrenn .rule-title { color: #9d174d; }
+
+        .rule-card p { font-size: 0.88rem; margin: 0; }
+        .rule-example { font-style: italic; margin-top: 0.2rem !important; }
+    </style>
+</Layout>

@@ -1,0 +1,273 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 2</h1>
+                <p class="subtitle text-indications">
+                    Demonstrativpronomen &mdash; F&uuml;llen Sie die L&uuml;cken mit
+                    <span class="chip-d">dieser / diese / dieses / diese</span> aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Mini reference -->
+                        <div class="ref-grid">
+                            <div class="ref-cell"><span class="rc-label">Mask. Nom.</span><span class="rc-form">dieser</span></div>
+                            <div class="ref-cell"><span class="rc-label">Fem. Nom.</span><span class="rc-form">diese</span></div>
+                            <div class="ref-cell"><span class="rc-label">Neutr. Nom.</span><span class="rc-form">dieses</span></div>
+                            <div class="ref-cell"><span class="rc-label">Plural Nom.</span><span class="rc-form">diese</span></div>
+                            <div class="ref-cell"><span class="rc-label">Mask. Akk.</span><span class="rc-form">diesen</span></div>
+                            <div class="ref-cell"><span class="rc-label">Fem. Akk.</span><span class="rc-form">diese</span></div>
+                            <div class="ref-cell"><span class="rc-label">Neutr. Akk.</span><span class="rc-form">dieses</span></div>
+                            <div class="ref-cell"><span class="rc-label">Plural Akk.</span><span class="rc-form">diese</span></div>
+                        </div>
+
+                        <div class="exercises">
+
+                            <!-- 1: auto (n) Nom → Dieses -->
+                            <div class="ex-block">
+                                <p class="ex-ctx">Schau, ich habe ein neues Auto gekauft.</p>
+                                <div class="ex-row">
+                                    <span class="ex-num">1.</span>
+                                    <div class="sentence">
+                                        <input class="ipt ipt-md" data-ans="Dieses" placeholder="________" />
+                                        Auto funktioniert besser als mein altes.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2+3: Kaffeeautomat — Taste (f) Nom → Diese | zwei Tasten (pl) Nom → Diese -->
+                            <div class="ex-block">
+                                <p class="ex-ctx">Erkl&auml;ren Sie mir mal bitte den neuen Kaffeeautomaten.</p>
+                                <div class="ex-row">
+                                    <span class="ex-num">2.</span>
+                                    <div class="sentence">
+                                        Ja, gerne,
+                                        <input class="ipt ipt-md" data-ans="diese" placeholder="________" />
+                                        Taste ist f&uuml;r Kaffee,
+                                        <input class="ipt ipt-md" data-ans="diese" placeholder="________" />
+                                        zwei Tasten sind f&uuml;r Milch und Zucker.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3: Jeans (f) Nom → Diese -->
+                            <div class="ex-block">
+                                <p class="ex-ctx">Welche Jeans behalten Sie nun, die blaue oder die schwarze?</p>
+                                <div class="ex-row">
+                                    <span class="ex-num">3.</span>
+                                    <div class="sentence">
+                                        <input class="ipt ipt-md" data-ans="Diese" placeholder="________" />
+                                        Jeans gef&auml;llt mir gut, die blaue, die nehme ich!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4: Beh&auml;lter (m) Akk → diesen | Beh&auml;lter (m) Akk → diesen -->
+                            <div class="ex-block">
+                                <p class="ex-ctx">Welchen Beh&auml;lter magst du lieber?</p>
+                                <div class="ex-row">
+                                    <span class="ex-num">4.</span>
+                                    <div class="sentence">
+                                        <input class="ipt ipt-md" data-ans="diesen" placeholder="________" />
+                                        hier oder
+                                        <input class="ipt ipt-md" data-ans="diesen" placeholder="________" />
+                                        hier?
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5: Dinge (pl) Akk → diese -->
+                            <div class="ex-block">
+                                <p class="ex-ctx">Manche technischen Ger&auml;te sind wirklich teuer.</p>
+                                <div class="ex-row">
+                                    <span class="ex-num">5.</span>
+                                    <div class="sentence">
+                                        Deshalb kaufen wir
+                                        <input class="ipt ipt-md" data-ans="diese" placeholder="________" />
+                                        Dinge manchmal im Ausland.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnCheck" class="btn-check">Pr&uuml;fen</button>
+                            <button id="btnSolution" class="btn-solution">L&ouml;sung zeigen</button>
+                            <button id="btnReset" class="btn-reset">Zur&uuml;cksetzen</button>
+                        </div>
+
+                        <div id="result" class="result hidden"></div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+
+        /* Subtitle chip */
+        .chip-d {
+            display:inline-block; padding:0.1rem 0.5rem;
+            background:#1d4ed8; color:#fff;
+            border-radius:6px; font-weight:800; font-size:0.85rem;
+        }
+
+        /* Mini reference grid */
+        .ref-grid {
+            display:grid; grid-template-columns:repeat(4,1fr);
+            gap:0.5rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:0.8rem 1rem;
+        }
+        .ref-cell {
+            display:flex; flex-direction:column; align-items:center;
+            gap:0.2rem;
+        }
+        .rc-label {
+            font-size:0.68rem; font-weight:600; color:#9ca3af;
+            text-transform:uppercase; letter-spacing:0.04em; text-align:center;
+        }
+        .rc-form {
+            font-size:0.88rem; font-weight:800; color:#1d4ed8;
+        }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .ex-block {
+            background:#f9fafb; border:1.5px solid #e5e7eb;
+            border-radius:12px; padding:0.85rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.45rem;
+        }
+
+        .ex-ctx {
+            font-size:0.83rem; color:#6b7280; font-style:italic;
+            margin:0; border-left:3px solid #93c5fd; padding-left:0.6rem;
+        }
+
+        .ex-row { display:flex; align-items:center; gap:0.6rem; }
+        .ex-num { min-width:1.5rem; font-weight:700; color:#374151; font-size:0.95rem; flex-shrink:0; }
+
+        .sentence {
+            display:flex; align-items:center; flex-wrap:wrap;
+            gap:0.35rem; font-size:0.97rem; color:#111827;
+        }
+
+        /* Input */
+        .ipt {
+            border:none; border-bottom:2px solid #93c5fd;
+            background:transparent; outline:none;
+            font-size:0.97rem; font-family:inherit;
+            color:#1d4ed8; font-weight:700;
+            padding:0.05rem 0.2rem; text-align:center;
+            transition:border-color 0.2s;
+        }
+        .ipt:focus { border-bottom-color:#2563eb; }
+        .ipt-md { width:6rem; }
+
+        .ipt.correct   { border-bottom-color:#16a34a; color:#15803d; background:#f0fdf4; border-radius:3px; }
+        .ipt.incorrect { border-bottom-color:#dc2626; color:#b91c1c; background:#fef2f2; border-radius:3px; }
+        .ipt.shown     { border-bottom-color:#d97706; color:#b45309; background:#fffbeb; border-radius:3px; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.25rem; }
+
+        .btn-check {
+            padding:0.5rem 1.4rem; background:#1d4ed8; color:#fff;
+            border:none; border-radius:8px; font-size:0.9rem; font-weight:700;
+            cursor:pointer; transition:background 0.2s;
+        }
+        .btn-check:hover { background:#1e40af; }
+
+        .btn-solution {
+            padding:0.5rem 1.2rem; background:transparent; color:#d97706;
+            border:1.5px solid #fcd34d; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-solution:hover { background:#fffbeb; }
+
+        .btn-reset {
+            padding:0.5rem 1.2rem; background:transparent; color:#6b7280;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-reset:hover { border-color:#9ca3af; color:#374151; }
+
+        /* Result */
+        .result { padding:0.7rem 1rem; border-radius:10px; font-size:0.9rem; font-weight:700; }
+        .result.hidden { display:none; }
+        .result.ok  { background:#f0fdf4; color:#15803d; border:1.5px solid #86efac; }
+        .result.err { background:#fef2f2; color:#991b1b; border:1.5px solid #fca5a5; }
+
+        @media (max-width:600px) {
+            .ref-grid { grid-template-columns:repeat(2,1fr); }
+        }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll<HTMLInputElement>(".ipt");
+        const btnCheck    = document.getElementById("btnCheck")!;
+        const btnSolution = document.getElementById("btnSolution")!;
+        const btnReset    = document.getElementById("btnReset")!;
+        const result      = document.getElementById("result")!;
+
+        btnCheck.addEventListener("click", () => {
+            let correct = 0;
+            inputs.forEach(inp => {
+                const ans = (inp.dataset.ans ?? "").trim().toLowerCase();
+                const val = inp.value.trim().toLowerCase();
+                inp.classList.remove("shown");
+                if (val === ans) {
+                    inp.classList.add("correct"); inp.classList.remove("incorrect"); correct++;
+                } else {
+                    inp.classList.add("incorrect"); inp.classList.remove("correct");
+                }
+            });
+            result.classList.remove("hidden", "ok", "err");
+            if (correct === inputs.length) {
+                result.textContent = `Perfekt! Alle ${inputs.length} Antworten richtig!`;
+                result.classList.add("ok");
+            } else {
+                result.textContent = `${correct} von ${inputs.length} richtig. Versuche es nochmal!`;
+                result.classList.add("err");
+            }
+        });
+
+        btnSolution.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = inp.dataset.ans ?? "";
+                inp.classList.remove("correct", "incorrect");
+                inp.classList.add("shown");
+            });
+            result.classList.add("hidden");
+        });
+
+        btnReset.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect", "shown");
+            });
+            result.classList.add("hidden");
+            result.classList.remove("ok", "err");
+        });
+    </script>
+</Layout>

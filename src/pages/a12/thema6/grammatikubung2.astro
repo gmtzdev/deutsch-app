@@ -1,0 +1,329 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const lines = [
+    {
+        speaker: "Elba",
+        role:    "elba",
+        parts: [
+            { type:"text",  value:"Am Sonntag fliege ich " },
+            { type:"blank", answer:"nach",   id:"b1", width:65 },
+            { type:"text",  value:" Mexiko." },
+        ],
+    },
+    {
+        speaker: "Timo",
+        role:    "timo",
+        parts: [
+            { type:"text",  value:"Du hast es gut! Ich muss " },
+            { type:"blank", answer:"zur",    id:"b2", width:50 },
+            { type:"text",  value:" Arbeit \u2014 " },
+            { type:"blank", answer:"ins",    id:"b3", width:45 },
+            { type:"text",  value:" B\u00fcro gehen." },
+        ],
+    },
+    {
+        speaker: "Timo",
+        role:    "timo",
+        parts: [
+            { type:"text",  value:"Gehen wir noch " },
+            { type:"blank", answer:"zur",    id:"b4", width:50 },
+            { type:"text",  value:" Kneipe, um ein Bier zu trinken?" },
+        ],
+    },
+    {
+        speaker: "Elba",
+        role:    "elba",
+        parts: [
+            { type:"text",  value:"Nein, es ist schon sp\u00e4t. Ich m\u00f6chte " },
+            { type:"blank", answer:"nach",   id:"b5", width:65 },
+            { type:"text",  value:" Hause." },
+        ],
+    },
+    {
+        speaker: "Elba",
+        role:    "elba",
+        parts: [
+            { type:"text",  value:"Am Freitag fahren wir " },
+            { type:"blank", answer:"nach",   id:"b6", width:65 },
+            { type:"text",  value:" K\u00f6ln." },
+        ],
+    },
+    {
+        speaker: "Timo",
+        role:    "timo",
+        parts: [
+            { type:"text",  value:"Toll, werdet ihr auch " },
+            { type:"blank", answer:"zum",    id:"b7", width:55 },
+            { type:"text",  value:" Dom gehen?" },
+        ],
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={6} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung 2</h1>
+                <p class="subtitle text-indications">
+                    F&uuml;lle die L&uuml;cken mit den richtigen Pr&auml;positionen (auch Kontraktionen) aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Contractions reference -->
+                        <div class="ref-box">
+                            <p class="ref-label">Kontraktionen &amp; Pr&auml;positionen</p>
+                            <div class="ref-chips">
+                                {[
+                                    ["an + dem","am"],
+                                    ["bei + dem","beim"],
+                                    ["in + dem","im"],
+                                    ["von + dem","vom"],
+                                    ["zu + dem","zum"],
+                                    ["zu + der","zur"],
+                                    ["in + das","ins"],
+                                    ["an + das","ans"],
+                                    ["nach","(St\u00e4dte/L\u00e4nder)"],
+                                    ["nach Hause","(Zuhause)"],
+                                ].map(([full, short]) => (
+                                    <div class="ref-item">
+                                        <span class="ref-full">{full}</span>
+                                        <span class="ref-eq">=</span>
+                                        <span class="ref-short">{short}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <!-- Dialogue -->
+                        <div class="dialogue" id="dialogue">
+                            {lines.map((line) => (
+                                <div class={`dialogue-line line-${line.role}`}>
+                                    <span class={`speaker-tag tag-${line.role}`}>{line.speaker}</span>
+                                    <span class="line-text">
+                                        {line.parts.map((p) =>
+                                            p.type === "text" ? (
+                                                <span>{p.value}</span>
+                                            ) : (
+                                                <span class="blank-wrap">
+                                                    <input
+                                                        type="text"
+                                                        class="blank-input"
+                                                        data-answer={p.answer}
+                                                        data-blankid={p.id}
+                                                        style={`width:${p.width}px`}
+                                                        autocomplete="off"
+                                                        autocorrect="off"
+                                                        spellcheck="false"
+                                                        aria-label={`L\u00fccke ${p.id}`}
+                                                    />
+                                                    <span class="blank-feedback" aria-live="polite" />
+                                                </span>
+                                            )
+                                        )}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="global-actions">
+                            <button id="check-all" type="button" class="button-submit">
+                                Alle pr&uuml;fen
+                            </button>
+                            <button id="reset-all" type="button" class="button-reset">
+                                Alle zur&uuml;cksetzen
+                            </button>
+                        </div>
+                        <p id="global-result" class="result" aria-live="polite"></p>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* Reference box */
+        .ref-box {
+            border: 1.5px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            background: #eff6ff;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .ref-label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #1d4ed8;
+            margin: 0;
+        }
+        .ref-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .ref-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: #fff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 0.2rem 0.55rem;
+            font-size: 0.8rem;
+        }
+        .ref-full  { color: #6b7280; }
+        .ref-eq    { color: #9ca3af; font-size: 0.75rem; }
+        .ref-short { font-weight: 800; color: #1d4ed8; }
+
+        /* Dialogue */
+        .dialogue { display: flex; flex-direction: column; gap: 0.6rem; }
+        .dialogue-line {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.65rem 0.9rem;
+            border-radius: 10px;
+            line-height: 2.4;
+        }
+        .line-elba { background: #f0fdf4; border-left: 4px solid #10b981; }
+        .line-timo { background: #eff6ff; border-left: 4px solid #3b82f6; }
+
+        .speaker-tag {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            padding: 0.2rem 0.55rem;
+            border-radius: 8px;
+            margin-top: 0.4rem;
+            min-width: 52px;
+            text-align: center;
+        }
+        .tag-elba { background: #10b981; color: #fff; }
+        .tag-timo { background: #3b82f6; color: #fff; }
+
+        .line-text { font-size: 0.97rem; flex: 1; }
+
+        /* Blanks */
+        .blank-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.1rem;
+            vertical-align: middle;
+        }
+        .blank-input {
+            padding: 0.18rem 0.4rem;
+            border: 2px solid #9ca3af;
+            border-radius: 6px;
+            font-size: 0.93rem;
+            font-family: inherit;
+            text-align: center;
+            background: #fff;
+            transition: border-color 0.15s, background 0.15s;
+            outline: none;
+            min-width: 45px;
+        }
+        .blank-input:focus   { border-color: #3b82f6; }
+        .blank-input.correct { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 700; }
+        .blank-input.wrong   { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+        .blank-feedback { font-size: 0.75rem; font-weight: 700; min-width: 1em; }
+
+        /* Actions */
+        .global-actions { display: flex; gap: 0.75rem; margin-top: 0.25rem; flex-wrap: wrap; }
+        .button-submit {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 700;
+            border: none; border-radius: 8px; cursor: pointer;
+            background: #111827; color: #fff;
+        }
+        .button-reset {
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 600;
+            border: 1.5px solid #d1d5db; border-radius: 8px; cursor: pointer;
+            background: transparent; color: #374151;
+        }
+        .result { margin-top: 0.25rem; font-size: 1.05rem; font-weight: 700; min-height: 1.4em; }
+    </style>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        const getInputs = () =>
+            [...document.querySelectorAll(".blank-input")] as HTMLInputElement[];
+
+        getInputs().forEach((inp) => {
+            inp.dataset.baseWidth = inp.style.width.replace("px", "");
+            inp.addEventListener("input", () => {
+                inp.style.width = Math.max(Number(inp.dataset.baseWidth ?? 60), inp.value.length * 13 + 16) + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+                const gr = document.querySelector("#global-result");
+                if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+            });
+        });
+
+        const checkAll = () => {
+            let correct = 0;
+            const inputs = getInputs();
+            inputs.forEach((inp) => {
+                const given  = inp.value.trim().toLowerCase();
+                const answer = (inp.dataset.answer ?? "").toLowerCase();
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                inp.classList.remove("correct", "wrong");
+                if (!given) { if (fb) fb.textContent = ""; return; }
+                if (given === answer) {
+                    correct++;
+                    inp.classList.add("correct");
+                    if (fb) fb.textContent = "\u2705";
+                } else {
+                    inp.classList.add("wrong");
+                    if (fb) fb.textContent = "\u274c";
+                }
+            });
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) {
+                gr.textContent =
+                    `${correct} / ${inputs.length} richtig` +
+                    (correct === inputs.length ? " \u2014 Ausgezeichnet! \uD83C\uDF89" : "");
+            }
+        };
+
+        const resetAll = () => {
+            getInputs().forEach((inp) => {
+                inp.value = "";
+                inp.style.width = (inp.dataset.baseWidth ?? "60") + "px";
+                inp.classList.remove("correct", "wrong");
+                const fb = inp.nextElementSibling as HTMLSpanElement | null;
+                if (fb) fb.textContent = "";
+            });
+            const gr = document.querySelector("#global-result");
+            if (gr instanceof HTMLParagraphElement) gr.textContent = "";
+        };
+
+        document.querySelector("#check-all")?.addEventListener("click", checkAll);
+        document.querySelector("#reset-all")?.addEventListener("click", resetAll);
+    </script>
+</Layout>

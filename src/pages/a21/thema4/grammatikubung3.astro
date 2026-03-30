@@ -1,0 +1,303 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA21 from "@/components/ActivitesListA21.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "e1",
+        pre: "Alans Tasche liegt auf dem rot",
+        post: "Stuhl im Schlafzimmer.",
+        answer: "en",
+        hint: "dem Stuhl (m, Dat.)"
+    },
+    {
+        id: "e2",
+        pre: "Sie ist mit einem intelligent",
+        post: "Mann verheiratet.",
+        answer: "en",
+        hint: "einem Mann (m, Dat.)"
+    },
+    {
+        id: "e3",
+        pre: "Sie lebt in einer sch\u00f6nen Wohnung mit einer traumhaft",
+        post: "Aussicht auf dem Meer.",
+        answer: "en",
+        hint: "einer Aussicht (f, Dat.)"
+    },
+    {
+        id: "e4",
+        pre: "Die Prinzessin gibt dem h\u00e4sslich",
+        post: "Frosch einen Kuss.",
+        answer: "en",
+        hint: "dem Frosch (m, Dat.)"
+    },
+    {
+        id: "e5",
+        pre: "Benjamin f\u00e4hrt mit seinem schnell",
+        post: "Auto auf der Autobahn.",
+        answer: "en",
+        hint: "seinem Auto (n, Dat.)"
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA21 open={4} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Adjektivdeklination im <strong>Dativ</strong> &mdash;
+                    F&uuml;llen Sie die Endungen aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Dativ reminder -->
+                        <div class="regel-box">
+                            <p class="regel-title">Regel &mdash; Dativ</p>
+                            <p>
+                                Nach bestimmtem Artikel (<em>dem, der, dem, den</em>),
+                                unbestimmtem Artikel (<em>einem, einer, einem</em>) und
+                                Possessivpronomen (<em>seinem, ihrer&hellip;</em>):
+                                das Adjektiv endet immer auf <strong>-en</strong>.
+                            </p>
+                        </div>
+
+                        <div class="exercises">
+                            {exercises.map((ex, i) => (
+                                <div class="ex-card" id={`card-${ex.id}`}>
+                                    <span class="ex-num">{i + 1}</span>
+                                    <div class="ex-body">
+                                        <p class="ex-sentence">
+                                            <span>{ex.pre}</span>
+                                            <span class="blank-wrap">
+                                                <input
+                                                    type="text"
+                                                    class="fill-input"
+                                                    id={`inp-${ex.id}`}
+                                                    data-answer={ex.answer}
+                                                    placeholder="__"
+                                                    autocomplete="off"
+                                                    spellcheck={false}
+                                                    maxlength="4"
+                                                />
+                                                <span class="blank-hint">{ex.hint}</span>
+                                            </span>
+                                            <span>{ex.post}</span>
+                                        </p>
+                                        <p class="ex-feedback" id={`fb-${ex.id}`}></p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-check" class="btn-primary">Pr\u00fcfen</button>
+                            <button id="btn-reset" class="btn-secondary">Zur\u00fccksetzen</button>
+                        </div>
+
+                        <div id="score-box" class="score-box hidden"></div>
+
+                        <!-- Quick reference table -->
+                        <div class="ref-wrap">
+                            <p class="ref-heading">Dativdeklination &mdash; &Uuml;bersicht</p>
+                            <table class="vocab-table ref-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Maskulinum</th>
+                                        <th>Femininum</th>
+                                        <th>Neutrum</th>
+                                        <th>Plural</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="td-art">best. Artikel</td>
+                                        <td>dem rot<span class="end">en</span> Stuhl</td>
+                                        <td>der rot<span class="end">en</span> Lampe</td>
+                                        <td>dem rot<span class="end">en</span> Auto</td>
+                                        <td>den rot<span class="end">en</span> Stühlen</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-art">unbest. Artikel</td>
+                                        <td>einem rot<span class="end">en</span> Stuhl</td>
+                                        <td>einer rot<span class="end">en</span> Lampe</td>
+                                        <td>einem rot<span class="end">en</span> Auto</td>
+                                        <td>&#8212;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Regel */
+        .regel-box {
+            background:#eff6ff; border:1.5px solid #bfdbfe;
+            border-radius:10px; padding:0.85rem 1.1rem;
+            display:flex; flex-direction:column; gap:0.35rem;
+        }
+        .regel-title {
+            font-size:0.72rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.06em; color:#1d4ed8; margin:0;
+        }
+        .regel-box p { margin:0; font-size:0.9rem; color:#1e3a5f; }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .ex-card {
+            display:flex; align-items:flex-start; gap:0.85rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:1rem 1.1rem;
+            transition:border-color 0.2s, background 0.2s;
+        }
+        .ex-card.correct   { border-color:#16a34a; background:#f0fdf4; }
+        .ex-card.incorrect { border-color:#dc2626; background:#fef2f2; }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#7c3aed; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; margin-top:2px; flex-shrink:0;
+        }
+
+        .ex-body { display:flex; flex-direction:column; gap:0.3rem; flex:1; }
+
+        .ex-sentence {
+            margin:0; font-size:0.97rem; color:#1e293b;
+            line-height:2; display:flex; align-items:center; flex-wrap:wrap; gap:0.15rem;
+        }
+
+        .blank-wrap {
+            display:inline-flex; flex-direction:column; align-items:center;
+            margin:0 1px;
+        }
+        .blank-hint {
+            font-size:0.65rem; color:#9ca3af; white-space:nowrap; line-height:1;
+        }
+
+        .fill-input {
+            width:48px; padding:0.15rem 0.3rem;
+            border:2px solid #a78bfa; border-radius:6px;
+            font-size:0.95rem; font-weight:700; text-align:center;
+            outline:none; transition:border-color 0.2s, background 0.2s;
+            background:#fff;
+        }
+        .fill-input:focus { border-color:#7c3aed; }
+        .fill-input.correct   { border-color:#16a34a; background:#dcfce7; color:#15803d; }
+        .fill-input.incorrect { border-color:#dc2626; background:#fee2e2; color:#b91c1c; }
+
+        .ex-feedback {
+            margin:0; font-size:0.85rem; font-weight:700; min-height:1.1em;
+        }
+        .ex-card.correct   .ex-feedback { color:#16a34a; }
+        .ex-card.incorrect .ex-feedback { color:#dc2626; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .btn-primary {
+            padding:0.55rem 1.4rem; border-radius:10px;
+            background:#7c3aed; color:#fff; font-weight:700;
+            border:none; cursor:pointer; font-size:0.92rem; transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#6d28d9; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        /* Score */
+        .score-box {
+            padding:0.7rem 1.1rem; border-radius:10px;
+            font-weight:700; font-size:0.95rem; text-align:center;
+        }
+        .score-box.good { background:#f0fdf4; border:1.5px solid #86efac; color:#15803d; }
+        .score-box.bad  { background:#fef2f2; border:1.5px solid #fca5a5; color:#b91c1c; }
+        .hidden { display:none; }
+
+        /* Reference table */
+        .ref-wrap { display:flex; flex-direction:column; gap:0.5rem; }
+        .ref-heading {
+            font-size:0.78rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#475569;
+        }
+        .ref-table th, .ref-table td { font-size:0.83rem; padding:0.5rem 0.7rem; }
+        .td-art { font-weight:700; color:#475569; white-space:nowrap; }
+        .end { font-weight:900; color:#7c3aed; }
+    </style>
+
+    <script>
+        const answers: Record<string, string> = {
+            "e1":"en","e2":"en","e3":"en","e4":"en","e5":"en"
+        };
+
+        document.getElementById("btn-check")?.addEventListener("click", () => {
+            let correct = 0;
+            const total = Object.keys(answers).length;
+            Object.entries(answers).forEach(([id, ans]) => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                inp.classList.remove("correct","incorrect");
+                card.classList.remove("correct","incorrect");
+                const val = inp.value.trim().toLowerCase();
+                if (val === ans) {
+                    inp.classList.add("correct");
+                    card.classList.add("correct");
+                    fb.textContent = "\u2713 Richtig!";
+                    correct++;
+                } else if (val !== "") {
+                    inp.classList.add("incorrect");
+                    card.classList.add("incorrect");
+                    fb.textContent = `\u2717 Richtig: -${ans}`;
+                } else {
+                    fb.textContent = "";
+                }
+            });
+            const box = document.getElementById("score-box");
+            if (box) {
+                box.classList.remove("hidden","good","bad");
+                box.classList.add(correct === total ? "good" : "bad");
+                box.textContent = `${correct} / ${total} richtig`;
+            }
+        });
+
+        document.getElementById("btn-reset")?.addEventListener("click", () => {
+            Object.keys(answers).forEach(id => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                inp.value = ""; inp.classList.remove("correct","incorrect");
+                card.classList.remove("correct","incorrect");
+                fb.textContent = "";
+            });
+            const box = document.getElementById("score-box");
+            if (box) { box.classList.add("hidden"); box.textContent = ""; }
+        });
+    </script>
+</Layout>

@@ -1,0 +1,117 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={10} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik</h1>
+                <p class="subtitle text-indications">
+                    Al final de esta unidad podrás saludar, presentarte y
+                    preguntar por el origen de las personas.
+                </p>
+
+                <div class="sections">
+                    <!-- Grammatik -->
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <ul class="obj-list text-text">
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                1. „Es“ als Personalpronomen Beispiel: Hier ist ein
+                                Film. Es ist interessant.
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                2. „Es“ als unpersönliches Subjekt (Scheinsubjekt)
+                                Typische Beispiele: Wetter-Verben: Es regnet.
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                3. „Es“ bei Sinneseindrücken und Gefühlen Beispiele:
+                                Es riecht gut hier.
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                4. Feste Wendungen mit „es“ Beispiele: Es gibt ...
+                                .
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                5. „Es“ steht für ganze Sätze oder Handlungen Beispiele:
+                                Ich habe es gesehen.
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                6. „Es“ als Platzhalter für Nebensätze Beispiele:
+                                Es ist schön, dass ihr gekommen seid.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

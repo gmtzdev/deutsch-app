@@ -1,0 +1,280 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+
+const exercises = [
+    {
+        num: 1,
+        before: "Wir essen Reis",
+        after:  "Kartoffeln.",
+        ans:    "lieber als",
+        hint:   "gern",
+        size:   10,
+    },
+    {
+        num: 2,
+        before: "Das Smartphone ist genauso",
+        after:  "das Tablet.",
+        ans:    "praktisch wie",
+        hint:   "praktisch",
+        size:   13,
+    },
+    {
+        num: 3,
+        before: "Der gr\u00fcne Pullover ist",
+        after:  ".",
+        ans:    "am gr\u00f6\u00dften",
+        hint:   "gro\u00df",
+        size:   12,
+    },
+    {
+        num: 4,
+        before: "Der blaue Bleistift ist",
+        after:  "der rote Stift.",
+        ans:    "besser als",
+        hint:   "gut",
+        size:   10,
+    },
+    {
+        num: 5,
+        before: "Die Lampen sind",
+        after:  ".",
+        ans:    "am teuersten",
+        hint:   "teuer",
+        size:   12,
+    },
+    {
+        num: 6,
+        before: "Das Buch ist genauso",
+        after:  "der Film.",
+        ans:    "spannend wie",
+        hint:   "spannend",
+        size:   12,
+    },
+    {
+        num: 7,
+        before: "Der Laptop kostet",
+        after:  "der Computer.",
+        ans:    "mehr als",
+        hint:   "viel",
+        size:   8,
+    },
+    {
+        num: 8,
+        before: "Ihre Haare sind",
+        after:  "meine Haare.",
+        ans:    "dunkler als",
+        hint:   "dunkel",
+        size:   11,
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={8} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    F&uuml;llen Sie die L&uuml;cken aus &mdash;
+                    Komparativ, Superlativ oder Gleichheit.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Mini reference -->
+                        <div class="ref-row">
+                            <div class="ref-card">
+                                <span class="ref-badge badge-comp">… -er als</span>
+                                <p>Komparativ</p>
+                            </div>
+                            <div class="ref-card">
+                                <span class="ref-badge badge-sup">am …-sten</span>
+                                <p>Superlativ</p>
+                            </div>
+                            <div class="ref-card">
+                                <span class="ref-badge badge-gleich">genauso … wie</span>
+                                <p>Gleichheit</p>
+                            </div>
+                        </div>
+
+                        <div class="exercises">
+                            {exercises.map(ex => (
+                                <div class="ex-row">
+                                    <span class="ex-num">{ex.num}.</span>
+                                    <div class="sentence">
+                                        {ex.before}&nbsp;
+                                        <span class="hint-grp">
+                                            <input
+                                                class="ipt"
+                                                data-ans={ex.ans}
+                                                size={ex.size}
+                                                placeholder={"_".repeat(ex.size)}
+                                            />
+                                            <span class="hint-tag">({ex.hint})</span>
+                                        </span>
+                                        &nbsp;{ex.after}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btnCheck" class="btn-check">Pr&uuml;fen</button>
+                            <button id="btnSolution" class="btn-solution">L&ouml;sung zeigen</button>
+                            <button id="btnReset" class="btn-reset">Zur&uuml;cksetzen</button>
+                        </div>
+
+                        <div id="result" class="result hidden"></div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.2rem; }
+
+        /* Mini reference */
+        .ref-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .ref-card {
+            display:flex; align-items:center; gap:0.5rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:10px; padding:0.5rem 0.85rem;
+        }
+        .ref-card p { font-size:0.82rem; color:#6b7280; margin:0; }
+
+        .ref-badge {
+            display:inline-block; padding:0.15rem 0.55rem;
+            border-radius:7px; font-weight:800; font-size:0.82rem;
+        }
+        .badge-comp   { background:#1d4ed8; color:#fff; }
+        .badge-sup    { background:#7c3aed; color:#fff; }
+        .badge-gleich { background:#0369a1; color:#fff; }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.85rem; }
+
+        .ex-row {
+            display:flex; align-items:center; gap:0.6rem;
+            background:#f9fafb; border:1.5px solid #e5e7eb;
+            border-radius:10px; padding:0.75rem 1rem;
+        }
+        .ex-num { min-width:1.5rem; font-weight:700; color:#374151; font-size:0.95rem; flex-shrink:0; }
+
+        .sentence {
+            display:flex; align-items:center; flex-wrap:wrap;
+            gap:0.3rem; font-size:0.97rem; color:#111827;
+        }
+
+        .hint-grp { display:inline-flex; align-items:baseline; gap:0.3rem; }
+
+        .hint-tag {
+            font-size:0.78rem; color:#9ca3af; font-style:italic; white-space:nowrap;
+        }
+
+        /* Input */
+        .ipt {
+            border:none; border-bottom:2px solid #93c5fd;
+            background:transparent; outline:none;
+            font-size:0.97rem; font-family:inherit;
+            color:#1d4ed8; font-weight:700;
+            padding:0.05rem 0.25rem; text-align:center;
+            transition:border-color 0.2s;
+        }
+        .ipt:focus { border-bottom-color:#2563eb; }
+
+        .ipt.correct   { border-bottom-color:#16a34a; color:#15803d; background:#f0fdf4; border-radius:3px; }
+        .ipt.incorrect { border-bottom-color:#dc2626; color:#b91c1c; background:#fef2f2; border-radius:3px; }
+        .ipt.shown     { border-bottom-color:#d97706; color:#b45309; background:#fffbeb; border-radius:3px; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:0.25rem; }
+
+        .btn-check {
+            padding:0.5rem 1.4rem; background:#1d4ed8; color:#fff;
+            border:none; border-radius:8px; font-size:0.9rem; font-weight:700;
+            cursor:pointer; transition:background 0.2s;
+        }
+        .btn-check:hover { background:#1e40af; }
+
+        .btn-solution {
+            padding:0.5rem 1.2rem; background:transparent; color:#d97706;
+            border:1.5px solid #fcd34d; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-solution:hover { background:#fffbeb; }
+
+        .btn-reset {
+            padding:0.5rem 1.2rem; background:transparent; color:#6b7280;
+            border:1.5px solid #d1d5db; border-radius:8px;
+            font-size:0.9rem; font-weight:600; cursor:pointer;
+        }
+        .btn-reset:hover { border-color:#9ca3af; color:#374151; }
+
+        /* Result */
+        .result { padding:0.7rem 1rem; border-radius:10px; font-size:0.9rem; font-weight:700; }
+        .result.hidden { display:none; }
+        .result.ok  { background:#f0fdf4; color:#15803d; border:1.5px solid #86efac; }
+        .result.err { background:#fef2f2; color:#991b1b; border:1.5px solid #fca5a5; }
+    </style>
+
+    <script>
+        const inputs = document.querySelectorAll<HTMLInputElement>(".ipt");
+        const btnCheck    = document.getElementById("btnCheck")!;
+        const btnSolution = document.getElementById("btnSolution")!;
+        const btnReset    = document.getElementById("btnReset")!;
+        const result      = document.getElementById("result")!;
+
+        btnCheck.addEventListener("click", () => {
+            let correct = 0;
+            inputs.forEach(inp => {
+                const ans = (inp.dataset.ans ?? "").trim().toLowerCase();
+                const val = inp.value.trim().toLowerCase();
+                inp.classList.remove("shown");
+                if (val === ans) {
+                    inp.classList.add("correct"); inp.classList.remove("incorrect"); correct++;
+                } else {
+                    inp.classList.add("incorrect"); inp.classList.remove("correct");
+                }
+            });
+            result.classList.remove("hidden", "ok", "err");
+            if (correct === inputs.length) {
+                result.textContent = `Perfekt! Alle ${inputs.length} Antworten richtig!`;
+                result.classList.add("ok");
+            } else {
+                result.textContent = `${correct} von ${inputs.length} richtig. Versuche es nochmal!`;
+                result.classList.add("err");
+            }
+        });
+
+        btnSolution.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = inp.dataset.ans ?? "";
+                inp.classList.remove("correct", "incorrect");
+                inp.classList.add("shown");
+            });
+            result.classList.add("hidden");
+        });
+
+        btnReset.addEventListener("click", () => {
+            inputs.forEach(inp => {
+                inp.value = "";
+                inp.classList.remove("correct", "incorrect", "shown");
+            });
+            result.classList.add("hidden");
+            result.classList.remove("ok", "err");
+        });
+    </script>
+</Layout>

@@ -1,0 +1,486 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={1} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Aussprache</h1>
+                <p class="subtitle">
+                    Haz clic en cada sonido para ver su pronunciación,
+                    descripción y ejemplos de palabras.
+                </p>
+
+                <div class="sections">
+                    <!-- Umlaute -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <h3 class="section-title">Umlaute</h3>
+                        <p class="section-desc">
+                            Los umlauts son vocales modificadas con diéresis.
+                            Cambian completamente el sonido de la vocal base.
+                        </p>
+
+                        <div class="sound-grid" id="umlaut-grid">
+                            <!-- filled by script -->
+                        </div>
+
+                        <div class="detail-card" id="umlaut-detail" hidden>
+                            <div class="detail-sound" id="umlaut-sound"></div>
+                            <div class="detail-body">
+                                <div class="detail-ipa" id="umlaut-ipa"></div>
+                                <div class="detail-desc" id="umlaut-desc"></div>
+                                <div
+                                    class="detail-examples"
+                                    id="umlaut-examples"
+                                >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diphthonge -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <h3 class="section-title">Diphthonge</h3>
+                        <p class="section-desc">
+                            Los diptongos son combinaciones de dos vocales que
+                            forman un único sonido deslizante.
+                        </p>
+
+                        <div class="sound-grid" id="diph-grid">
+                            <!-- filled by script -->
+                        </div>
+
+                        <div class="detail-card" id="diph-detail" hidden>
+                            <div class="detail-sound" id="diph-sound"></div>
+                            <div class="detail-body">
+                                <div class="detail-ipa" id="diph-ipa"></div>
+                                <div class="detail-desc" id="diph-desc"></div>
+                                <div class="detail-examples" id="diph-examples">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla resumen -->
+                    <div class="section">
+                        <h3 class="section-title">Resumen</h3>
+                        <table class="vocab-table">
+                            <thead>
+                                <tr>
+                                    <th>Grafía</th>
+                                    <th>IPA</th>
+                                    <th>Tipo</th>
+                                    <th>Ejemplo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    ><td><strong>Ä/ä</strong></td><td
+                                        class="ipa">[ɛː]</td
+                                    ><td class="label">Umlaut</td><td
+                                        >Ärger, kämpfen</td
+                                    ></tr
+                                >
+                                <tr
+                                    ><td><strong>Ö/ö</strong></td><td
+                                        class="ipa">[øː]</td
+                                    ><td class="label">Umlaut</td><td
+                                        >Öl, schön</td
+                                    ></tr
+                                >
+                                <tr
+                                    ><td><strong>Ü/ü</strong></td><td
+                                        class="ipa">[yː]</td
+                                    ><td class="label">Umlaut</td><td
+                                        >über, grün</td
+                                    ></tr
+                                >
+                                <tr
+                                    ><td><strong>ei</strong></td><td class="ipa"
+                                        >[aɪ̯]</td
+                                    ><td class="label">Diphthong</td><td
+                                        >Ei, mein, weiß</td
+                                    ></tr
+                                >
+                                <tr
+                                    ><td><strong>ie</strong></td><td class="ipa"
+                                        >[iː]</td
+                                    ><td class="label">Diphthong</td><td
+                                        >nie, hier, die</td
+                                    ></tr
+                                >
+                                <tr
+                                    ><td><strong>eu</strong></td><td class="ipa"
+                                        >[ɔʏ̯]</td
+                                    ><td class="label">Diphthong</td><td
+                                        >neu, Freund, heute</td
+                                    ></tr
+                                >
+                                <tr
+                                    ><td><strong>äu</strong></td><td class="ipa"
+                                        >[ɔʏ̯]</td
+                                    ><td class="label">Diphthong</td><td
+                                        >Bäume, läuft, Häuser</td
+                                    ></tr
+                                >
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("session")) {
+            window.location.replace("/login");
+        }
+
+        type SoundData = {
+            sound: string;
+            ipa: string;
+            desc: string;
+            examples: string[];
+        };
+
+        const umlaute: SoundData[] = [
+            {
+                sound: "Ä/ä",
+                ipa: "[ɛː]",
+                desc: "Similar a la 'e' en 'perro', pero más abierta. Se forma abriendo más la boca que para 'e'.",
+                examples: [
+                    "Ärger (la rabia)",
+                    "kämpfen (luchar)",
+                    "Bäcker (el panadero)",
+                    "Mädchen (la chica)",
+                ],
+            },
+            {
+                sound: "Ö/ö",
+                ipa: "[øː]",
+                desc: "Sin equivalente en español. Pronuncia 'e' pero con los labios redondeados como para 'o'.",
+                examples: [
+                    "Öl (el aceite)",
+                    "schön (bonito/a)",
+                    "hören (escuchar)",
+                    "Österreich (Austria)",
+                ],
+            },
+            {
+                sound: "Ü/ü",
+                ipa: "[yː]",
+                desc: "Sin equivalente en español. Pronuncia 'i' pero con los labios redondeados como para 'u'.",
+                examples: [
+                    "über (sobre / encima)",
+                    "grün (verde)",
+                    "fünf (cinco)",
+                    "Tür (la puerta)",
+                ],
+            },
+        ];
+
+        const diphthonge: SoundData[] = [
+            {
+                sound: "ei",
+                ipa: "[aɪ̯]",
+                desc: "Se pronuncia como 'ai' en 'aire'. Empieza con 'a' abierta y desliza hacia 'i'.",
+                examples: [
+                    "Ei (el huevo)",
+                    "mein (mi / mío)",
+                    "weiß (blanco)",
+                    "heißen (llamarse)",
+                ],
+            },
+            {
+                sound: "ie",
+                ipa: "[iː]",
+                desc: "Se pronuncia como una 'i' larga y sostenida. No es un diptongo real, sino una vocal larga.",
+                examples: [
+                    "nie (nunca)",
+                    "hier (aquí)",
+                    "die (la / las)",
+                    "lieben (amar)",
+                ],
+            },
+            {
+                sound: "eu",
+                ipa: "[ɔʏ̯]",
+                desc: "Similar a 'oi' en 'hoy'. Empieza con 'o' abierta y desliza hacia 'i' con labios redondeados.",
+                examples: [
+                    "neu (nuevo/a)",
+                    "Freund (el amigo)",
+                    "heute (hoy)",
+                    "Deutsch (alemán)",
+                ],
+            },
+            {
+                sound: "äu",
+                ipa: "[ɔʏ̯]",
+                desc: "Suena igual que 'eu'. Es la forma con umlaut del diptongo 'au' en palabras derivadas.",
+                examples: [
+                    "Bäume (los árboles)",
+                    "läuft (corre)",
+                    "Häuser (las casas)",
+                    "häufig (frecuente)",
+                ],
+            },
+        ];
+
+        function buildGrid(
+            data: SoundData[],
+            gridId: string,
+            detailId: string,
+            soundId: string,
+            ipaId: string,
+            descId: string,
+            examplesId: string,
+        ) {
+            const grid = document.getElementById(gridId);
+            const detail = document.getElementById(detailId);
+            const soundEl = document.getElementById(soundId);
+            const ipaEl = document.getElementById(ipaId);
+            const descEl = document.getElementById(descId);
+            const examplesEl = document.getElementById(examplesId);
+
+            if (
+                !grid ||
+                !detail ||
+                !soundEl ||
+                !ipaEl ||
+                !descEl ||
+                !examplesEl
+            )
+                return;
+
+            let activeBtn: HTMLButtonElement | null = null;
+
+            data.forEach((item, i) => {
+                const btn = document.createElement("button");
+                btn.className = "sound-btn";
+                btn.textContent = item.sound;
+                btn.dataset.index = String(i);
+
+                btn.addEventListener("click", () => {
+                    if (activeBtn === btn) {
+                        btn.classList.remove("active");
+                        detail.hidden = true;
+                        activeBtn = null;
+                        return;
+                    }
+                    if (activeBtn) activeBtn.classList.remove("active");
+                    btn.classList.add("active");
+                    activeBtn = btn;
+
+                    soundEl.textContent = item.sound;
+                    ipaEl.textContent = item.ipa;
+                    descEl.textContent = item.desc;
+                    examplesEl.innerHTML = item.examples
+                        .map((ex) => `<span class="example-chip">${ex}</span>`)
+                        .join("");
+                    detail.hidden = false;
+                });
+
+                grid.appendChild(btn);
+            });
+        }
+
+        buildGrid(
+            umlaute,
+            "umlaut-grid",
+            "umlaut-detail",
+            "umlaut-sound",
+            "umlaut-ipa",
+            "umlaut-desc",
+            "umlaut-examples",
+        );
+        buildGrid(
+            diphthonge,
+            "diph-grid",
+            "diph-detail",
+            "diph-sound",
+            "diph-ipa",
+            "diph-desc",
+            "diph-examples",
+        );
+    </script>
+
+    <style>
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0.75rem 0 0.25rem;
+            color: var(--color-text);
+        }
+
+        .section-desc {
+            font-size: 0.88rem;
+            color: #6b7280;
+            margin: 0 0 1rem 0;
+        }
+
+        /* Sound buttons grid */
+        .sound-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .sound-btn {
+            padding: 0.5rem 1.1rem;
+            border: 1.5px solid var(--color-table-header-border, #e5e7eb);
+            border-radius: 0.5rem;
+            background: var(--color-table-header, #f9fafb);
+            color: var(--color-text, #1f2937);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                background 0.15s,
+                border-color 0.15s,
+                color 0.15s;
+        }
+
+        .sound-btn:hover {
+            background: var(--color-table-row-hover, #f0f9ff);
+            border-color: #3b82f6;
+        }
+
+        .sound-btn.active {
+            background: #3b82f6;
+            border-color: #2563eb;
+            color: #fff;
+        }
+
+        /* Detail card */
+        .detail-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            padding: 1rem 1.25rem;
+            border: 1.5px solid var(--color-table-header-border, #e5e7eb);
+            border-radius: 0.75rem;
+            background: var(--color-table-header, #f9fafb);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-sound {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #3b82f6;
+            min-width: 3rem;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .detail-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .detail-ipa {
+            font-size: 0.95rem;
+            color: #6b7280;
+            font-family: monospace;
+        }
+
+        .detail-desc {
+            font-size: 0.9rem;
+            color: var(--color-text, #1f2937);
+        }
+
+        .detail-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.25rem;
+        }
+
+        .example-chip {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        /* Summary table */
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .vocab-table th {
+            text-align: left;
+            padding: 0.3rem 0.6rem;
+            background: var(--color-table-header, #f9fafb);
+            color: var(--color-table-header-text, #6b7280);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--color-table-header-border, #e5e7eb);
+        }
+
+        .vocab-table td {
+            padding: 0.4rem 0.6rem;
+            border-bottom: 1px solid var(--color-table-row-border, #f3f4f6);
+            color: var(--color-text, #1f2937);
+        }
+
+        .vocab-table td.ipa {
+            font-family: monospace;
+            color: #6b7280;
+        }
+
+        .vocab-table td.label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .vocab-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .vocab-table tr:hover td {
+            background: var(--color-table-row-hover, #f0f9ff);
+        }
+
+        @media (max-width: 600px) {
+            .detail-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .detail-examples {
+                justify-content: center;
+            }
+        }
+    </style>
+</Layout>

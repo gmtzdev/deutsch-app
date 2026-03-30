@@ -1,0 +1,261 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const exercises = [
+    {
+        id: "e1",
+        pre: "Ich",
+        post: "lange auf ihn gewartet.",
+        answer: "habe",
+        hint: "warten \u2192 hat + ge-t \u2022 ich"
+    },
+    {
+        id: "e2",
+        pre: "Du",
+        post: "nach Wien gefahren.",
+        answer: "bist",
+        hint: "fahren \u2192 sein + ge-en \u2022 du"
+    },
+    {
+        id: "e3",
+        pre: "Sie (Singular)",
+        post: "noch nicht auf die E-Mail geantwortet.",
+        answer: "hat",
+        hint: "antworten \u2192 hat + ge-et \u2022 sie (Sg.)"
+    },
+    {
+        id: "e4",
+        pre: "Das Kind",
+        post: "mit dem Schl\u00e4ger gespielt.",
+        answer: "hat",
+        hint: "spielen \u2192 hat + ge-t \u2022 es"
+    },
+    {
+        id: "e5",
+        pre: "Ihr",
+        post: "euch noch nicht vorgestellt.",
+        answer: "habt",
+        hint: "vorstellen \u2192 hat + ge-t \u2022 ihr"
+    },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={9} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik&uuml;bung</h1>
+                <p class="subtitle text-indications">
+                    Perfekt &mdash; F&uuml;llen Sie die L&uuml;cken mit dem richtigen
+                    Hilfsverb (<strong>haben</strong> oder <strong>sein</strong>) aus.
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <div class="exercises">
+                            {exercises.map((ex, i) => (
+                                <div class="ex-card" id={`card-${ex.id}`}>
+                                    <span class="ex-num">{i + 1}</span>
+                                    <div class="ex-body">
+                                        <p class="ex-sentence">
+                                            <span class="pre-word">{ex.pre}</span>
+                                            <input
+                                                type="text"
+                                                class="fill-input"
+                                                id={`inp-${ex.id}`}
+                                                data-answer={ex.answer}
+                                                placeholder="???"
+                                                autocomplete="off"
+                                                spellcheck={false}
+                                            />
+                                            <span class="post-word">{ex.post}</span>
+                                        </p>
+                                        <p class="ex-hint">
+                                            <span class="hint-label">Hilfe:</span> {ex.hint}
+                                        </p>
+                                        <p class="ex-feedback" id={`fb-${ex.id}`}></p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div class="btn-row">
+                            <button id="btn-check" class="btn-primary">Pr\u00fcfen</button>
+                            <button id="btn-reset" class="btn-secondary">Zur\u00fccksetzen</button>
+                        </div>
+
+                        <!-- Quick reference -->
+                        <div class="ref-grid">
+                            <div class="ref-box ref-haben">
+                                <p class="ref-title">Hilfsverb: haben</p>
+                                <p class="ref-rule">Die meisten Verben &rarr; <strong>haben</strong></p>
+                                <div class="ref-examples">
+                                    <span class="ref-chip">machen &rarr; hat gemacht</span>
+                                    <span class="ref-chip">spielen &rarr; hat gespielt</span>
+                                    <span class="ref-chip">warten &rarr; hat gewartet</span>
+                                </div>
+                            </div>
+                            <div class="ref-box ref-sein">
+                                <p class="ref-title">Hilfsverb: sein</p>
+                                <p class="ref-rule">Bewegung / Zustand&auml;nderung &rarr; <strong>sein</strong></p>
+                                <div class="ref-examples">
+                                    <span class="ref-chip">fahren &rarr; ist gefahren</span>
+                                    <span class="ref-chip">kommen &rarr; ist gekommen</span>
+                                    <span class="ref-chip">gehen &rarr; ist gegangen</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display:flex; flex-direction:column; gap:2rem; }
+        .section  { display:flex; flex-direction:column; gap:1.4rem; }
+
+        /* Exercises */
+        .exercises { display:flex; flex-direction:column; gap:0.9rem; }
+
+        .ex-card {
+            display:flex; align-items:flex-start; gap:0.85rem;
+            background:#f8fafc; border:1.5px solid #e2e8f0;
+            border-radius:12px; padding:1rem 1.1rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .ex-card.correct   { border-color:#16a34a; background:#f0fdf4; }
+        .ex-card.incorrect { border-color:#dc2626; background:#fef2f2; }
+
+        .ex-num {
+            min-width:28px; height:28px; border-radius:50%;
+            background:#7c3aed; color:#fff;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:0.82rem; margin-top:2px; flex-shrink:0;
+        }
+
+        .ex-body { display:flex; flex-direction:column; gap:0.3rem; flex:1; }
+
+        .ex-sentence {
+            margin:0; font-size:1rem; color:#1e293b;
+            line-height:1.9; display:flex; align-items:center; flex-wrap:wrap; gap:0.25rem;
+        }
+
+        .pre-word  { font-weight:600; }
+        .post-word { flex:1; }
+
+        .fill-input {
+            width:90px; padding:0.2rem 0.5rem;
+            border:2px solid #a78bfa; border-radius:8px;
+            font-size:1rem; font-weight:700; text-align:center;
+            outline:none; transition:border-color 0.2s, background 0.2s;
+            background:#fff;
+        }
+        .fill-input:focus { border-color:#7c3aed; }
+        .ex-card.correct   .fill-input { border-color:#16a34a; background:#dcfce7; color:#15803d; }
+        .ex-card.incorrect .fill-input { border-color:#dc2626; background:#fee2e2; color:#b91c1c; }
+
+        .ex-hint { margin:0; font-size:0.8rem; color:#64748b; }
+        .hint-label { font-weight:700; color:#475569; }
+
+        .ex-feedback {
+            margin:0; font-size:0.85rem; font-weight:700; min-height:1.2em;
+        }
+        .ex-card.correct   .ex-feedback { color:#16a34a; }
+        .ex-card.incorrect .ex-feedback { color:#dc2626; }
+
+        /* Buttons */
+        .btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+        .btn-primary {
+            padding:0.55rem 1.4rem; border-radius:10px;
+            background:#7c3aed; color:#fff; font-weight:700;
+            border:none; cursor:pointer; font-size:0.92rem;
+            transition:background 0.15s;
+        }
+        .btn-primary:hover { background:#6d28d9; }
+        .btn-secondary {
+            padding:0.55rem 1.2rem; border-radius:10px;
+            background:#f1f5f9; color:#475569; font-weight:700;
+            border:1.5px solid #e2e8f0; cursor:pointer; font-size:0.92rem;
+        }
+        .btn-secondary:hover { background:#e2e8f0; }
+
+        /* Reference boxes */
+        .ref-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1rem;
+        }
+        .ref-box {
+            border-radius:10px; padding:0.85rem 1rem;
+            display:flex; flex-direction:column; gap:0.5rem;
+        }
+        .ref-haben { background:#ede9fe; border:1.5px solid #c4b5fd; }
+        .ref-sein  { background:#ecfdf5; border:1.5px solid #6ee7b7; }
+
+        .ref-title {
+            font-size:0.73rem; font-weight:800; text-transform:uppercase;
+            letter-spacing:0.05em; color:#374151; margin:0;
+        }
+        .ref-rule { font-size:0.87rem; margin:0; color:#374151; }
+        .ref-examples { display:flex; flex-direction:column; gap:0.3rem; }
+        .ref-chip {
+            display:inline-block; font-size:0.82rem; font-weight:600;
+            color:#374151;
+        }
+    </style>
+
+    <script>
+        const answers: Record<string, string> = {
+            "e1": "habe",
+            "e2": "bist",
+            "e3": "hat",
+            "e4": "hat",
+            "e5": "habt",
+        };
+
+        document.getElementById("btn-check")?.addEventListener("click", () => {
+            Object.entries(answers).forEach(([id, correct]) => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+
+                const val = inp.value.trim().toLowerCase();
+                card.classList.remove("correct", "incorrect");
+
+                if (val === correct.toLowerCase()) {
+                    card.classList.add("correct");
+                    fb.textContent = "\u2713 Richtig!";
+                } else if (val === "") {
+                    fb.textContent = "";
+                } else {
+                    card.classList.add("incorrect");
+                    fb.textContent = `\u2717 Richtig: ${correct}`;
+                }
+            });
+        });
+
+        document.getElementById("btn-reset")?.addEventListener("click", () => {
+            Object.keys(answers).forEach(id => {
+                const card = document.getElementById(`card-${id}`);
+                const inp  = document.getElementById(`inp-${id}`) as HTMLInputElement;
+                const fb   = document.getElementById(`fb-${id}`);
+                if (!card || !inp || !fb) return;
+                inp.value = "";
+                card.classList.remove("correct", "incorrect");
+                fb.textContent = "";
+            });
+        });
+    </script>
+</Layout>

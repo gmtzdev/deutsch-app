@@ -1,0 +1,177 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesList from "@/components/ActivitesList.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import TagWortschatz from "@/components/Tags/TagWortschatz.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesList open={9} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Lernziel — Thema 9</h1>
+                <p class="subtitle text-indications">
+                    Al final de esta unidad podrás saludar, presentarte y
+                    preguntar por el origen de las personas.
+                </p>
+
+                <div class="sections">
+                    <!-- Grammatik -->
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <ul class="obj-list text-text">
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Perfekt
+                                <em>mit sein</em>
+                            </li>
+                            <li>
+                                <span class="dot dot-blue"></span>
+                                Perfekt
+                                <em>mit haben</em>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Wortschatz -->
+                    <div class="section">
+                        <TagWortschatz />
+                        <div class="vocab-grid">
+                            <div class="vocab-group">
+                                <h4>Wortschatz</h4>
+                                <table class="vocab-table">
+                                    <thead>
+                                        <tr><th>Deutsch</th><th>Español</th></tr
+                                        >
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>E-mails schreiben</td><td
+                                                >escribir correos electrónicos</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Hausaufgaben</td><td>tareas</td>
+                                        </tr>
+                                        <tr>
+                                            <td>aufräumen</td><td>ordenar</td>
+                                        </tr>
+                                        <tr>
+                                            <td>vorbereiten</td><td>preparar</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Deutsch lernen</td><td
+                                                >aprender alemán</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Zeitung lesen</td><td
+                                                >leer el periódico</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>Arbeiten</td><td>trabajar</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="vocab-group">
+                                <h4>Wortschatz</h4>
+                                <table class="vocab-table">
+                                    <thead>
+                                        <tr><th>Deutsch</th><th>Español</th></tr
+                                        >
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Schwimmbad</td><td>piscina</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Unterricht</td><td>clase</td>
+                                        </tr>
+                                        <tr>
+                                            <td>studieren</td><td>estudiar</td>
+                                        </tr>
+                                        <tr>
+                                            <td>lernen</td><td>aprender</td>
+                                        </tr>
+                                        <tr>
+                                            <td>In der Universität</td><td
+                                                >en la universidad</td
+                                            >
+                                        </tr>
+                                        <tr>
+                                            <td>die Klasse</td><td>la clase</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Zeugnis</td><td>certificado</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .obj-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .obj-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 0.95rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot-blue {
+            background: #3b82f6;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .vocab-group h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</Layout>

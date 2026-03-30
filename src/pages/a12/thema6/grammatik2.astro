@@ -1,0 +1,226 @@
+﻿---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import ActivitesListA12 from "@/components/ActivitesListA12.astro";
+import Card from "@/components/Card.astro";
+import TagGrammatik from "@/components/Tags/TagGrammatik.astro";
+import "@/styles/page.css";
+import "@/styles/tables.css";
+
+const forms = [
+    {
+        infinitiv: "sein",
+        konjII:    "w\u00e4re",
+        color:     "col-waere",
+        example:   "Ich w\u00e4re so gerne im Schwimmbad.",
+        note:      "W\u00fcnsch nach einem Zustand",
+    },
+    {
+        infinitiv: "haben",
+        konjII:    "h\u00e4tte",
+        color:     "col-haette",
+        example:   "Ich h\u00e4tte ebenfalls gerne so eine Uhr.",
+        note:      "W\u00fcnsch nach einem Besitz",
+    },
+    {
+        infinitiv: "alle anderen Verben",
+        konjII:    "w\u00fcrde + Infinitiv",
+        color:     "col-wuerde",
+        example:   "Ich w\u00fcrde gerne jeden Tag Urlaub haben.",
+        note:      "Allgemeine W\u00fcnsche / Bitten",
+    },
+];
+
+const conjugation = [
+    { pro:"ich",       waere:"w\u00e4re",   haette:"h\u00e4tte",   wuerde:"w\u00fcrde"   },
+    { pro:"du",        waere:"w\u00e4rst",  haette:"h\u00e4ttest", wuerde:"w\u00fcrdest" },
+    { pro:"er/sie/es", waere:"w\u00e4re",   haette:"h\u00e4tte",   wuerde:"w\u00fcrde"   },
+    { pro:"wir",       waere:"w\u00e4ren",  haette:"h\u00e4tten",  wuerde:"w\u00fcrden"  },
+    { pro:"ihr",       waere:"w\u00e4rt",   haette:"h\u00e4ttet",  wuerde:"w\u00fcrdet"  },
+    { pro:"sie/Sie",   waere:"w\u00e4ren",  haette:"h\u00e4tten",  wuerde:"w\u00fcrden"  },
+];
+---
+
+<Layout>
+    <Header />
+
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
+        <ActivitesListA12 open={6} />
+
+        <main class="page bg-background">
+            <Card>
+                <h1>Grammatik 2</h1>
+                <p class="subtitle text-indications">
+                    Konjunktiv II &mdash; W&uuml;nsche ausdr&uuml;cken
+                </p>
+
+                <div class="sections">
+                    <div class="section">
+                        <TagGrammatik />
+
+                        <!-- Three form cards -->
+                        <div class="form-cards">
+                            {forms.map((f) => (
+                                <div class={`form-card ${f.color}`}>
+                                    <div class="form-header">
+                                        <span class="inf-chip">{f.infinitiv}</span>
+                                        <span class="arrow">&rarr;</span>
+                                        <span class={`konj-chip konj-${f.color}`}>{f.konjII}</span>
+                                    </div>
+                                    <p class="form-example">&bdquo;{f.example}&ldquo;</p>
+                                    <p class="form-note">{f.note}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        <!-- Full conjugation table -->
+                        <div class="table-wrapper">
+                            <table class="vocab-table konj-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-pro"></th>
+                                        <th class="th-w col-waere">w&auml;re<br /><small>(sein)</small></th>
+                                        <th class="th-h col-haette">h&auml;tte<br /><small>(haben)</small></th>
+                                        <th class="th-wd col-wuerde">w&uuml;rde&nbsp;+&nbsp;Inf.<br /><small>(andere Verben)</small></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {conjugation.map((r, i) => (
+                                        <tr class={i % 2 === 0 ? "row-even" : "row-odd"}>
+                                            <td class="td-pro">{r.pro}</td>
+                                            <td class="td-form col-waere">{r.waere}</td>
+                                            <td class="td-form col-haette">{r.haette}</td>
+                                            <td class="td-form col-wuerde">{r.wuerde}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Usage note -->
+                        <div class="usage-box">
+                            <p class="usage-title">Verwendung</p>
+                            <ul class="usage-list">
+                                <li><span class="tag-wish">W\u00fcnsch</span> Ich w\u00e4re so gerne Pilotin.</li>
+                                <li><span class="tag-wish">W\u00fcnsch</span> Ich h\u00e4tte gerne mehr Zeit.</li>
+                                <li><span class="tag-wish">W\u00fcnsch</span> Ich w\u00fcrde gerne nach Paris reisen.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </main>
+    </div>
+
+    <style>
+        .sections { display: flex; flex-direction: column; gap: 2rem; }
+        .section  { display: flex; flex-direction: column; gap: 1.25rem; }
+
+        /* Form cards */
+        .form-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.9rem;
+        }
+        .form-card {
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            border: 1.5px solid transparent;
+        }
+        .col-waere  { background: #eff6ff; border-color: #93c5fd; }
+        .col-haette { background: #f0fdf4; border-color: #86efac; }
+        .col-wuerde { background: #fdf4ff; border-color: #d8b4fe; }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .inf-chip {
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #e5e7eb;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+        }
+        .arrow { color: #9ca3af; font-size: 0.9rem; }
+
+        .konj-chip {
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+        }
+        .konj-col-waere  { background: #1d4ed8; color: #fff; }
+        .konj-col-haette { background: #15803d; color: #fff; }
+        .konj-col-wuerde { background: #7c3aed; color: #fff; }
+
+        .form-example {
+            font-size: 0.93rem;
+            font-style: italic;
+            color: #374151;
+            margin: 0;
+        }
+        .form-note {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Table */
+        .table-wrapper { overflow-x: auto; }
+        .th-pro  { width: 90px; }
+        .th-w, .th-h, .th-wd { text-align: center; font-weight: 800; }
+        .th-w small, .th-h small, .th-wd small { font-weight: 400; font-size: 0.72rem; }
+
+        .col-waere  { background: #eff6ff; color: #1d4ed8; }
+        .col-haette { background: #f0fdf4; color: #15803d; }
+        .col-wuerde { background: #fdf4ff; color: #7c3aed; }
+
+        .td-pro  { font-size: 0.85rem; color: #6b7280; padding: 0.75rem; }
+        .td-form { font-size: 0.95rem; font-weight: 700; text-align: center; padding: 0.75rem; }
+
+        /* Usage box */
+        .usage-box {
+            border: 1.5px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            background: #fafafa;
+        }
+        .usage-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #6b7280;
+            margin: 0 0 0.6rem;
+        }
+        .usage-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .usage-list li { font-size: 0.92rem; display: flex; align-items: center; gap: 0.5rem; }
+        .tag-wish {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.1rem 0.45rem;
+            white-space: nowrap;
+        }
+    </style>
+</Layout>
