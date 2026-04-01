@@ -8,9 +8,9 @@ import "@/styles/page.css";
 const words = ["der Tisch", "die Lampe", "das Buch"];
 
 const images = [
-    { id: "lampe",  answer: "die Lampe",  genus: "feminin"   },
-    { id: "tisch",  answer: "der Tisch",  genus: "maskulin"  },
-    { id: "buch",   answer: "das Buch",   genus: "neutral"   },
+    { id: "lampe", answer: "die Lampe", genus: "feminin" },
+    { id: "tisch", answer: "der Tisch", genus: "maskulin" },
+    { id: "buch", answer: "das Buch", genus: "neutral" },
 ];
 ---
 
@@ -18,7 +18,7 @@ const images = [
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={4} />
+        <ActivitesList open={4} teil={2} />
 
         <main class="page bg-background">
             <Card>
@@ -29,7 +29,11 @@ const images = [
 
                 <div class="sections">
                     <!-- Word bank -->
-                    <div class="word-bank" id="word-bank" aria-label="Banco de palabras">
+                    <div
+                        class="word-bank"
+                        id="word-bank"
+                        aria-label="Banco de palabras"
+                    >
                         {
                             words.map((word, i) => (
                                 <button
@@ -52,28 +56,137 @@ const images = [
                                 <div class="image-card">
                                     <div class="image-area">
                                         {img.id === "tisch" && (
-                                            <svg viewBox="0 0 100 80" class="icon" aria-hidden="true">
-                                                <rect x="5" y="22" width="90" height="10" rx="3" fill="currentColor"/>
-                                                <rect x="12" y="32" width="8" height="38" rx="3" fill="currentColor"/>
-                                                <rect x="80" y="32" width="8" height="38" rx="3" fill="currentColor"/>
+                                            <svg
+                                                viewBox="0 0 100 80"
+                                                class="icon"
+                                                aria-hidden="true"
+                                            >
+                                                <rect
+                                                    x="5"
+                                                    y="22"
+                                                    width="90"
+                                                    height="10"
+                                                    rx="3"
+                                                    fill="currentColor"
+                                                />
+                                                <rect
+                                                    x="12"
+                                                    y="32"
+                                                    width="8"
+                                                    height="38"
+                                                    rx="3"
+                                                    fill="currentColor"
+                                                />
+                                                <rect
+                                                    x="80"
+                                                    y="32"
+                                                    width="8"
+                                                    height="38"
+                                                    rx="3"
+                                                    fill="currentColor"
+                                                />
                                             </svg>
                                         )}
                                         {img.id === "lampe" && (
-                                            <svg viewBox="0 0 100 110" class="icon" aria-hidden="true">
-                                                <ellipse cx="50" cy="32" rx="26" ry="28" fill="currentColor" opacity="0.85"/>
-                                                <rect x="38" y="56" width="24" height="8" rx="3" fill="currentColor"/>
-                                                <rect x="44" y="64" width="12" height="30" fill="currentColor"/>
-                                                <rect x="28" y="94" width="44" height="8" rx="4" fill="currentColor"/>
+                                            <svg
+                                                viewBox="0 0 100 110"
+                                                class="icon"
+                                                aria-hidden="true"
+                                            >
+                                                <ellipse
+                                                    cx="50"
+                                                    cy="32"
+                                                    rx="26"
+                                                    ry="28"
+                                                    fill="currentColor"
+                                                    opacity="0.85"
+                                                />
+                                                <rect
+                                                    x="38"
+                                                    y="56"
+                                                    width="24"
+                                                    height="8"
+                                                    rx="3"
+                                                    fill="currentColor"
+                                                />
+                                                <rect
+                                                    x="44"
+                                                    y="64"
+                                                    width="12"
+                                                    height="30"
+                                                    fill="currentColor"
+                                                />
+                                                <rect
+                                                    x="28"
+                                                    y="94"
+                                                    width="44"
+                                                    height="8"
+                                                    rx="4"
+                                                    fill="currentColor"
+                                                />
                                             </svg>
                                         )}
                                         {img.id === "buch" && (
-                                            <svg viewBox="0 0 110 80" class="icon" aria-hidden="true">
-                                                <rect x="8" y="8" width="38" height="64" rx="4" fill="currentColor"/>
-                                                <rect x="50" y="4" width="10" height="72" rx="3" fill="currentColor" opacity="0.55"/>
-                                                <rect x="64" y="8" width="38" height="64" rx="4" fill="currentColor"/>
-                                                <line x1="72" y1="22" x2="94" y2="22" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-                                                <line x1="72" y1="32" x2="94" y2="32" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
-                                                <line x1="72" y1="42" x2="88" y2="42" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+                                            <svg
+                                                viewBox="0 0 110 80"
+                                                class="icon"
+                                                aria-hidden="true"
+                                            >
+                                                <rect
+                                                    x="8"
+                                                    y="8"
+                                                    width="38"
+                                                    height="64"
+                                                    rx="4"
+                                                    fill="currentColor"
+                                                />
+                                                <rect
+                                                    x="50"
+                                                    y="4"
+                                                    width="10"
+                                                    height="72"
+                                                    rx="3"
+                                                    fill="currentColor"
+                                                    opacity="0.55"
+                                                />
+                                                <rect
+                                                    x="64"
+                                                    y="8"
+                                                    width="38"
+                                                    height="64"
+                                                    rx="4"
+                                                    fill="currentColor"
+                                                />
+                                                <line
+                                                    x1="72"
+                                                    y1="22"
+                                                    x2="94"
+                                                    y2="22"
+                                                    stroke="white"
+                                                    stroke-width="3"
+                                                    stroke-linecap="round"
+                                                    opacity="0.5"
+                                                />
+                                                <line
+                                                    x1="72"
+                                                    y1="32"
+                                                    x2="94"
+                                                    y2="32"
+                                                    stroke="white"
+                                                    stroke-width="3"
+                                                    stroke-linecap="round"
+                                                    opacity="0.5"
+                                                />
+                                                <line
+                                                    x1="72"
+                                                    y1="42"
+                                                    x2="88"
+                                                    y2="42"
+                                                    stroke="white"
+                                                    stroke-width="3"
+                                                    stroke-linecap="round"
+                                                    opacity="0.5"
+                                                />
                                             </svg>
                                         )}
                                     </div>
@@ -83,7 +196,9 @@ const images = [
                                         data-value=""
                                         aria-label={`Espacio para ${img.id}`}
                                     >
-                                        <span class="drop-hint">Suelta aqui</span>
+                                        <span class="drop-hint">
+                                            Suelta aqui
+                                        </span>
                                     </div>
                                     <span class="feedback" aria-live="polite" />
                                 </div>
@@ -93,8 +208,12 @@ const images = [
 
                     <!-- Actions -->
                     <div class="actions">
-                        <button id="check" type="button" class="button-submit">Corregir</button>
-                        <button id="reset" type="button" class="button-reset">Reiniciar</button>
+                        <button id="check" type="button" class="button-submit"
+                            >Corregir</button
+                        >
+                        <button id="reset" type="button" class="button-reset"
+                            >Reiniciar</button
+                        >
                     </div>
 
                     <p id="result" class="result" aria-live="polite"></p>
@@ -130,7 +249,9 @@ const images = [
             font-size: 0.95rem;
             font-weight: 600;
             cursor: grab;
-            transition: opacity 0.15s, transform 0.15s;
+            transition:
+                opacity 0.15s,
+                transform 0.15s;
             user-select: none;
         }
 
@@ -179,7 +300,9 @@ const images = [
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: border-color 0.15s, background 0.15s;
+            transition:
+                border-color 0.15s,
+                background 0.15s;
             padding: 0.3rem;
         }
 
@@ -317,7 +440,9 @@ const images = [
                 e.preventDefault();
                 zone.classList.add("over");
             });
-            zone.addEventListener("dragleave", () => zone.classList.remove("over"));
+            zone.addEventListener("dragleave", () =>
+                zone.classList.remove("over"),
+            );
             zone.addEventListener("drop", (e) => {
                 e.preventDefault();
                 zone.classList.remove("over");
@@ -385,7 +510,9 @@ const images = [
                 }
             });
             const answered = dropzones.filter(
-                (z) => z instanceof HTMLDivElement && (z.dataset.value ?? "") !== ""
+                (z) =>
+                    z instanceof HTMLDivElement &&
+                    (z.dataset.value ?? "") !== "",
             ).length;
             if (answered > 0) {
                 result.textContent = `${score} de ${dropzones.length} correctas.`;

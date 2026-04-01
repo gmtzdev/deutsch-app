@@ -8,17 +8,17 @@ import "@/styles/page.css";
 import "@/styles/tables.css";
 
 const colors = [
-    { de: "rot",     es: "rojo",      hex: "#ef4444" },
-    { de: "blau",    es: "azul",      hex: "#3b82f6" },
-    { de: "gruen",   es: "verde",     hex: "#22c55e" },
-    { de: "gelb",    es: "amarillo",  hex: "#eab308" },
-    { de: "orange",  es: "naranja",   hex: "#f97316" },
-    { de: "lila",    es: "morado",    hex: "#a855f7" },
-    { de: "rosa",    es: "rosa",      hex: "#ec4899" },
-    { de: "braun",   es: "marron",    hex: "#92400e" },
-    { de: "grau",    es: "gris",      hex: "#6b7280" },
-    { de: "schwarz", es: "negro",     hex: "#111827" },
-    { de: "weiss",   es: "blanco",    hex: "#f9fafb" },
+    { de: "rot", es: "rojo", hex: "#ef4444" },
+    { de: "blau", es: "azul", hex: "#3b82f6" },
+    { de: "gruen", es: "verde", hex: "#22c55e" },
+    { de: "gelb", es: "amarillo", hex: "#eab308" },
+    { de: "orange", es: "naranja", hex: "#f97316" },
+    { de: "lila", es: "morado", hex: "#a855f7" },
+    { de: "rosa", es: "rosa", hex: "#ec4899" },
+    { de: "braun", es: "marron", hex: "#92400e" },
+    { de: "grau", es: "gris", hex: "#6b7280" },
+    { de: "schwarz", es: "negro", hex: "#111827" },
+    { de: "weiss", es: "blanco", hex: "#f9fafb" },
 ];
 ---
 
@@ -26,7 +26,7 @@ const colors = [
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={4} />
+        <ActivitesList open={4} teil={6} />
 
         <main class="page bg-background">
             <Card>
@@ -57,9 +57,12 @@ const colors = [
 
                     <!-- Quiz -->
                     <div class="section">
-                        <h3 class="quiz-title">Ubung: Klicke die richtige Farbe</h3>
+                        <h3 class="quiz-title">
+                            Ubung: Klicke die richtige Farbe
+                        </h3>
                         <p class="subtitle text-indications">
-                            Haz clic en el color que corresponde a la palabra alemana.
+                            Haz clic en el color que corresponde a la palabra
+                            alemana.
                         </p>
 
                         <div class="quiz-word-display">
@@ -80,15 +83,26 @@ const colors = [
                             }
                         </div>
 
-                        <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+                        <p
+                            id="quiz-feedback"
+                            class="quiz-feedback"
+                            aria-live="polite"
+                        >
+                        </p>
 
                         <div class="actions">
-                            <button id="next-btn" type="button" class="button-submit" style="display:none">
+                            <button
+                                id="next-btn"
+                                type="button"
+                                class="button-submit"
+                                style="display:none"
+                            >
                                 Weiter &rarr;
                             </button>
                         </div>
 
-                        <p id="quiz-score" class="result" aria-live="polite"></p>
+                        <p id="quiz-score" class="result" aria-live="polite">
+                        </p>
                     </div>
                 </div>
             </Card>
@@ -120,7 +134,7 @@ const colors = [
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
             flex-shrink: 0;
         }
 
@@ -168,8 +182,10 @@ const colors = [
             border-radius: 50%;
             border: 3px solid transparent;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-            transition: transform 0.12s, border-color 0.15s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+            transition:
+                transform 0.12s,
+                border-color 0.15s;
         }
 
         .quiz-swatch:hover {
@@ -230,27 +246,27 @@ const colors = [
         }
 
         const colors = [
-            { de: "rot",     hex: "#ef4444" },
-            { de: "blau",    hex: "#3b82f6" },
-            { de: "gruen",   hex: "#22c55e" },
-            { de: "gelb",    hex: "#eab308" },
-            { de: "orange",  hex: "#f97316" },
-            { de: "lila",    hex: "#a855f7" },
-            { de: "rosa",    hex: "#ec4899" },
-            { de: "braun",   hex: "#92400e" },
-            { de: "grau",    hex: "#6b7280" },
+            { de: "rot", hex: "#ef4444" },
+            { de: "blau", hex: "#3b82f6" },
+            { de: "gruen", hex: "#22c55e" },
+            { de: "gelb", hex: "#eab308" },
+            { de: "orange", hex: "#f97316" },
+            { de: "lila", hex: "#a855f7" },
+            { de: "rosa", hex: "#ec4899" },
+            { de: "braun", hex: "#92400e" },
+            { de: "grau", hex: "#6b7280" },
             { de: "schwarz", hex: "#111827" },
-            { de: "weiss",   hex: "#f9fafb"  },
+            { de: "weiss", hex: "#f9fafb" },
         ];
 
         const shuffle = <T,>(arr: T[]): T[] =>
             [...arr].sort(() => Math.random() - 0.5);
 
-        const wordEl     = document.querySelector("#current-word");
+        const wordEl = document.querySelector("#current-word");
         const swatchesEl = document.querySelector("#quiz-swatches");
-        const feedback   = document.querySelector("#quiz-feedback");
-        const nextBtn    = document.querySelector("#next-btn");
-        const scoreEl    = document.querySelector("#quiz-score");
+        const feedback = document.querySelector("#quiz-feedback");
+        const nextBtn = document.querySelector("#next-btn");
+        const scoreEl = document.querySelector("#quiz-score");
 
         if (
             !(wordEl instanceof HTMLSpanElement) ||
@@ -271,8 +287,7 @@ const colors = [
                 wordEl.textContent = "";
                 feedback.textContent = "";
                 nextBtn.style.display = "none";
-                scoreEl.textContent =
-                    `Fertig! Du hast ${score} von ${queue.length} richtig (${Math.round((score / queue.length) * 100)}%).`;
+                scoreEl.textContent = `Fertig! Du hast ${score} von ${queue.length} richtig (${Math.round((score / queue.length) * 100)}%).`;
                 swatchesEl.querySelectorAll(".quiz-swatch").forEach((s) => {
                     if (s instanceof HTMLButtonElement) s.disabled = true;
                 });
@@ -311,7 +326,10 @@ const colors = [
                 btn.classList.add("selected-wrong");
                 feedback.textContent = `Falsch ❌ — die richtige Antwort ist: ${item.de}`;
                 swatchesEl.querySelectorAll(".quiz-swatch").forEach((s) => {
-                    if (s instanceof HTMLButtonElement && s.dataset.color === item.de) {
+                    if (
+                        s instanceof HTMLButtonElement &&
+                        s.dataset.color === item.de
+                    ) {
                         s.classList.add("selected-correct");
                     }
                 });
