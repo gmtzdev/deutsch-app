@@ -8,13 +8,13 @@ import "@/styles/page.css";
 import "@/styles/tables.css";
 
 const days = [
-    { de: "Montag",     es: "lunes",      abbr: "Mo", num: 1 },
-    { de: "Dienstag",   es: "martes",     abbr: "Di", num: 2 },
-    { de: "Mittwoch",   es: "miercoles",  abbr: "Mi", num: 3 },
-    { de: "Donnerstag", es: "jueves",     abbr: "Do", num: 4 },
-    { de: "Freitag",    es: "viernes",    abbr: "Fr", num: 5 },
-    { de: "Samstag",    es: "sabado",     abbr: "Sa", num: 6 },
-    { de: "Sonntag",    es: "domingo",    abbr: "So", num: 7 },
+    { de: "Montag", es: "lunes", abbr: "Mo", num: 1 },
+    { de: "Dienstag", es: "martes", abbr: "Di", num: 2 },
+    { de: "Mittwoch", es: "miercoles", abbr: "Mi", num: 3 },
+    { de: "Donnerstag", es: "jueves", abbr: "Do", num: 4 },
+    { de: "Freitag", es: "viernes", abbr: "Fr", num: 5 },
+    { de: "Samstag", es: "sabado", abbr: "Sa", num: 6 },
+    { de: "Sonntag", es: "domingo", abbr: "So", num: 7 },
 ];
 ---
 
@@ -22,7 +22,7 @@ const days = [
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={5} />
+        <ActivitesList open={5} teil={6} />
 
         <main class="page bg-background">
             <Card>
@@ -32,18 +32,21 @@ const days = [
                 </p>
 
                 <div class="sections">
-
                     <!-- Vocabulary strip -->
                     <div class="section">
                         <TagWortschatz />
                         <div class="week-strip">
-                            {days.map((d) => (
-                                <div class={`day-tile ${d.num === 6 || d.num === 7 ? "weekend" : ""}`}>
-                                    <span class="abbr">{d.abbr}</span>
-                                    <span class="full">{d.de}</span>
-                                    <span class="transl">{d.es}</span>
-                                </div>
-                            ))}
+                            {
+                                days.map((d) => (
+                                    <div
+                                        class={`day-tile ${d.num === 6 || d.num === 7 ? "weekend" : ""}`}
+                                    >
+                                        <span class="abbr">{d.abbr}</span>
+                                        <span class="full">{d.de}</span>
+                                        <span class="transl">{d.es}</span>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
 
@@ -59,18 +62,24 @@ const days = [
                                 </tr>
                             </thead>
                             <tbody>
-                                {days.map((d) => (
-                                    <tr>
-                                        <td class="num-cell">{d.num}</td>
-                                        <td><strong>{d.de}</strong></td>
-                                        <td>{d.es}</td>
-                                        <td class="example">am {d.de}</td>
-                                    </tr>
-                                ))}
+                                {
+                                    days.map((d) => (
+                                        <tr>
+                                            <td class="num-cell">{d.num}</td>
+                                            <td>
+                                                <strong>{d.de}</strong>
+                                            </td>
+                                            <td>{d.es}</td>
+                                            <td class="example">am {d.de}</td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                         <p class="hint text-indications">
-                            * En aleman los dias de la semana usan la preposicion <strong>am</strong>: <em>am Montag</em> (el lunes).
+                            * En aleman los dias de la semana usan la
+                            preposicion <strong>am</strong>: <em>am Montag</em> (el
+                            lunes).
                         </p>
                     </div>
 
@@ -78,22 +87,39 @@ const days = [
                     <div class="section">
                         <h3 class="quiz-title">Ubung: Ordne die Tage</h3>
                         <p class="subtitle text-indications">
-                            Haz clic en los dias en el orden correcto (lunes a domingo).
+                            Haz clic en los dias en el orden correcto (lunes a
+                            domingo).
                         </p>
                         <div class="quiz-grid" id="quiz-grid">
-                            {days.map((d) => (
-                                <button type="button" class="day-btn" data-day={d.num} data-name={d.de}>
-                                    {d.de}
-                                </button>
-                            ))}
+                            {
+                                days.map((d) => (
+                                    <button
+                                        type="button"
+                                        class="day-btn"
+                                        data-day={d.num}
+                                        data-name={d.de}
+                                    >
+                                        {d.de}
+                                    </button>
+                                ))
+                            }
                         </div>
-                        <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+                        <p
+                            id="quiz-feedback"
+                            class="quiz-feedback"
+                            aria-live="polite"
+                        >
+                        </p>
                         <div class="actions">
-                            <button id="reset-btn" type="button" class="button-reset">Reiniciar</button>
+                            <button
+                                id="reset-btn"
+                                type="button"
+                                class="button-reset">Reiniciar</button
+                            >
                         </div>
-                        <p id="quiz-result" class="result" aria-live="polite"></p>
+                        <p id="quiz-result" class="result" aria-live="polite">
+                        </p>
                     </div>
-
                 </div>
             </Card>
         </main>
@@ -188,7 +214,9 @@ const days = [
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.12s, border-color 0.12s;
+            transition:
+                background 0.12s,
+                border-color 0.12s;
             color: #111827;
         }
 
@@ -257,9 +285,9 @@ const days = [
 
         const totalDays = 7;
 
-        const grid     = document.querySelector("#quiz-grid");
+        const grid = document.querySelector("#quiz-grid");
         const feedback = document.querySelector("#quiz-feedback");
-        const result   = document.querySelector("#quiz-result");
+        const result = document.querySelector("#quiz-result");
         const resetBtn = document.querySelector("#reset-btn");
 
         if (
@@ -267,14 +295,15 @@ const days = [
             !(feedback instanceof HTMLParagraphElement) ||
             !(result instanceof HTMLParagraphElement) ||
             !(resetBtn instanceof HTMLButtonElement)
-        ) throw new Error("Missing elements");
+        )
+            throw new Error("Missing elements");
 
         let nextExpected = 1;
         let errors = 0;
 
         const getButtons = () =>
             [...grid.querySelectorAll(".day-btn")].filter(
-                (b) => b instanceof HTMLButtonElement
+                (b) => b instanceof HTMLButtonElement,
             ) as HTMLButtonElement[];
 
         const shuffle = () => {
@@ -312,9 +341,10 @@ const days = [
 
                 if (nextExpected > totalDays) {
                     feedback.textContent = "";
-                    result.textContent = errors === 0
-                        ? `Perfekt! Alle Tage richtig ohne Fehler! 🎉`
-                        : `Fertig! ${totalDays - errors} von ${totalDays} richtig.`;
+                    result.textContent =
+                        errors === 0
+                            ? `Perfekt! Alle Tage richtig ohne Fehler! 🎉`
+                            : `Fertig! ${totalDays - errors} von ${totalDays} richtig.`;
                 }
             } else {
                 errors++;

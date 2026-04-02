@@ -39,18 +39,18 @@ const seasons = [
 ];
 
 const months = [
-    { num: 1,  de: "Januar",     es: "enero",      kontr: "im Januar"     },
-    { num: 2,  de: "Februar",    es: "febrero",    kontr: "im Februar"    },
-    { num: 3,  de: "März",       es: "marzo",      kontr: "im März"       },
-    { num: 4,  de: "April",      es: "abril",      kontr: "im April"      },
-    { num: 5,  de: "Mai",        es: "mayo",       kontr: "im Mai"        },
-    { num: 6,  de: "Juni",       es: "junio",      kontr: "im Juni"       },
-    { num: 7,  de: "Juli",       es: "julio",      kontr: "im Juli"       },
-    { num: 8,  de: "August",     es: "agosto",     kontr: "im August"     },
-    { num: 9,  de: "September",  es: "septiembre", kontr: "im September"  },
-    { num: 10, de: "Oktober",    es: "octubre",    kontr: "im Oktober"    },
-    { num: 11, de: "November",   es: "noviembre",  kontr: "im November"   },
-    { num: 12, de: "Dezember",   es: "diciembre",  kontr: "im Dezember"   },
+    { num: 1, de: "Januar", es: "enero", kontr: "im Januar" },
+    { num: 2, de: "Februar", es: "febrero", kontr: "im Februar" },
+    { num: 3, de: "März", es: "marzo", kontr: "im März" },
+    { num: 4, de: "April", es: "abril", kontr: "im April" },
+    { num: 5, de: "Mai", es: "mayo", kontr: "im Mai" },
+    { num: 6, de: "Juni", es: "junio", kontr: "im Juni" },
+    { num: 7, de: "Juli", es: "julio", kontr: "im Juli" },
+    { num: 8, de: "August", es: "agosto", kontr: "im August" },
+    { num: 9, de: "September", es: "septiembre", kontr: "im September" },
+    { num: 10, de: "Oktober", es: "octubre", kontr: "im Oktober" },
+    { num: 11, de: "November", es: "noviembre", kontr: "im November" },
+    { num: 12, de: "Dezember", es: "diciembre", kontr: "im Dezember" },
 ];
 
 const seasonForMonth = (num: number) =>
@@ -61,7 +61,7 @@ const seasonForMonth = (num: number) =>
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={5} />
+        <ActivitesList open={5} teil={7} />
 
         <main class="page bg-background">
             <Card>
@@ -71,17 +71,23 @@ const seasonForMonth = (num: number) =>
                 </p>
 
                 <div class="sections">
-
                     <!-- Seasons strip -->
                     <div class="section">
                         <div class="seasons-strip">
-                            {seasons.map((s) => (
-                                <div class="season-card" style={`--s-color:${s.color}`}>
-                                    <span class="season-icon">{s.icon}</span>
-                                    <span class="season-de">{s.name}</span>
-                                    <span class="season-es">{s.es}</span>
-                                </div>
-                            ))}
+                            {
+                                seasons.map((s) => (
+                                    <div
+                                        class="season-card"
+                                        style={`--s-color:${s.color}`}
+                                    >
+                                        <span class="season-icon">
+                                            {s.icon}
+                                        </span>
+                                        <span class="season-de">{s.name}</span>
+                                        <span class="season-es">{s.es}</span>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
 
@@ -99,29 +105,43 @@ const seasonForMonth = (num: number) =>
                                 </tr>
                             </thead>
                             <tbody>
-                                {months.map((m) => {
-                                    const s = seasonForMonth(m.num);
-                                    return (
-                                        <tr>
-                                            <td class="num-cell">{m.num}</td>
-                                            <td><strong>{m.de}</strong></td>
-                                            <td>{m.es}</td>
-                                            <td class="kontr-cell"><em>{m.kontr}</em></td>
-                                            <td>
-                                                {s && (
-                                                    <span class="season-badge" style={`background:${s.color}`}>
-                                                        {s.icon} {s.name}
-                                                    </span>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                {
+                                    months.map((m) => {
+                                        const s = seasonForMonth(m.num);
+                                        return (
+                                            <tr>
+                                                <td class="num-cell">
+                                                    {m.num}
+                                                </td>
+                                                <td>
+                                                    <strong>{m.de}</strong>
+                                                </td>
+                                                <td>{m.es}</td>
+                                                <td class="kontr-cell">
+                                                    <em>{m.kontr}</em>
+                                                </td>
+                                                <td>
+                                                    {s && (
+                                                        <span
+                                                            class="season-badge"
+                                                            style={`background:${s.color}`}
+                                                        >
+                                                            {s.icon} {s.name}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
                             </tbody>
                         </table>
                         <p class="hint text-indications">
-                            * La contracción <strong>im</strong> = <strong>in + dem</strong>.
-                            Se usa para indicar el mes en que ocurre algo: <em>Im Juli fahre ich in Urlaub.</em>
+                            * La contracción <strong>im</strong> = <strong
+                                >in + dem</strong
+                            >. Se usa para indicar el mes en que ocurre algo: <em
+                                >Im Juli fahre ich in Urlaub.</em
+                            >
                         </p>
                     </div>
 
@@ -136,17 +156,40 @@ const seasonForMonth = (num: number) =>
                                 <span class="quiz-num" id="quiz-num"></span>
                             </div>
                             <div class="quiz-input-row">
-                                <input id="quiz-input" type="text" placeholder="Monat auf Deutsch..." autocomplete="off" />
-                                <button id="quiz-check" type="button" class="button-submit">OK</button>
+                                <input
+                                    id="quiz-input"
+                                    type="text"
+                                    placeholder="Monat auf Deutsch..."
+                                    autocomplete="off"
+                                />
+                                <button
+                                    id="quiz-check"
+                                    type="button"
+                                    class="button-submit">OK</button
+                                >
                             </div>
-                            <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+                            <p
+                                id="quiz-feedback"
+                                class="quiz-feedback"
+                                aria-live="polite"
+                            >
+                            </p>
                             <div class="actions">
-                                <button id="quiz-next" type="button" class="button-submit" style="display:none">Weiter →</button>
+                                <button
+                                    id="quiz-next"
+                                    type="button"
+                                    class="button-submit"
+                                    style="display:none">Weiter →</button
+                                >
                             </div>
-                            <p id="quiz-score" class="result" aria-live="polite"></p>
+                            <p
+                                id="quiz-score"
+                                class="result"
+                                aria-live="polite"
+                            >
+                            </p>
                         </div>
                     </div>
-
                 </div>
             </Card>
         </main>
@@ -176,7 +219,9 @@ const seasonForMonth = (num: number) =>
             background: var(--s-color);
         }
 
-        .season-icon { font-size: 1.8rem; }
+        .season-icon {
+            font-size: 1.8rem;
+        }
 
         .season-de {
             font-weight: 700;
@@ -295,41 +340,42 @@ const seasonForMonth = (num: number) =>
         }
 
         const months = [
-            { num: 1,  de: "Januar"    },
-            { num: 2,  de: "Februar"   },
-            { num: 3,  de: "März"      },
-            { num: 4,  de: "April"     },
-            { num: 5,  de: "Mai"       },
-            { num: 6,  de: "Juni"      },
-            { num: 7,  de: "Juli"      },
-            { num: 8,  de: "August"    },
-            { num: 9,  de: "September" },
-            { num: 10, de: "Oktober"   },
-            { num: 11, de: "November"  },
-            { num: 12, de: "Dezember"  },
+            { num: 1, de: "Januar" },
+            { num: 2, de: "Februar" },
+            { num: 3, de: "März" },
+            { num: 4, de: "April" },
+            { num: 5, de: "Mai" },
+            { num: 6, de: "Juni" },
+            { num: 7, de: "Juli" },
+            { num: 8, de: "August" },
+            { num: 9, de: "September" },
+            { num: 10, de: "Oktober" },
+            { num: 11, de: "November" },
+            { num: 12, de: "Dezember" },
         ];
 
         const shuffle = <T,>(a: T[]) => [...a].sort(() => Math.random() - 0.5);
 
-        const numEl    = document.querySelector("#quiz-num");
-        const input    = document.querySelector("#quiz-input");
+        const numEl = document.querySelector("#quiz-num");
+        const input = document.querySelector("#quiz-input");
         const checkBtn = document.querySelector("#quiz-check");
-        const nextBtn  = document.querySelector("#quiz-next");
-        const fbEl     = document.querySelector("#quiz-feedback");
-        const scoreEl  = document.querySelector("#quiz-score");
+        const nextBtn = document.querySelector("#quiz-next");
+        const fbEl = document.querySelector("#quiz-feedback");
+        const scoreEl = document.querySelector("#quiz-score");
 
         if (
-            !(numEl    instanceof HTMLSpanElement)      ||
-            !(input    instanceof HTMLInputElement)     ||
-            !(checkBtn instanceof HTMLButtonElement)    ||
-            !(nextBtn  instanceof HTMLButtonElement)    ||
-            !(fbEl     instanceof HTMLParagraphElement) ||
-            !(scoreEl  instanceof HTMLParagraphElement)
-        ) throw new Error("Missing elements");
+            !(numEl instanceof HTMLSpanElement) ||
+            !(input instanceof HTMLInputElement) ||
+            !(checkBtn instanceof HTMLButtonElement) ||
+            !(nextBtn instanceof HTMLButtonElement) ||
+            !(fbEl instanceof HTMLParagraphElement) ||
+            !(scoreEl instanceof HTMLParagraphElement)
+        )
+            throw new Error("Missing elements");
 
-        let queue   = shuffle(months);
+        let queue = shuffle(months);
         let current = 0;
-        let score   = 0;
+        let score = 0;
 
         const show = () => {
             if (current >= queue.length) {
@@ -338,8 +384,7 @@ const seasonForMonth = (num: number) =>
                 checkBtn.disabled = true;
                 nextBtn.style.display = "none";
                 fbEl.textContent = "";
-                scoreEl.textContent =
-                    `Fertig! ${score} von ${queue.length} richtig (${Math.round((score / queue.length) * 100)}%).`;
+                scoreEl.textContent = `Fertig! ${score} von ${queue.length} richtig (${Math.round((score / queue.length) * 100)}%).`;
                 return;
             }
             numEl.textContent = String(queue[current].num);
@@ -353,7 +398,7 @@ const seasonForMonth = (num: number) =>
         };
 
         const check = () => {
-            const given   = input.value.trim().toLowerCase();
+            const given = input.value.trim().toLowerCase();
             const correct = queue[current].de.toLowerCase();
             if (!given) return;
 

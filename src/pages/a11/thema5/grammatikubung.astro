@@ -44,7 +44,7 @@ const words = ["an", "auf", "um", "zu", "aus"];
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={5} />
+        <ActivitesList open={5} teil={4} />
 
         <main class="page bg-background">
             <Card>
@@ -183,6 +183,7 @@ const words = ["an", "auf", "um", "zu", "aus"];
             border-radius: 8px;
             cursor: grab;
             font-weight: 600;
+            color: #000;
         }
 
         .word.dragging {
