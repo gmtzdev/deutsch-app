@@ -14,13 +14,13 @@ const exercises = [
         id: 1,
         before: "Ich",
         after: "einen neuen Text im Deutschbuch.",
-        answer: "aufschreiben",
+        answer: "lese",
     },
     {
         id: 2,
         before: "Da ist ein neues",
         after: ".",
-        answer: "lese",
+        answer: "Wort",
     },
     {
         id: 3,
@@ -32,24 +32,24 @@ const exercises = [
         id: 4,
         before: "Ich",
         after: "",
-        answer: "aus",
+        answer: "schreibe",
     },
     {
         id: 5,
-        before: "Ich höre im Unterricht",
+        before: "es",
         after: "",
         answer: "auf",
     },
 ];
 
-const words = ["Wort", "aufschreiben", "erkennen", "lese"];
+const words = ["Wort", "schreibe", "auf", "erkenne", "lese"];
 ---
 
 <Layout>
     <Header />
 
     <div class="grid grid-cols-1 md:grid-cols-[300px_1fr]">
-        <ActivitesList open={6} />
+        <ActivitesList open={6} teil={7} />
 
         <main class="page bg-background">
             <Card>
